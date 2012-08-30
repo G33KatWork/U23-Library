@@ -2,19 +2,22 @@ ROOT                 := ../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = libsystem
+TARGET = audiotest
 
 # List C source files here.
-CCSOURCES = Startup.c System.c LED.c Button.c Accelerometer.c Audio.c
+CCSOURCES = Main.c BitBin.c TestSong.c
 
 # List C++ source files here
 CXXSOURCES = 
 
-# List Assembler to be assembled with NASM here
-ASOURCES = 
+# Linker flags
+LDFLAGS = -nostartfiles -Wl,-T,Linker.ld,--gc-sections -specs Terrible.specs
 
 # Additional include paths to consider
-INCLUDES =	inc
+INCLUDES =	inc $(ROOT)/libs/libsystem/inc
+
+# Additional static libs to link agains
+STATICLIBS = $(ROOT)/libs/libsystem/libsystem.a
 
 # Folder for object files
 OBJDIR = obj
@@ -23,7 +26,7 @@ OBJDIR = obj
 SRCDIR = src
 
 # Additional defines
-DEFINES := -DARM_MATH_CM4
+DEFINES := 
 
 # C compiler flags
 CFLAGS := -std=c99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4
@@ -42,7 +45,7 @@ OBJECTS += $(CCSOURCES:%.c=%.o)
 OBJDIRS = $(sort $(addprefix $(OBJDIR)/, $(dir $(OBJECTS))))
 
 # Main targets
-all: createdirs $(TARGET).a
+all: createdirs $(TARGET).bin
 	@:	#Shut up!
 
 # Create output directories
@@ -52,13 +55,18 @@ $(OBJDIRS):
 
 createdirs: $(OBJDIRS)
 
-$(TARGET).a: $(addprefix $(OBJDIR)/, $(OBJECTS))
-	$(call cmd_msg,AR,$(@))
-	$(Q)$(AR) rcs $@ $^
+$(TARGET).bin: $(TARGET).elf
+	$(call cmd_msg,OBJCOPY,$< -> $@)
+	$(Q)$(OBJCOPY) -O binary $< $@
+
+$(TARGET).elf: $(addprefix $(OBJDIR)/, $(OBJECTS)) $(STATICLIBS)
+	$(call cmd_msg,LINK,$(@))
+	$(Q)$(LD) $(LDFLAGS) -o $@ $^ $(STATICLIBS)
 
 # Cleaning
 clean:
-	$(Q)$(RM) -f $(TARGET).a
+	$(Q)$(RM) -f $(TARGET).bin
+	$(Q)$(RM) -f $(TARGET).elf
 	$(Q)$(RM) -rf obj
 
 distclean: clean
@@ -89,7 +97,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.S
 	$(call cmd_msg,NASM,$<)
 	$(Q)$(NASM) $(ASFLAGS) -o $@ $<
 
-.PHONY: createdirs clean
+upload: $(TARGET).bin
+	$(call cmd_msg,OPENOCD,$<)
+	$(Q)openocd -f interface/stlink-v2.cfg -f target/stm32f4x_stlink.cfg \
+	-c init -c "reset halt" -c "stm32f2x mass_erase 0" \
+	-c "flash write_bank 0 $^ 0" \
+	-c "reset run" -c shutdown
+
+.PHONY: createdirs clean upload
 
 ifneq ($(MAKECMDGOALS),clean)
 ifneq ($(MAKECMDGOALS),distclean)

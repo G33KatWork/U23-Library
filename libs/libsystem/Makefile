@@ -5,7 +5,7 @@ include $(ROOT)/build/base.mak
 TARGET = libsystem
 
 # List C source files here.
-CCSOURCES = Startup.c System.c LED.c Button.c Accelerometer.c Audio.c
+CCSOURCES = Startup.c System.c LED.c Button.c Accelerometer.c Audio.c VGA.c Random.c
 
 # List C++ source files here
 CXXSOURCES = 

@@ -1,7 +1,7 @@
 ROOT                 := ..
 include $(ROOT)/build/base.mak
 
-SUBDIRS = libsystem
+SUBDIRS = libsystem libgraphics
 
 # Main targets
 all: $(SUBDIRS:%=%.subdir)

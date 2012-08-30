@@ -11,7 +11,7 @@ CCSOURCES = Main.c BitBin.c TestSong.c
 CXXSOURCES = 
 
 # Linker flags
-LDFLAGS = -nostartfiles -Wl,-T,Linker.ld,--gc-sections -specs Terrible.specs
+LDFLAGS = -mthumb -mcpu=cortex-m4 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map -specs Terrible.specs
 
 # Additional include paths to consider
 INCLUDES =	inc $(ROOT)/libs/libsystem/inc
@@ -67,6 +67,7 @@ $(TARGET).elf: $(addprefix $(OBJDIR)/, $(OBJECTS)) $(STATICLIBS)
 clean:
 	$(Q)$(RM) -f $(TARGET).bin
 	$(Q)$(RM) -f $(TARGET).elf
+	$(Q)$(RM) -f linker.map
 	$(Q)$(RM) -rf obj
 
 distclean: clean

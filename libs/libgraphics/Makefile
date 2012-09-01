@@ -35,6 +35,7 @@ DEFINES := -DRGB8Pixels
 
 # C compiler flags
 CFLAGS := -std=c99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4
+CFLAGS += -fdata-sections -ffunction-sections
 CFLAGS += $(addprefix -I,$(INCLUDES))
 CFLAGS += $(DEFINES)
 

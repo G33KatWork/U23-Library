@@ -16,7 +16,7 @@ CCSOURCES = Startup.c \
 CXXSOURCES = 
 
 # Linker flags
-LDFLAGS = -mthumb -mcpu=cortex-m4 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map -specs Terrible.specs
+LDFLAGS = -mthumb -mcpu=cortex-m4 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map 
 
 # Additional include paths to consider
 INCLUDES =	inc \

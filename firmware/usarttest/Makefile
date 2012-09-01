@@ -7,7 +7,10 @@ TARGET = usarttest
 # List C source files here.
 CCSOURCES = Startup.c \
 			Main.c \
-			SystemInit.c
+			SystemInit.c \
+			NewlibSyscalls.c \
+			USART.c \
+			LED.c
 
 # List C++ source files here
 CXXSOURCES = 

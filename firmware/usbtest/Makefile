@@ -10,7 +10,10 @@ CCSOURCES = Startup.c \
 			SystemInit.c \
 			USB_DeviceDescriptor.c \
 			USB_DeviceEvents.c \
-			USB_Device.c
+			USB_Device.c \
+			USART.c \
+			NewlibSyscalls.c \
+			LED.c
 
 # List C++ source files here
 CXXSOURCES = 
@@ -23,12 +26,10 @@ INCLUDES =	inc \
 			$(ROOT)/libs/libstm32f4xx/inc \
 			$(ROOT)/libs/cmsis/inc \
 			$(ROOT)/libs/libusbcore/inc \
-			$(ROOT)/libs/libusbdevice/inc \
-			$(ROOT)/libs/libsystem/inc
+			$(ROOT)/libs/libusbdevice/inc
 
 # Additional static libs to link agains
-STATICLIBS = $(ROOT)/libs/libsystem/libsystem.a \
-			 $(ROOT)/libs/libusbcore/libusbcore.a \
+STATICLIBS = $(ROOT)/libs/libusbcore/libusbcore.a \
 			 $(ROOT)/libs/libusbdevice/libusbdevice.a \
 			 $(ROOT)/libs/libstm32f4xx/libstm32f4xx.a
 

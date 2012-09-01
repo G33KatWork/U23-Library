@@ -1,0 +1,16 @@
+#ifndef _USB_H_
+#define _USB_H_
+
+#define CTRL_IN     (LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_ENDPOINT_IN | LIBUSB_RECIPIENT_INTERFACE)
+#define CTRL_OUT    (LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_ENDPOINT_OUT | LIBUSB_RECIPIENT_INTERFACE)
+
+/**
+ * This enum contains all USB control requests the device supports
+**/
+enum CONTROL_REQUESTS
+{
+  REQUEST_SETVALUE = 0x01,
+  REQUEST_GETVALUE = 0x02,
+};
+
+#endif

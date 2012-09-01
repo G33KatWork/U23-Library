@@ -2,6 +2,8 @@
 #include <USB_DeviceDescriptor.h>
 #include <usbd/usbd_req.h>
 
+#include <stdio.h>
+
 static uint8_t USBD_DEV_Init(void *pdev, uint8_t cfgidx);
 static uint8_t USBD_DEV_DeInit(void *pdev, uint8_t cfgidx);
 static uint8_t USBD_DEV_Setup(void *pdev, USB_SETUP_REQ *req);
@@ -49,21 +51,52 @@ __ALIGN_BEGIN static uint8_t USBD_DEV_CfgDesc[USB_DEV_CONFIG_DESC_SIZ] __ALIGN_E
 
 static uint8_t USBD_DEV_Init (void  *pdev, uint8_t cfgidx)
 {
+  printf("USB DEV Init. cfgidx: %u\r\n", cfgidx);
   return USBD_OK;
 }
 
 static uint8_t USBD_DEV_DeInit(void *pdev, uint8_t cfgidx)
 {
+  printf("USB DEV DeInit. cfgidx: %u\r\n", cfgidx);
   return USBD_OK;
 }
 
+uint16_t value = 0;
 static uint8_t USBD_DEV_Setup(void *pdev, USB_SETUP_REQ *req)
 {
+  printf("USB SETUP request: bmRequest: 0x%x, bRequest: 0x%x, wValue: 0x%x, wIndex: 0x%x, wLength: 0x%x\r\n",
+      req->bmRequest,
+      req->bRequest,
+      req->wValue,
+      req->wIndex,
+      req->wLength
+  );
+
+  switch (req->bmRequest & USB_REQ_TYPE_MASK)
+  {
+    case USB_REQ_TYPE_VENDOR:
+      switch(req->bRequest)
+      {
+        case USB_REQ_SET_VALUE:
+          value = req->wValue;
+          break;
+        
+        case USB_REQ_GET_VALUE:
+          USBD_CtlSendData(pdev, (uint8_t*)&value, sizeof(value));
+          break;
+        
+        default:
+          USBD_CtlError(pdev, req);
+          return USBD_FAIL; 
+      }
+  }
+
   return USBD_OK;
 }
 
 static uint8_t *USBD_DEV_GetCfgDesc(uint8_t speed, uint16_t *length)
 {
+  printf("USB DEV GetCfgDesc. speed: %u\r\n", speed);
   *length = sizeof(USBD_DEV_CfgDesc);
   return USBD_DEV_CfgDesc;
 }

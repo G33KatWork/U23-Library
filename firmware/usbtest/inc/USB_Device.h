@@ -6,6 +6,8 @@
 
 #define USB_DEV_CONFIG_DESC_SIZ       18
 
+#define USB_REQ_SET_VALUE              1
+#define USB_REQ_GET_VALUE              2
 
 extern USBD_Class_cb_TypeDef  USBD_DEV_cb;
 

@@ -1,7 +1,7 @@
 ROOT                 := .
 include $(ROOT)/build/base.mak
 
-UPLOADNAME ?= helloworld
+FIRMWARE ?= helloworld
 
 SUBDIRS = libs firmware applications
 
@@ -15,8 +15,8 @@ clean: $(SUBDIRS:%=%.subclean)
 distclean: clean $(SUBDIRS:%=%.subdistclean)
 
 upload: all
-	$(call cmd_msg,UPLOAD,$(UPLOADNAME))
-	$(call call_submake,firmware/$(UPLOADNAME),upload)
+	$(call cmd_msg,UPLOAD,$(FIRMWARE))
+	$(call call_submake,firmware/$(FIRMWARE),upload)
 
 #subdir rules
 %.subdir:

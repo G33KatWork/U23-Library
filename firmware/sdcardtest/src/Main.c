@@ -6,11 +6,11 @@
 #include <SystemInit.h>
 #include <USART.h>
 #include <LED.h>
-//#include <SDCARD.h>
 
 #include <sdcard/sdcard.h>
 
 void Delay(uint32_t time);
+void hexdump(uint8_t* start, size_t len);
 
 int main()
 {
@@ -76,9 +76,29 @@ int main()
 		   sd_status.ERASE_OFFSET
 	);
 
-	// InitializeSDCard();
-	// SD_LowLevel_Init();
-	// SD_Init();
+	printf("Getting SD Card info\r\n");
+	SD_CardInfo sd_info;
+	err = SD_GetCardInfo(&sd_info);
+
+	if(err != SD_OK)
+	{
+		printf("ERR: %X\r\n", err);
+		return 0;
+	}
+
+	printf("SD Capacity: %X - SD Blocksize: %X\r\n", sd_info.CardCapacity, sd_info.CardBlockSize);
+
+	printf("Reading first 512B\r\n");
+	uint8_t buffer[512];
+	err = SD_ReadBlock(buffer, 0, 512);
+
+	if(err != SD_OK)
+	{
+		printf("ERR: %X\r\n", err);
+		return 0;
+	}
+
+	hexdump(buffer, sizeof(buffer));
 
 	while(1)
 	{
@@ -100,4 +120,30 @@ void Delay(uint32_t time)
 void SysTick_Handler()
 {  
 	SysTickCounter++;
+}
+
+void hexdump(uint8_t* start, size_t len)
+{
+	for(unsigned int i = 0; i < (len / 0x10); i++)
+    {
+    	printf("%08X: ", (uint32_t)start);
+        
+        char* ptr = (char*)start;
+        for(int j = 0; j < 0x10; j++)
+        	printf("%02X ", *ptr++);
+        
+        ptr = (char*)start;
+        printf("\t");
+        for(int j = 0; j < 0x10; j++)
+        {
+            char c = *ptr++;
+            if(c < 0x20 || c > 0x7e)
+                printf(".");
+            else
+                printf("%c", c);
+        }
+        
+        printf("\r\n");
+        start += 0x10;
+    }
 }

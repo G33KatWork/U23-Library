@@ -8,7 +8,6 @@
 #include <USART.h>
 #include <LED.h>
 
-__attribute__ ((visibility ("default")))
 void Delay(uint32_t time);
 
 //!!! FPU is enabled in SystemInit.c !!!

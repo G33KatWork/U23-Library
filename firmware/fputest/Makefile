@@ -2,7 +2,7 @@ ROOT                 := ../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = usarttest
+TARGET = fputest
 
 # List C source files here.
 CCSOURCES = Startup.c \

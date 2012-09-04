@@ -19,7 +19,7 @@ CCSOURCES = Startup.c \
 CXXSOURCES = 
 
 # Linker flags
-LDFLAGS = -mthumb -mcpu=cortex-m4 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map 
+LDFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map 
 
 # Additional include paths to consider
 INCLUDES =	inc \
@@ -43,7 +43,7 @@ SRCDIR = src
 DEFINES := 
 
 # C compiler flags
-CFLAGS := -std=c99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4
+CFLAGS := -std=c99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS += -fdata-sections -ffunction-sections
 CFLAGS += $(addprefix -I,$(INCLUDES))
 CFLAGS += $(DEFINES)

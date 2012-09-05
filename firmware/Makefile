@@ -1,7 +1,7 @@
 ROOT                 := ..
 include $(ROOT)/build/base.mak
 
-SUBDIRS = helloworld accelerometer audiotest spritetest usbtest usarttest sdcardtest fputest
+SUBDIRS = helloworld accelerometer audiotest spritetest usbtest usarttest sdcardtest fputest snestest
 
 # Main targets
 all: $(SUBDIRS:%=%.subdir)

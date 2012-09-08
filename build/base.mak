@@ -64,6 +64,12 @@ define target_mkdir
 @$(MKDIR) -p $(dir $(@))
 endef
 
+# Take a space separated list and convert it to a comma separated list
+empty := 
+comma := ,
+space := $(empty) $(empty)
+spaceListToCommaList = $(subst $(space),$(comma),$(1))
+
 ############################
 # Core build configuration #
 ############################

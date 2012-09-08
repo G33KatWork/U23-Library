@@ -1,7 +1,7 @@
 ROOT                 := ..
 include $(ROOT)/build/base.mak
 
-SUBDIRS = libstm32f4xx libusbcore libusbdevice libsystem libgraphics libsdcard
+SUBDIRS = libstm32f4xx libusbcore libusbdevice libsystem libgraphics libsdcard libgaming
 
 # Main targets
 all: $(SUBDIRS:%=%.subdir)

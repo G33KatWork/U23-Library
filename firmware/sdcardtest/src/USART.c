@@ -36,7 +36,7 @@ void MyUSART_Init()
 	USART_ClockInit(USART2, &USART_ClockInitStructure);
 
 	// 9600 8n1, no flowcontrol
-	USART_InitStructure.USART_BaudRate = 9600;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 	USART_InitStructure.USART_Parity = USART_Parity_No;

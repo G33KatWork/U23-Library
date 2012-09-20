@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <stm32f4xx/stm32f4xx.h>
 
@@ -10,7 +11,7 @@
 #include <sdcard/sdcard.h>
 
 void Delay(uint32_t time);
-void hexdump(uint8_t* start, size_t len);
+void hexdump(void* start, size_t len);
 
 int main()
 {
@@ -25,7 +26,18 @@ int main()
 	setvbuf(stdout, 0, _IONBF, 0);
 	printf("Hello!\r\n");
 
-	printf("Initilizing SD Card\r\n");
+	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+	NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	NVIC_InitStructure.NVIC_IRQChannel = SD_SDIO_DMA_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_Init(&NVIC_InitStructure);
+
+	printf("Initializing SD Card\r\n");
 	SD_Error err = SD_Init();
 	
 	if(err != SD_OK)
@@ -34,47 +46,6 @@ int main()
 		return 0;
 	}
 
-	printf("Switching to 1b mode\r\n");
-	err = SD_EnableWideBusOperation(SDIO_BusWide_1b);
-
-	if(err != SD_OK)
-	{
-		printf("ERR: %X\r\n", err);
-		return 0;
-	}
-
-	printf("Getting SD Card status\r\n");
-	SD_CardStatus sd_status;
-	err = SD_GetCardStatus(&sd_status);
-
-	if(err != SD_OK)
-	{
-		printf("ERR: %X\r\n", err);
-		return 0;
-	}
-
-	printf("SD Card Status:\r\n"
-		   "\tDAT_BUS_WIDTH: %X\r\n"
-		   "\tSECURED_MODE: %X\r\n"
-		   "\tSD_CARD_TYPE: %X\r\n"
-		   "\tSIZE_OF_PROTECTED_AREA: %X\r\n"
-		   "\tSPEED_CLASS: %X\r\n"
-		   "\tPERFORMANCE_MOVE: %X\r\n"
-		   "\tAU_SIZE: %X\r\n"
-		   "\tERASE_SIZE: %X\r\n"
-		   "\tERASE_TIMEOUT: %X\r\n"
-		   "\tERASE_OFFSET: %X\r\n",
-		   sd_status.DAT_BUS_WIDTH,
-		   sd_status.SECURED_MODE,
-		   sd_status.SD_CARD_TYPE,
-		   sd_status.SIZE_OF_PROTECTED_AREA,
-		   sd_status.SPEED_CLASS,
-		   sd_status.PERFORMANCE_MOVE,
-		   sd_status.AU_SIZE,
-		   sd_status.ERASE_SIZE,
-		   sd_status.ERASE_TIMEOUT,
-		   sd_status.ERASE_OFFSET
-	);
 
 	printf("Getting SD Card info\r\n");
 	SD_CardInfo sd_info;
@@ -85,12 +56,20 @@ int main()
 		printf("ERR: %X\r\n", err);
 		return 0;
 	}
-
 	printf("SD Capacity: %X - SD Blocksize: %X\r\n", sd_info.CardCapacity, sd_info.CardBlockSize);
 
-	printf("Reading first 512B\r\n");
-	uint8_t buffer[512];
-	err = SD_ReadBlock(buffer, 0, 512);
+
+	/*printf("Select/Deselect SD Card\r\n");
+	err = SD_SelectDeselect((uint32_t) (sd_info.RCA << 16));
+
+	if(err != SD_OK)
+	{
+		printf("ERR: %X\r\n", err);
+		return 0;
+	}*/
+
+	printf("Switching to 4b mode\r\n");
+	err = SD_EnableWideBusOperation(SDIO_BusWide_4b);
 
 	if(err != SD_OK)
 	{
@@ -98,8 +77,69 @@ int main()
 		return 0;
 	}
 
-	hexdump(buffer, sizeof(buffer));
+	// printf("Reading first 512B\r\n");
+	// uint32_t buffer[512/4];
+	// //err = SD_ReadMultiBlocks(0, buffer, 512, 1);
+	// err = SD_ReadBlock(0, buffer, 512);
 
+	// if(err != SD_OK)
+	// {
+	// 	printf("ERR: %X\r\n", err);
+	// 	return 0;
+	// }
+
+	// hexdump(buffer, sizeof(buffer));
+
+
+	// printf("Erasing first 512B\r\n");
+	// err = SD_Erase(0, 512);
+
+	// if(err != SD_OK)
+	// {
+	// 	printf("ERR: %X\r\n", err);
+	// 	return 0;
+	// }
+
+
+	// for(int i = 0; i < 512/4; i++)
+	// 	buffer[i]++;
+
+	// printf("Writing first 512B\r\n");
+	// //err = SD_WriteMultiBlocks(0, buffer, 512, 1);
+	// err = SD_WriteBlock(0, buffer, 512);
+
+	// if(err != SD_OK)
+	// {
+	// 	printf("ERR: %X\r\n", err);
+	// 	return 0;
+	// }
+
+
+	printf("Reading first two sectors\r\n");
+	uint8_t buffer2[4*512];
+	err = SD_ReadMultiBlocks(buffer2, 0, 512, 4);
+
+	if(err != SD_OK)
+	{
+		printf("ERR: %X\r\n", err);
+		return 0;
+	}
+
+	hexdump(buffer2, sizeof(buffer2));
+
+	memset(buffer2, 0xAA, sizeof(buffer2));
+
+	printf("Writing first two blocks\r\n");
+	err = SD_WriteMultiBlocks(buffer2, 0, 512, 4);
+
+	if(err != SD_OK)
+	{
+		printf("ERR: %X\r\n", err);
+		return 0;
+	}
+
+
+	printf("Done\r\n");
 	while(1)
 	{
 		SetLEDs(0x5);
@@ -122,7 +162,7 @@ void SysTick_Handler()
 	SysTickCounter++;
 }
 
-void hexdump(uint8_t* start, size_t len)
+void hexdump(void* start, size_t len)
 {
 	for(unsigned int i = 0; i < (len / 0x10); i++)
     {
@@ -146,4 +186,14 @@ void hexdump(uint8_t* start, size_t len)
         printf("\r\n");
         start += 0x10;
     }
+}
+
+void SDIO_IRQHandler(void)
+{
+	SD_ProcessIRQSrc();
+}
+
+void SD_SDIO_DMA_IRQHANDLER(void)
+{
+	SD_ProcessDMAIRQ();
 }

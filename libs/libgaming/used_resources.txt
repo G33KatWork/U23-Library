@@ -1,0 +1,9 @@
+DMA Engines used:
+	SDCard (if not in polling mode): DMA 2, Stream 3, Channel 4
+
+Timers used:
+	SNES Controller: Timer 2, interrupt every 0,5ms
+
+Interrupts used:
+	SDCard (if not in polling mode): DMA2_Stream3_IRQn, DMA2_Stream3_IRQHandler
+	Timer SNES Controller: TIM2_IRQHandler

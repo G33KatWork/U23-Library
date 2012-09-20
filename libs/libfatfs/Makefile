@@ -2,20 +2,10 @@ ROOT                 := ../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = libgaming
+TARGET = libfatfs
 
 # List C source files here.
-CCSOURCES = LED.c \
-			NewlibSyscalls.c \
-			SNES.c \
-			Startup.c \
-			SystemInit.c \
-			USART.c \
-			Main.c \
-			Debug.c \
-			SysTick.c \
-			Filesystem.c \
-			DiskIO.c
+CCSOURCES = ff.c
 
 # List C++ source files here
 CXXSOURCES = 
@@ -24,11 +14,7 @@ CXXSOURCES =
 ASOURCES = 
 
 # Additional include paths to consider
-INCLUDES =	inc \
-			$(ROOT)/libs/libstm32f4xx/inc \
-			$(ROOT)/libs/cmsis/inc \
-			$(ROOT)/libs/libfatfs/inc \
-			$(ROOT)/libs/libsdcard/inc
+INCLUDES =	inc
 
 # Folder for object files
 OBJDIR = obj
@@ -37,7 +23,7 @@ OBJDIR = obj
 SRCDIR = src
 
 # Additional defines
-DEFINES := -DRGB8Pixels
+DEFINES := -DARM_MATH_CM4
 
 # C compiler flags
 CFLAGS := -std=c99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
@@ -98,11 +84,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(call cmd_msg,CC,$<)
 	$(Q)$(CC) $(CFLAGS) -c $< -o $@
-
-# Assembler S files
-$(OBJDIR)/%.o: $(SRCDIR)/%.S
-	$(call cmd_msg,NASM,$<)
-	$(Q)$(NASM) $(ASFLAGS) -o $@ $<
 
 .PHONY: createdirs clean
 

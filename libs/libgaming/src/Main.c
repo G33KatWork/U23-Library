@@ -6,7 +6,9 @@
 #include <platform/SNES.h>
 #include <platform/SysTick.h>
 
+#include <game/Filesystem.h>
 #include <game/Game.h>
+#include <game/Debug.h>
 
 volatile uint32_t oldTime = 0;
 volatile uint32_t currentTime = 0;
@@ -22,6 +24,7 @@ int main()
 	InitializeSnesController();
 
 	if(!TheGame) {
+		EnableDebugOutput(DEBUG_USART);
 		fprintf(stderr, "PANIC: Game structure pointer is NULL\r\n");
 		return -1;
 	}

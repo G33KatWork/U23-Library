@@ -5,14 +5,13 @@
 #define SD_DETECT_GPIO_PORT              GPIOH                       /* GPIOH */
 #define SD_DETECT_GPIO_CLK               RCC_AHB1Periph_GPIOH
 
-//FIXME: CHANGE THIS!
-#define SDIO_FIFO_ADDRESS                ((uint32_t)0x20000000)
+#define SDIO_FIFO_ADDRESS                ((uint32_t)0x40012C80)
 
 //SDIO Intialization Frequency (400KHz max)
 #define SDIO_INIT_CLK_DIV                ((uint8_t)0x76)
 
 //SDIO Data Transfer Frequency (25MHz max) 
-#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x0) 
+#define SDIO_TRANSFER_CLK_DIV            ((uint8_t)0x0)
 
 #define SD_SDIO_DMA                   DMA2
 #define SD_SDIO_DMA_CLK               RCC_AHB1Periph_DMA2

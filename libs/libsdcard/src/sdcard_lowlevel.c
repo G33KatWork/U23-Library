@@ -2,8 +2,6 @@
 #include <sdcard/sdcard_config.h>
 #include <stm32f4xx/stm32f4xx.h>
 
-//FIXME: Configuration for 1bit, change later to 4
-
 void SD_LowLevel_Init()
 {
   GPIO_InitTypeDef  GPIO_InitStructure;
@@ -12,14 +10,14 @@ void SD_LowLevel_Init()
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOD | SD_DETECT_GPIO_CLK, ENABLE);
 
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource8, GPIO_AF_SDIO);
-  // GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_SDIO);
-  // GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SDIO);
-  // GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_SDIO);
+  GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_SDIO);
+  GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SDIO);
+  GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_SDIO);
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource12, GPIO_AF_SDIO);
   GPIO_PinAFConfig(GPIOD, GPIO_PinSource2, GPIO_AF_SDIO);
 
   /* Configure PC.08, PC.09, PC.10, PC.11 pins: D0, D1, D2, D3 pins */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 /*| GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11*/;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -65,22 +63,20 @@ void SD_LowLevel_DeInit()
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SDIO, DISABLE);
 
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource8, GPIO_AF_MCO);
-  /*GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_MCO);
+  GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_MCO);
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_MCO);
-  GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_MCO);*/
+  GPIO_PinAFConfig(GPIOC, GPIO_PinSource11, GPIO_AF_MCO);
   GPIO_PinAFConfig(GPIOC, GPIO_PinSource12, GPIO_AF_MCO);
   GPIO_PinAFConfig(GPIOD, GPIO_PinSource2, GPIO_AF_MCO);
 
   /* Configure PC.08, PC.09, PC.10, PC.11 pins: D0, D1, D2, D3 pins */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 /*| GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11*/;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOC, &GPIO_InitStructure);
 
   /* Configure PD.02 CMD line */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;GPIO_PinAFConfig(GPIOC, GPIO_PinSource9, GPIO_AF_SDIO);
-  // GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SDIO);
-  // GPIO_PinAFConfig(GPIOC
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
   GPIO_Init(GPIOD, &GPIO_InitStructure);
 
   /* Configure PC.12 pin: CLK pin */

@@ -11,12 +11,14 @@ CCSOURCES = Game.c
 CXXSOURCES = 
 
 # Additional local static libs to link against
-LIBS = gaming stm32f4xx
+LIBS = gaming stm32f4xx fatfs sdcard
 
 # Linker flags
 LDFLAGS = -mthumb -mcpu=cortex-m4 \
 		  -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
-		  -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map,-\(,-lc,$(call spaceListToCommaList,$(LIBS:%=-l%)),-\)
+		  -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map,-\(,-lc,--whole-archive,$(call spaceListToCommaList,$(LIBS:%=-l%)),--no-whole-archive,-\)
+#-nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map,-\(,-lc,--whole-archive,-lgaming,--no-whole-archive,-lstm32f4xx,-lfatfs,-\)
+#
 
 # Folder for object files
 OBJDIR = obj

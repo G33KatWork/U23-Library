@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 #include <platform/SystemInit.h>
 #include <platform/LED.h>
 #include <platform/SysTick.h>
@@ -37,26 +38,14 @@ void Reset_Handler()
 
 void Default_Handler()
 {
-	//Blink LED endlessly
-	while(1)
-	{
-		SetLEDs(1);
-		Delay(50);
-		SetLEDs(0);
-		Delay(50);
-	}
+	fprintf(stderr, "!!Default IRQ Handler!!\r\n");
+	for(;;);
 }
 
 void HardFault_Handler()
 {
-	//Blink LED endlessly
-	while(1)
-	{
-		SetLEDs(2);
-		Delay(50);
-		SetLEDs(0);
-		Delay(50);
-	}
+	fprintf(stderr, "!!HardFault occured!!\r\n");
+	for(;;);
 }
 
 void NMI_Handler() __attribute__((weak,alias("Default_Handler")));

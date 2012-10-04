@@ -7,3 +7,7 @@ Timers used:
 Interrupts used:
 	SDCard (if not in polling mode): DMA2_Stream3_IRQn, DMA2_Stream3_IRQHandler
 	Timer SNES Controller: TIM2_IRQHandler
+
+
+NVIC is configured with NVIC_PriorityGroup_1.
+Means: 1 bit preemption priority, 3 bits subpriority

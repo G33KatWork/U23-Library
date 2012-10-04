@@ -22,7 +22,6 @@ DSTATUS disk_initialize (
 	{
 		//FIXME: DMA stuff - fix later...
 		// NVIC_InitTypeDef NVIC_InitStructure;
-		// NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 		// NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
 		// NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 		// NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;

@@ -19,6 +19,8 @@ int main()
 	RCC_GetClocksFreq(&RCC_Clocks);
 
 	SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
+
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	
 	InitializeLEDs();
 	InitializeSnesController();

@@ -4,6 +4,7 @@
 #include <platform/LED.h>
 #include <platform/SysTick.h>
 
+//FIXME: use stack in linker script
 static uint8_t stack[8192];
 
 extern uint32_t _data[];

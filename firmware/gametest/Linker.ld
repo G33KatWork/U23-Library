@@ -7,22 +7,29 @@ MEMORY
 	sram (rwx)		: ORIGIN = 0x20000000, LENGTH = 128K
 }
 
-__isr_vector_sram = 0x20020000-0x200;
+_estack = 0x10010000; /* highest stack address */
 
 SECTIONS
 {
+    /* .text and .rodata sections */
     .text :
     {
+        /* Mark start of text section */
         _text = .;
+        
+        /* Interrupt vectors */
         __isr_vector_start = .;
         KEEP(*(.isr_vector))
         __isr_vector_end = .;
+
         *(.text*)
         *(.rodata*)
         _etext = .;
         _idata = .;
+
     } > flash
 
+    /* .data section */
     .data : AT(ADDR(.text) + SIZEOF(.text))
     {
         _data = .;
@@ -31,6 +38,7 @@ SECTIONS
         _edata = .;
     } > ccmram
     
+    /*.bss section*/
     .bss :
     {
         _bss = .;
@@ -38,4 +46,24 @@ SECTIONS
         *(COMMON)
         _ebss = .;
     } > ccmram
+
+    end = .;
+
+    /* Heap */
+    . = ALIGN(256);
+    _start_heap = .;
+
+    /* Stack */
+    /* defined by _estack at the top of script */
+
+    .ARM.attributes 0 : { KEEP (*(.ARM.attributes)) }
+
+    /* Remove debug information from the standard libraries */
+    /DISCARD/ :
+    {
+        *(.note.GNU-stack)
+        libc.a ( * )
+        libgcc.a ( * )
+        libm.a ( * )
+    }
 }

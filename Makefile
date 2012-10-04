@@ -1,7 +1,7 @@
 ROOT                 := .
 include $(ROOT)/build/base.mak
 
-FIRMWARE ?= helloworld
+FIRMWARE ?= gametest
 
 SUBDIRS = libs firmware applications
 

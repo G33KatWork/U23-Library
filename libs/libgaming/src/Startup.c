@@ -4,9 +4,7 @@
 #include <platform/LED.h>
 #include <platform/SysTick.h>
 
-//FIXME: use stack in linker script
-static uint8_t stack[8192];
-
+extern uint32_t _estack[];
 extern uint32_t _data[];
 extern uint32_t _idata[];
 extern uint32_t _edata[];
@@ -143,7 +141,7 @@ void FPU_IRQHandler() __attribute__((weak,alias("Default_Handler")));
 
 __attribute__ ((section(".isr_vector"))) const void *InterruptVectors[]=
 {
-	(stack+sizeof(stack)),
+	_estack,
 	Reset_Handler,
 	NMI_Handler,
 	HardFault_Handler,

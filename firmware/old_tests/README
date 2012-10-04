@@ -1,0 +1,4 @@
+These subdirectories contain tests which are deprecated and
+have been used during early development. They most likely
+don't compile anymore and are just here for reference to
+move the code into libgaming later

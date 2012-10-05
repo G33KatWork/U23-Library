@@ -34,7 +34,7 @@ DSTATUS disk_initialize (
 		Status = SD_Init();
 		
 		if(Status != SD_OK)
-			return STA_NOINIT;
+			return STA_NODISK;	//assume no disk if initialization failed
 		else
 		{
 			Status = SD_GetCardInfo(&SDCardInfo);

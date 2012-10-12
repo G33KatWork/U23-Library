@@ -65,8 +65,8 @@ void InitializeSnesController()
 	//Setup timer for statemachine
 	//Enable the TIM2 gloabal Interrupt
 	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 7;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 
@@ -94,7 +94,8 @@ snes_button_state_t GetControllerState()
 
 void HandleSnesTimerIRQ()
 {
-	if(TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+	//The if causes massive jitter in the VGA output, we currently don't need it anyways
+	//if(TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
 	{
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 

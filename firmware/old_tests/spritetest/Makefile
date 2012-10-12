@@ -1,4 +1,4 @@
-ROOT                 := ../..
+ROOT                 := ../../..
 include $(ROOT)/build/base.mak
 
 # Target file name.

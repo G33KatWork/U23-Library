@@ -29,8 +29,10 @@ void Init()
 
 	//Write to file
 	const char* writecontent = "This is a test";
-	int res = fwrite(writecontent, strlen(writecontent), 1, file);
-	if(res != strlen(writecontent)) {
+	int res = fwrite(writecontent, 1, strlen(writecontent), file);
+	if(!res) {
+		if(ferror(file))
+			printf("Error occured\r\n");
 		perror("fwrite()");
 		goto fs_err;
 	}
@@ -46,15 +48,20 @@ void Init()
 
 	//Read file
 	char readcontent[256];
-	res = fread(readcontent, 255, 1, file);
-	if(res == 0) {
+	res = fread(readcontent, 1, 255, file);
+	if(!res) {
+		if(ferror(file))
+			printf("Error occured\r\n");
+		if(feof(file))
+			printf("EOF occured\r\n");
 		perror("fread()");
 		goto fs_err;
 	}
-	readcontent[255] = '\0';
+	readcontent[res] = '\0';
 	printf("read file: %x\r\n", res);
 	printf("content: %s\r\n", readcontent);
 
+fs_err:
 	//Close file
 	res = fclose(file);
 	if(res != 0) {
@@ -63,7 +70,6 @@ void Init()
 	}
 	printf("closed file: %x\r\n", res);
 
-fs_err:
 	DeinitializeFilesystem();
 }
 

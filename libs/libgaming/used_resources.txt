@@ -1,13 +1,16 @@
 DMA Engines used:
 	SDCard (if not in polling mode): DMA 2, Stream 3, Channel 4
+	VGA: DMA2 stream 1 channel 7
 
 Timers used:
 	SNES Controller: Timer 2, interrupt every 0,5ms
+	VGA Pixel clock triggers DMA: Timer 8
+	VGA Sync Timer: Timer 9
 
 Interrupts used:
 	SDCard (if not in polling mode): DMA2_Stream3_IRQn, DMA2_Stream3_IRQHandler
 	Timer SNES Controller: TIM2_IRQHandler
-
+	VGA Sync Timer: TIM1_BRK_TIM9_IRQHandler
 
 NVIC is configured with NVIC_PriorityGroup_1.
 Means: 1 bit preemption priority, 3 bits subpriority

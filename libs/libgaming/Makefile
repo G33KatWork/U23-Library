@@ -15,7 +15,8 @@ CCSOURCES = LED.c \
 			Debug.c \
 			SysTick.c \
 			Filesystem.c \
-			DiskIO.c
+			DiskIO.c \
+			VGA.c
 
 # List C++ source files here
 CXXSOURCES = 
@@ -28,7 +29,8 @@ INCLUDES =	inc \
 			$(ROOT)/libs/libstm32f4xx/inc \
 			$(ROOT)/libs/cmsis/inc \
 			$(ROOT)/libs/libfatfs/inc \
-			$(ROOT)/libs/libsdcard/inc
+			$(ROOT)/libs/libsdcard/inc \
+			$(ROOT)/libs/libgraphics/inc
 
 # Folder for object files
 OBJDIR = obj

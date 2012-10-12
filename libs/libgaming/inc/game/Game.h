@@ -6,11 +6,14 @@
 #include <platform/LED.h>
 #include <platform/SNES.h>
 #include <platform/SysTick.h>
+#include <platform/VGA.h>
+
+#include <Drawing.h>
 
 typedef struct {
 	void (*Init)(void);
 	void (*Update)(uint32_t);
-	void (*Draw)(void);
+	void (*Draw)(Bitmap* surface);
 } Game;
 
 extern Game* TheGame;

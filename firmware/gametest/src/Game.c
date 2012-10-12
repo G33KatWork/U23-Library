@@ -7,7 +7,7 @@
 
 void Init(void);
 void Update(uint32_t);
-void Draw(void);
+void Draw(Bitmap* surface);
 
 Game MyGame = { Init, Update, Draw };
 Game* TheGame = &MyGame;
@@ -73,15 +73,16 @@ fs_err:
 	DeinitializeFilesystem();
 }
 
+int myframe = 0;
+
 void Update(uint32_t delta)
 {
 	snes_button_state_t state = GetControllerState();
-	//printf("Delta: %d\r\n", delta);
-	//printf("Button A: %d\r\n", state.buttons.A);
-	Delay(100);
+	myframe++;
 }
 
-void Draw()
+void Draw(Bitmap* surface)
 {
-
+	ClearBitmap(surface);
+	DrawFilledRectangle(surface, 30, 30, 50, 50, RGB(myframe%256,0,0));
 }

@@ -11,7 +11,7 @@ CCSOURCES = Game.c
 CXXSOURCES = 
 
 # Additional local static libs to link against
-LIBS = gaming stm32f4xx fatfs sdcard
+LIBS = gaming stm32f4xx fatfs sdcard graphics
 
 # Linker flags
 LDFLAGS = -mthumb -mcpu=cortex-m4 \
@@ -27,7 +27,7 @@ OBJDIR = obj
 SRCDIR = src
 
 # Additional defines
-DEFINES := 
+DEFINES := -DRGB8Pixels
 
 # C compiler flags
 CFLAGS := -std=gnu99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16

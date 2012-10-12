@@ -1,17 +1,27 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <platform/SystemInit.h>
 #include <platform/LED.h>
 #include <platform/SNES.h>
 #include <platform/SysTick.h>
+#include <platform/VGA.h>
 
 #include <game/Filesystem.h>
 #include <game/Game.h>
 #include <game/Debug.h>
 
-volatile uint32_t oldTime = 0;
-volatile uint32_t currentTime = 0;
+#include <Drawing.h>
+
+uint32_t oldTime = 0;
+uint32_t currentTime = 0;
+uint32_t frame = 0;
+Bitmap frame1, frame2;
+Bitmap* drawingSurface;
+
+#define ADDR_FRAMEBUFFER1	((uint8_t*)0x20000000)
+#define ADDR_FRAMEBUFFER2	((uint8_t*)0x20010000)
 
 int main()
 {
@@ -24,6 +34,17 @@ int main()
 	
 	InitializeLEDs();
 	InitializeSnesController();
+
+	//Clear framebuffers
+	memset(ADDR_FRAMEBUFFER1, 0x00, 320*200);
+	memset(ADDR_FRAMEBUFFER2, 0x00, 320*200);
+
+	//Create drawing surfaces
+	InitializeBitmap(&frame1,320,200,320,ADDR_FRAMEBUFFER1);
+	InitializeBitmap(&frame2,320,200,320,ADDR_FRAMEBUFFER2);
+
+	//Switch on VGA
+	IntializeVGAScreenMode320x200(ADDR_FRAMEBUFFER1);
 
 	if(!TheGame) {
 		EnableDebugOutput(DEBUG_USART);
@@ -44,9 +65,17 @@ int main()
 		oldTime = currentTime;
 		currentTime = SysTickCounter;
 
-		TheGame->Update(currentTime - oldTime);
-		TheGame->Draw();
+		//Swap Buffers
+		if(frame&1) { drawingSurface=&frame2; SetFrameBuffer(ADDR_FRAMEBUFFER1); }
+		else { drawingSurface=&frame1; SetFrameBuffer(ADDR_FRAMEBUFFER2); }
 
-		//WaitForVBlank();
+		//Update and draw
+		TheGame->Update(currentTime - oldTime);
+		TheGame->Draw(drawingSurface);
+
+		frame++;
+
+		//VSync
+		WaitVBL();
 	}
 }

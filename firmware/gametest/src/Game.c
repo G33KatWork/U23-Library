@@ -1,6 +1,7 @@
 #include <game/Game.h>
 #include <game/Debug.h>
 #include <game/Filesystem.h>
+#include <game/Font.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -16,6 +17,7 @@ void Init()
 {
 	EnableDebugOutput(DEBUG_USART);
 	printf("Init\r\n");
+	setFont(fontblack8);
 
 	InitializeFilesystem();
 
@@ -85,4 +87,8 @@ void Draw(Bitmap* surface)
 {
 	ClearBitmap(surface);
 	DrawFilledRectangle(surface, 30, 30, 50, 50, RGB(myframe%256,0,0));
+	setFont(fontwhite16);
+	DrawText(surface, "TEST", 4, 10, 10);
+	setFont(fontblack8);
+	DrawText(surface, "TEST", 4, 10, 30);
 }

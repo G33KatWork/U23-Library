@@ -17,7 +17,9 @@ CCSOURCES = LED.c \
 			Filesystem.c \
 			DiskIO.c \
 			VGA.c \
-			Font.c
+			Font.c \
+			Random.c
+
 
 # List C++ source files here
 CXXSOURCES = 

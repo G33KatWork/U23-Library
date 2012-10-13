@@ -1,7 +1,7 @@
 ROOT                 := ..
 include $(ROOT)/build/base.mak
 
-SUBDIRS = gametest
+SUBDIRS = gametest spacecraft
 
 # Main targets
 all: $(SUBDIRS:%=%.subdir)

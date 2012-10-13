@@ -7,6 +7,7 @@
 #include <platform/SNES.h>
 #include <platform/SysTick.h>
 #include <platform/VGA.h>
+#include <platform/Random.h>
 
 #include <Drawing.h>
 

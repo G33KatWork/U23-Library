@@ -34,7 +34,8 @@ int main()
 	
 	InitializeLEDs();
 	InitializeSnesController();
-
+	InitializeRandom();
+	
 	//Clear framebuffers
 	memset(ADDR_FRAMEBUFFER1, 0x00, 320*200);
 	memset(ADDR_FRAMEBUFFER2, 0x00, 320*200);

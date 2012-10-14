@@ -18,8 +18,8 @@ CCSOURCES = LED.c \
 			DiskIO.c \
 			VGA.c \
 			Font.c \
-			Random.c
-
+			Random.c \
+			Accelerometer.c
 
 # List C++ source files here
 CXXSOURCES = 

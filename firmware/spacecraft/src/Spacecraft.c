@@ -1,12 +1,15 @@
 #include <game/Game.h>
 #include <game/Debug.h>
 #include <game/Filesystem.h>
+#include <game/Accelerometer.h>
 
 #include <stdio.h>
 #include <string.h>
 #include <stm32f4xx/stm32f4xx_rng.h>
 
 #include "../inc/Sprites.h"
+
+#define ACCELEROMETER
 
 static uint32_t sqrti(uint32_t n);
 
@@ -67,6 +70,8 @@ void Init()
 
 #ifdef ACCELEROMETER
 	InitializeAccelerometer();
+
+	printf("Init Accelerometer: %s\r\n", PingAccelerometer() > 0 ? "OKAY" : "FAILED");
 
 	SetAccelerometerMainConfig(
 		LIS302DL_LOWPOWERMODE_ACTIVE|
@@ -129,9 +134,9 @@ void Draw(Bitmap *surface) {
 
 void Update(uint32_t delta) {
 	#ifdef ACCELEROMETER
-			if (UserButtonState()) {
+			/*if (UserButtonState()) {
 				ReadRawAccelerometerData(zero);
-			}
+			}*/
 
 			int8_t components[3];
 			ReadRawAccelerometerData(components);

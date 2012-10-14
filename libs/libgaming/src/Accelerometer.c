@@ -4,6 +4,8 @@
 #include <stm32f4xx/stm32f4xx_gpio.h>
 #include <stm32f4xx/stm32f4xx_rcc.h>
 
+#include <platform/SysTick.h>
+
 static uint8_t ReadByte(uint8_t address);
 static void ReadBytes(uint8_t *buffer,uint8_t address,int numbytes);
 static void WriteByte(uint8_t byte,uint8_t address);
@@ -14,9 +16,27 @@ static inline void RaiseCS();
 static uint8_t TransferByte(uint8_t byte);
 static void LIS302DL_LowLevel_Init(void);
 
+static int8_t calibrationVector[3];
+
 void InitializeAccelerometer() 
 {
 	LIS302DL_LowLevel_Init();
+
+	SetAccelerometerMainConfig(
+		LIS302DL_LOWPOWERMODE_ACTIVE|
+		LIS302DL_DATARATE_100|
+		LIS302DL_XYZ_ENABLE|
+		LIS302DL_FULLSCALE_2_3|
+		LIS302DL_SELFTEST_NORMAL);
+
+	//Wait one second for data to stabilize
+	Delay(100);
+
+	SetAccelerometerFilterConfig(
+		LIS302DL_FILTEREDDATASELECTION_BYPASSED|
+		LIS302DL_HIGHPASSFILTER_LEVEL_1|
+		LIS302DL_HIGHPASSFILTERINTERRUPT_1_2);
+
 }
 
 static void LIS302DL_LowLevel_Init(void)
@@ -118,6 +138,19 @@ void SetAccelerometerFilterConfig(uint8_t config)
 void SetAccelerometerInterruptConfig(uint8_t config)
 {
 	WriteByte(config,LIS302DL_CLICK_CFG_REG_ADDR);
+}
+
+void CalibrateAccelerometer() {
+	ReadRawAccelerometerData(calibrationVector);
+}
+
+void ReadCalibratedAccelerometerData(int8_t *values) {
+	int8_t newValues[3];
+	ReadRawAccelerometerData(newValues);
+
+	values[0]=(int8_t)newValues[0]-calibrationVector[0];
+	values[1]=(int8_t)newValues[1]-calibrationVector[1];
+	values[2]=(int8_t)newValues[2]-calibrationVector[2];
 }
 
 void ResetAccelerometer()

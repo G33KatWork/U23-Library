@@ -534,9 +534,11 @@ uint8_t PingAccelerometer();
 void SetAccelerometerMainConfig(uint8_t config);
 void SetAccelerometerFilterConfig(uint8_t config);
 void SetAccelerometerInterruptConfig(uint8_t config);
+void CalibrateAccelerometer();
 void ResetAccelerometer();
 void ResetAccelerometerFilter();
 void ReadRawAccelerometerData(int8_t *values);
+void ReadCalibratedAccelerometerData(int8_t *values);
 //void DeInitializeAccelerometer(void);
 
 #endif

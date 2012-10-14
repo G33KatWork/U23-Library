@@ -1,5 +1,6 @@
 #include <game/Font.h>
 #include <Bitmap.h>
+#include <string.h>
 
 const RLEBitmap * const fontblack16[256]=
 {
@@ -22819,10 +22820,10 @@ void setFont(const RLEBitmap * const * font) {
 	currentFont = font;
 }
 
-void DrawText(Bitmap* dest, char *text, int length, int x, int y) {
+void DrawText(Bitmap* dest, char *text, int x, int y) {
 	int startx = x;
 	int height = currentFont[text[64]]->height;
-	for (int i = 0; i < length; ++i)
+	for (int i = 0; i < strlen(text); ++i)
 	{
 		if (text[i] == '\n')
 		{

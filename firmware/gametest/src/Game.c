@@ -88,7 +88,7 @@ void Draw(Bitmap* surface)
 	ClearBitmap(surface);
 	DrawFilledRectangle(surface, 30, 30, 50, 50, RGB(myframe%256,0,0));
 	setFont(fontwhite16);
-	DrawText(surface, "TEST", 4, 10, 10);
+	DrawText(surface, "TEST\nBLA", 8, 10, 10);
 	setFont(fontblack8);
 	DrawText(surface, "TEST", 4, 10, 30);
 }

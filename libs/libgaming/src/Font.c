@@ -22820,9 +22820,18 @@ void setFont(const RLEBitmap * const * font) {
 }
 
 void DrawText(Bitmap* dest, char *text, int length, int x, int y) {
+	int startx = x;
+	int height = currentFont[text[64]]->height;
 	for (int i = 0; i < length; ++i)
 	{
+		if (text[i] == '\n')
+		{
+			y += height;
+			x = startx;
+			continue;
+		}
 		const struct RLEBitmap * character = currentFont[text[i]];
-		DrawRLEBitmap(dest, character, x+character->width*i, y);
+		x += character->width;
+		DrawRLEBitmap(dest, character, x, y);
 	}
 }

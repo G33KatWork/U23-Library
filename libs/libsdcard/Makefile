@@ -1,6 +1,3 @@
-ROOT                 := ../..
-include $(ROOT)/build/base.mak
-
 # Target file name.
 TARGET = libsdcard
 
@@ -12,7 +9,8 @@ CCSOURCES = sdcard.c \
 ASOURCES = 
 
 # Additional include paths to consider
-INCLUDES =	inc $(ROOT)/libs/libstm32f4xx/inc $(ROOT)/libs/cmsis/inc
+INCLUDES =	$(ROOT)/libs/$(TARGET)/inc $(ROOT)/libs/libstm32f4xx/inc $(ROOT)/libs/cmsis/inc
+
 
 # Folder for object files
 OBJDIR = obj
@@ -24,9 +22,3 @@ SRCDIR = src
 DEFINES := 
 
 -include $(ROOT)/build/libs.mak
-
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(MAKECMDGOALS),distclean)
--include $(addprefix $(OBJDIR)/, $(OBJECTS:%.o=%.d))
-endif
-endif

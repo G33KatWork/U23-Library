@@ -1,6 +1,3 @@
-ROOT                 := ../..
-include $(ROOT)/build/base.mak
-
 # Target file name.
 TARGET = libgaming
 
@@ -25,7 +22,7 @@ CCSOURCES = LED.c \
 ASOURCES = 
 
 # Additional include paths to consider
-INCLUDES =	inc \
+INCLUDES =	$(ROOT)/libs/$(TARGET)/inc \
 			$(ROOT)/libs/libstm32f4xx/inc \
 			$(ROOT)/libs/cmsis/inc \
 			$(ROOT)/libs/libfatfs/inc \
@@ -39,12 +36,6 @@ OBJDIR = obj
 SRCDIR = src
 
 # Additional defines
-DEFINES := -DRGB8Pixels
+DEFINES = -DRGB8Pixels
 
 -include $(ROOT)/build/libs.mak
-
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(MAKECMDGOALS),distclean)
--include $(addprefix $(OBJDIR)/, $(OBJECTS:%.o=%.d))
-endif
-endif

@@ -1,6 +1,3 @@
-ROOT                 := ../..
-include $(ROOT)/build/base.mak
-
 # Target file name.
 TARGET = libgraphics
 
@@ -19,7 +16,7 @@ CCSOURCES = Bitmap.c \
 ASOURCES = 
 
 # Additional include paths to consider
-INCLUDES =	inc
+INCLUDES =	$(ROOT)/libs/$(TARGET)/inc
 
 # Folder for object files
 OBJDIR = obj
@@ -31,9 +28,3 @@ SRCDIR = src
 DEFINES := -DRGB8Pixels
 
 -include $(ROOT)/build/libs.mak
-
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(MAKECMDGOALS),distclean)
--include $(addprefix $(OBJDIR)/, $(OBJECTS:%.o=%.d))
-endif
-endif

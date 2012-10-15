@@ -1,6 +1,3 @@
-ROOT                 := ../..
-include $(ROOT)/build/base.mak
-
 # Target file name.
 TARGET = libfatfs
 
@@ -11,7 +8,7 @@ CCSOURCES = ff.c
 ASOURCES = 
 
 # Additional include paths to consider
-INCLUDES =	inc
+INCLUDES =	$(ROOT)/libs/$(TARGET)/inc
 
 # Folder for object files
 OBJDIR = obj
@@ -23,9 +20,3 @@ SRCDIR = src
 DEFINES := -DARM_MATH_CM4
 
 -include $(ROOT)/build/libs.mak
-
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(MAKECMDGOALS),distclean)
--include $(addprefix $(OBJDIR)/, $(OBJECTS:%.o=%.d))
-endif
-endif

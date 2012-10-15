@@ -1,6 +1,3 @@
-ROOT                 := ../..
-include $(ROOT)/build/base.mak
-
 # Target file name.
 TARGET = gametest
 
@@ -20,9 +17,3 @@ SRCDIR = src
 DEFINES := -DRGB8Pixels
 
 -include $(ROOT)/build/firmware.mak
-
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(MAKECMDGOALS),distclean)
--include $(addprefix $(OBJDIR)/, $(OBJECTS:%.o=%.d))
-endif
-endif

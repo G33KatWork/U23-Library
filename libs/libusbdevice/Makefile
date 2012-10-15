@@ -1,6 +1,3 @@
-ROOT                 := ../..
-include $(ROOT)/build/base.mak
-
 # Target file name.
 TARGET = libusbdevice
 
@@ -11,7 +8,7 @@ CCSOURCES = usbd_core.c usbd_ioreq.c usbd_req.c
 ASOURCES = 
 
 # Additional include paths to consider
-INCLUDES =	inc \
+INCLUDES =	$(ROOT)/libs/$(TARGET)/inc \
 			$(ROOT)/libs/libstm32f4xx/inc \
 			$(ROOT)/libs/cmsis/inc \
 			$(ROOT)/libs/libusbcore/inc
@@ -26,9 +23,3 @@ SRCDIR = src
 DEFINES := 
 
 -include $(ROOT)/build/libs.mak
-
-ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(MAKECMDGOALS),distclean)
--include $(addprefix $(OBJDIR)/, $(OBJECTS:%.o=%.d))
-endif
-endif

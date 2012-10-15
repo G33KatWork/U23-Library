@@ -1,19 +1,24 @@
+# Variable mangling
+OBJDIR-$(TARGET) := $(addprefix $(ROOT)/libs/$(TARGET)/,$(OBJDIR))
+SRCDIR-$(TARGET) := $(addprefix $(ROOT)/libs/$(TARGET)/,$(SRCDIR))
+
 # C compiler flags
-CFLAGS := -std=gnu99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
-CFLAGS += -fdata-sections -ffunction-sections
-CFLAGS += $(addprefix -I,$(INCLUDES))
-CFLAGS += $(DEFINES)
+CFLAGS-$(TARGET) := -std=gnu99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS-$(TARGET) += -fdata-sections -ffunction-sections
+CFLAGS-$(TARGET) += $(addprefix -I,$(INCLUDES))
+CFLAGS-$(TARGET) += $(DEFINES)
 
 # Determinte objects to be created
-OBJECTS += $(CCSOURCES:%.c=%.o)
+OBJECTS-$(TARGET) := $(CCSOURCES:%.c=%.o)
+OBJECTS-$(TARGET) += $(ASOURCES:%.S=%.o)
 
 # define output-directories
 # sort for removing duplicates
-OBJDIRS = $(sort $(addprefix $(OBJDIR)/, $(dir $(OBJECTS))))
+OBJDIRS := $(sort $(addprefix $(OBJDIR-$(TARGET))/, $(dir $(OBJECTS-$(TARGET)))))
 
 # Main targets
-all: createdirs $(TARGET).a
-	@:	#Shut up!
+$(TARGET): createdirs $(ROOT)/libs/$(TARGET)/$(TARGET).a
+all: $(TARGET)
 
 # Create output directories
 $(OBJDIRS):
@@ -22,31 +27,40 @@ $(OBJDIRS):
 
 createdirs: $(OBJDIRS)
 
-$(TARGET).a: $(addprefix $(OBJDIR)/, $(OBJECTS))
+$(ROOT)/libs/$(TARGET)/$(TARGET).a: $(addprefix $(OBJDIR-$(TARGET))/, $(OBJECTS-$(TARGET)))
 	$(call cmd_msg,AR,$(@))
 	$(Q)$(AR) rcs $@ $^
 
 # Cleaning
-clean:
-	$(Q)$(RM) -f $(TARGET).a
-	$(Q)$(RM) -rf obj
-
-distclean: clean
+clean: clean-$(TARGET)
+clean-$(TARGET): clean-% :
+	$(Q)$(RM) -f $(ROOT)/libs/$*/$*.a
+	$(Q)$(RM) -rf $(OBJDIR-$*)
 
 # Header dependency generation
-$(OBJDIR)/%.d: $(SRCDIR)/%.c
+$(OBJDIR-$(TARGET))/%.d: CFLAGS := $(CFLAGS-$(TARGET))
+$(OBJDIR-$(TARGET))/%.d: $(SRCDIR-$(TARGET))/%.c
 	$(call cmd_msg,DEPENDS,$@)
 	$(Q)$(MKDIR) -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -MM -MG -MP -MT '$(@:%.d=%.o)' $< > $@
 
 # Compile c files
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJDIR-$(TARGET))/%.o: CFLAGS := $(CFLAGS-$(TARGET))
+$(OBJDIR-$(TARGET))/%.o: $(SRCDIR-$(TARGET))/%.c
 	$(call cmd_msg,CC,$<)
 	$(Q)$(CC) $(CFLAGS) -c $< -o $@
 
 # Assembler S files
-$(OBJDIR)/%.o: $(SRCDIR)/%.S
+$(OBJDIR-$(TARGET))/%.o: $(SRCDIR-$(TARGET))/%.S
 	$(call cmd_msg,NASM,$<)
 	$(Q)$(NASM) $(ASFLAGS) -o $@ $<
 
-.PHONY: createdirs clean
+.PHONY: clean-$(TARGET) $(TARGET)
+
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),distclean)
+ifneq ($(MAKECMDGOALS),clean-$(TARGET))
+-include $(addprefix $(OBJDIR-$(TARGET))/, $(OBJECTS-$(TARGET):%.o=%.d))
+endif
+endif
+endif

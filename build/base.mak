@@ -74,11 +74,6 @@ spaceListToCommaList = $(subst $(space),$(comma),$(1))
 # Core build configuration #
 ############################
 
-# Define toolchain target
-TOOLCHAIN_TARGET    := i686-pc-mingw32
-#TOOLCHAIN_TARGET    := x86_64-w64-mingw32
-#TOOLCHAIN_TARGET    := i686-elf
-
 # Grab the toolchain information.
 include $(ROOT)/build/toolchain.mak
 

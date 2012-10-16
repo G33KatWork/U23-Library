@@ -7,14 +7,14 @@
 
 #include <ControllerBitmap.h>
 
-void Init(void);
+void Init(struct Gamestate*);
 void Update(uint32_t);
 void Draw(Bitmap* surface);
 
-Game MyGame = { Init, Update, Draw };
-Game* TheGame = &MyGame;
+Gamestate InitState = { Init, Update, Draw, NULL };
+Game* TheGame = &(Game) {&InitState};
 
-void Init()
+void Init(struct Gamestate* state)
 {
 	EnableDebugOutput(DEBUG_USART);
 	printf("Init controller test\r\n");

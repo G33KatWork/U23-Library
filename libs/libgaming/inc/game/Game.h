@@ -9,12 +9,12 @@
 #include <platform/VGA.h>
 #include <platform/Random.h>
 
+#include <game/Gamestate.h>
+
 #include <Drawing.h>
 
 typedef struct {
-	void (*Init)(void);
-	void (*Update)(uint32_t);
-	void (*Draw)(Bitmap* surface);
+	Gamestate *currentState;
 } Game;
 
 extern Game* TheGame;

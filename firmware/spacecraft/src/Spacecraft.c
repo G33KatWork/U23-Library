@@ -10,12 +10,12 @@
 
 static uint32_t sqrti(uint32_t n);
 
-void Init(void);
+void Init(struct Gamestate*);
 void Update(uint32_t );
 void Draw(Bitmap* surface);
 
-Game MyGame = { Init, Update, Draw };
-Game* TheGame = &MyGame;
+Gamestate InitState = { Init, Update, Draw, NULL };
+Game* TheGame = &(Game) {&InitState};
 
 #ifdef ACCELEROMETER
 static uint32_t sqrti(uint32_t n);
@@ -55,7 +55,7 @@ void gameOver(Bitmap *currframe, int16_t pos_x, int16_t pos_y){
 	DrawFilledRectangle(currframe,0,0,320,200,RGB(255,0,0));
 }
 
-void Init()
+void Init(struct Gamestate* state)
 {
 	EnableDebugOutput(DEBUG_USART);
 	printf("Init\r\n");

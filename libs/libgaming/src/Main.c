@@ -53,10 +53,10 @@ int main()
 		return -1;
 	}
 
-	if(TheGame->Init)
-		TheGame->Init();
+	if(TheGame->currentState)
+		TheGame->currentState->Init(NULL);
 
-	if(!TheGame->Update || !TheGame->Draw) {
+	if(!TheGame->currentState->Update || !TheGame->currentState->Draw) {
 		fprintf(stderr, "PANIC: Update and/or Draw function pointer is NULL\r\n");
 		return -1;
 	}
@@ -65,14 +65,15 @@ int main()
 	{
 		oldTime = currentTime;
 		currentTime = SysTickCounter;
+		Gamestate *currentState = TheGame->currentState;
 
 		//Swap Buffers
 		if(frame&1) { drawingSurface=&frame2; SetFrameBuffer(ADDR_FRAMEBUFFER1); }
 		else { drawingSurface=&frame1; SetFrameBuffer(ADDR_FRAMEBUFFER2); }
 
 		//Update and draw
-		TheGame->Update(currentTime - oldTime);
-		TheGame->Draw(drawingSurface);
+		currentState->Update(currentTime - oldTime);
+		currentState->Draw(drawingSurface);
 
 		frame++;
 

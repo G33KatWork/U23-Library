@@ -61,11 +61,23 @@ int main()
 		return -1;
 	}
 
+	Gamestate *currentState = TheGame->currentState;
+
 	while(1)
 	{
 		oldTime = currentTime;
 		currentTime = SysTickCounter;
-		Gamestate *currentState = TheGame->currentState;
+		if (currentState != TheGame->currentState)
+		{
+			Gamestate *newState = TheGame->currentState;
+			if (!newState->initialized) {
+				newState->Init(currentState);
+				newState->initialized = true;
+			}
+			if (newState->OnEnter)
+				newState->OnEnter(currentState);
+			currentState = newState;
+		}
 
 		//Swap Buffers
 		if(frame&1) { drawingSurface=&frame2; SetFrameBuffer(ADDR_FRAMEBUFFER1); }
@@ -77,6 +89,11 @@ int main()
 
 		frame++;
 
+		if (currentState != TheGame->currentState &&
+			TheGame->currentState->OnLeave)
+		{
+			currentState->OnLeave(currentState);
+		}
 		//VSync
 		WaitVBL();
 	}

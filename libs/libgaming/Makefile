@@ -16,7 +16,8 @@ CCSOURCES = LED.c \
 			VGA.c \
 			Font.c \
 			Random.c \
-			Accelerometer.c
+			Accelerometer.c \
+			Gamestate.c
 
 # List Assembler to be assembled with NASM here
 ASOURCES = 

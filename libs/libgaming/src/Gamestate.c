@@ -1,17 +1,24 @@
-#include "Gamestate.h"
+#include <game/Game.h>
+#include <stdio.h>
 
-void changeGamestate(Game *game, Gamestate *state) {
+int ChangeState(Game *game, Gamestate *state) {
 	if(!state->Update || !state->Draw) {
 		fprintf(stderr, "PANIC: Update and/or Draw function pointer is NULL\r\n");
 		return -1;
 	}
+	if(state->previousState != NULL) {
+		fprintf(stderr, "This Gamestate is already in the Stack\r\n");
+		return -1;
+	}
+	state->previousState = game->currentState;
 	game->currentState = state;
-	state->Init(game);
 }
 
-void stateReturn(Game game) {
-	if (game.previousState)
+void ExitState(Game* game) {
+	Gamestate* state = game->currentState;
+	if (state->previousState)
 	{
-		game.currentState = game.previousState;
+		game->currentState = state->previousState;
+		state->previousState = NULL;
 	}
 }

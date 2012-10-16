@@ -9,14 +9,25 @@
 #include <platform/VGA.h>
 #include <platform/Random.h>
 
-#include <game/Gamestate.h>
-
 #include <Drawing.h>
+
+typedef struct Gamestate {
+	bool initialized;
+	void (*Init)(struct Gamestate* state);		// executed once entering the state
+	void (*OnEnter)(struct Gamestate* state);	// executed on entering the state
+	void (*OnLeave)(struct Gamestate* state);	// executed before leaving the state
+	void (*Update)(uint32_t);					// executed every frame before Draw
+	void (*Draw)(Bitmap* surface);				// executed every frame after Update
+	struct Gamestate *previousState;
+} Gamestate;
 
 typedef struct {
 	Gamestate *currentState;
 } Game;
 
 extern Game* TheGame;
+
+int ChangeState(Game *game, Gamestate *state);
+void ExitState(Game* game);
 
 #endif

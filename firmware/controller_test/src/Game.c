@@ -11,7 +11,7 @@ void Init(struct Gamestate*);
 void Update(uint32_t);
 void Draw(Bitmap* surface);
 
-Gamestate InitState = { Init, Update, Draw, NULL };
+Gamestate InitState = { 0, Init, NULL, NULL, Update, Draw, NULL };
 Game* TheGame = &(Game) {&InitState};
 
 void Init(struct Gamestate* state)

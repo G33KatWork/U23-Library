@@ -1,12 +1,15 @@
 #include <game/Game.h>
 #include <game/Debug.h>
 #include <game/Filesystem.h>
+#include <game/Accelerometer.h>
 
 #include <stdio.h>
 #include <string.h>
 #include <stm32f4xx/stm32f4xx_rng.h>
 
 #include "../inc/Sprites.h"
+
+#define ACCELEROMETER
 
 static uint32_t sqrti(uint32_t n);
 
@@ -19,7 +22,6 @@ Game* TheGame = &(Game) {&InitState};
 
 #ifdef ACCELEROMETER
 static uint32_t sqrti(uint32_t n);
-static int8_t zero[3];
 static int32_t acc_x=0,acc_y=0;
 #endif
 
@@ -67,27 +69,9 @@ void Init(struct Gamestate* state)
 
 #ifdef ACCELEROMETER
 	InitializeAccelerometer();
-
-	SetAccelerometerMainConfig(
-		LIS302DL_LOWPOWERMODE_ACTIVE|
-		LIS302DL_DATARATE_100|
-		LIS302DL_XYZ_ENABLE|
-		LIS302DL_FULLSCALE_2_3|
-		LIS302DL_SELFTEST_NORMAL);
-
-	//Wait one second for data to stabilize
-	Delay(100);
-
-	SetAccelerometerFilterConfig(
-		LIS302DL_FILTEREDDATASELECTION_BYPASSED|
-		LIS302DL_HIGHPASSFILTER_LEVEL_1|
-		LIS302DL_HIGHPASSFILTERINTERRUPT_1_2);
-
-	Delay(50);
-	ReadRawAccelerometerData(zero);
+	printf("Init Accelerometer: %s\r\n", PingAccelerometer() > 0 ? "OKAY" : "FAILED");
+	CalibrateAccelerometer();
 #endif
-
-	
 
 	for(int i=0;i<NumberOfStars;i++)
 	{
@@ -129,14 +113,15 @@ void Draw(Bitmap *surface) {
 
 void Update(uint32_t delta) {
 	#ifdef ACCELEROMETER
-			if (UserButtonState()) {
+			/*if (UserButtonState()) {
 				ReadRawAccelerometerData(zero);
-			}
+			}*/
+
 
 			int8_t components[3];
-			ReadRawAccelerometerData(components);
-			int32_t dx=components[1]-zero[1];
-			int32_t dy=components[0]-zero[0];
+			ReadCalibratedAccelerometerData(components);
+			int32_t dx = components[1];
+			int32_t dy = components[0];
 
 			dx = (dx / 10) * 10;
 			dy = (dy / 10) * 10;

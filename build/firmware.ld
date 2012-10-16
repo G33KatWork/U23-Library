@@ -16,7 +16,7 @@ SECTIONS
     {
         /* Mark start of text section */
         _text = .;
-        
+
         /* Interrupt vectors */
         __isr_vector_start = .;
         KEEP(*(.isr_vector))
@@ -37,7 +37,7 @@ SECTIONS
         *(.data*)
         _edata = .;
     } > ccmram
-    
+
     /*.bss section*/
     .bss :
     {

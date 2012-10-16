@@ -1,8 +1,8 @@
 # Target file name.
-TARGET = spacecraft
+TARGET = controller_test
 
 # List C source files here.
-CCSOURCES = Spacecraft.c Sprites.c
+CCSOURCES = Game.c ControllerBitmap.c
 
 # Additional local static libs to link against
 LIBS = gaming stm32f4xx fatfs sdcard graphics

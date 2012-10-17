@@ -7,7 +7,7 @@ void Red_Init(struct Gamestate*);
 void Red_Update(uint32_t);
 void Red_Draw(Bitmap* surface);
 
-Gamestate RedState = { 0, Red_Init, NULL, NULL, Red_Update, Red_Draw, NULL };
+Gamestate RedState = { Red_Init, NULL, NULL, Red_Update, Red_Draw };
 
 void Red_Init(struct Gamestate* state)
 {

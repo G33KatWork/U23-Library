@@ -11,7 +11,7 @@ void OnEnter(struct Gamestate*);
 void Update(uint32_t);
 void Draw(Bitmap* surface);
 
-Gamestate InitState = { 0, Init, OnEnter, NULL, Update, Draw, NULL };
+Gamestate InitState = { Init, OnEnter, NULL, Update, Draw };
 extern Gamestate RedState;
 Game* TheGame = &(Game) {&InitState};
 

@@ -17,7 +17,7 @@ void Init(struct Gamestate*);
 void Update(uint32_t );
 void Draw(Bitmap* surface);
 
-Gamestate InitState = { 0, Init, NULL, NULL, Update, Draw, NULL };
+Gamestate InitState = { Init, NULL, NULL, Update, Draw, };
 Game* TheGame = &(Game) {&InitState};
 
 #ifdef ACCELEROMETER

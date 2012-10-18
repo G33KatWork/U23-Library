@@ -6,6 +6,8 @@
 *.d
 obj
 *.sublime-workspace
+libs/libgraphics/Tools/*.png
+libs/libgraphics/Tools/PNGConverter
 
 ## OS X ##
 .DS_Store

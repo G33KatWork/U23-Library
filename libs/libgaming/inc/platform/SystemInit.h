@@ -19,6 +19,10 @@
   ******************************************************************************  
   */ 
 
+/*! @header SystemInit.h
+      @discussion SystemInit is used to do all the startup work, deeeep down in the core.
+ */
+
 /** @addtogroup CMSIS
   * @{
   */

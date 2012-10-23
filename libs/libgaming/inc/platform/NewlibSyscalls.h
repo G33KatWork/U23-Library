@@ -3,6 +3,10 @@
 
 #include <sys/stat.h>
 
+/*! @header NewlibSyscalls.h
+    @discussion This header is used implement all necessary newlib stubs. If you need any further information google it for yourself or ask the staff
+ */
+
 //File operations
 int _file_fstat(int fd, struct stat *st);
 int _file_write(int fd, void *buf, size_t len);

@@ -1,0 +1,431 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>Accelerometer.h</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<meta name="xcode-display" content="render">
+<style><!--
+.toc_contents_text {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+ul.tocSubEntryList li.tocSubEntry {
+    list-style: none;
+}
+
+#colorbox {
+		display: none;
+}
+.spec_sheet_line {
+		margin-bottom: 1px;
+}
+.collapsible {
+		display: none;
+}
+.toc_leadspace {
+		width: 10; min-width: 10;
+}
+.disclosure_triangle_td {
+		width: 14; min-width: 14;
+		font-size: 10px;
+		vertical-align: middle;
+}
+.specbox td {
+		font-size: 13px;
+}
+.specbox td a {
+		font-size: 13px;
+}
+.specbox td code {
+		font-size: 13px;
+}
+.specbox td tt {
+		font-size: 13px;
+}
+.specbox td pre {
+		font-size: 13px;
+}
+.specbox a {
+		font-size: 12px;
+}
+.disclosure_triangle_td a:hover {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:hover {
+		text-decoration: none;
+}
+.hd_toc_box {
+		padding-top: 10px;
+		padding-right: 15px;
+}.tocSeparator {
+		margin-top: 15px;
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+}
+.tocSubEntryList {
+		margin-left: 0px;
+		padding-left: 40px;
+		padding-top: 0px;
+		margin-top: 2px;
+		padding-bottom: 0px;
+		margin-bottom: 8px;
+}
+.hd_toc_heading_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.hd_toc_entry_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.tocSubEntry {
+		margin-left: 0px;
+		padding-left: 0px;
+		margin-top: 0px;
+		margin-bottom: 1px;
+}
+.tocSubEntry a {
+		font-size: 10pt;
+}
+.tocSubheading {
+		padding-left: 14px;
+		margin-left: 0px;
+		margin-top: 5px;
+		padding-top: 0px;
+		font-size: 16px;
+		color: #808080;
+}
+
+#tocMenu {
+		border-right: 1px solid #c0c0c0;
+		background-color: #f4f4ff;
+		top:0px;
+		left:0px;
+		width:230px;
+		height:100%;
+}
+#bodyContents {
+		width: auto;
+		padding-left: 15px;
+}
+--></style>
+<script language="JavaScript" type="text/javascript"><!--
+function getNewHTTPObject()
+{
+        var xmlhttp;
+
+        /** Special IE only code ... */
+        /*@cc_on
+          @if (@_jscript_version >= 5)
+              try
+              {
+                  xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+              }
+              catch (e)
+              {
+                  try
+                  {
+                      xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+                  }
+                  catch (E)
+                  {
+                      xmlhttp = false;
+                  }
+             }
+          @else
+             xmlhttp = false;
+        @end @*/
+
+        /** Every other browser on the planet */
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined')
+        {
+            try
+            {
+                xmlhttp = new XMLHttpRequest();
+            }
+            catch (e)
+            {
+                xmlhttp = false;
+            }
+        }
+
+        return xmlhttp;
+}
+
+function hidetoc() {
+	var toc = document.getElementById('tocMenu');
+	var src = toc.getAttribute('src');
+	var xhr = getNewHTTPObject();
+	xhr.open('GET', src, true);
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState == 4) {
+			var toc = document.getElementById('tocMenu');
+			toc.innerHTML = xhr.responseText;
+		}
+	}
+	xhr.send(null);
+	var origURL = parent.document.URL;
+	var contentURL = origURL.substring(origURL.indexOf('?')+1, origURL.length);
+	if (contentURL.length == origURL.length) {
+		jumpPos = origURL.substring(origURL.indexOf('#')+1, origURL.length);
+	}
+	if (contentURL == "hidetoc") {
+		var body = document.getElementById('bodyContents');
+		if (toc && body) {
+			toc.style.display = 'none';
+			body.style.marginLeft = '0px';
+		}
+	}
+}
+
+function disclosure_triangle(elt) {
+   var linkelt = elt;
+   while (elt && elt.tagName != 'TABLE') { elt = elt.parentNode;}
+   if (!elt) { return; }
+   while (elt && elt.tagName != 'DIV') { elt = elt.nextSibling;}
+   if (!elt) { return; }
+   if (parseInt(linkelt.getAttribute('state'))) {
+      // It's open.  Close it
+      linkelt.innerHTML = '&#x25B7;';
+      linkelt.setAttribute('state', 0);
+      linkelt.setAttribute('class', 'closed_disclosure_triangle');
+      elt.style.display = 'none';
+   } else {
+      // It's closed.  Open it
+      linkelt.innerHTML = '&#x25BC;';
+      linkelt.setAttribute('state', 1);
+      linkelt.setAttribute('class', 'open_disclosure_triangle');
+      elt.style.display = 'block';
+   }
+}
+--></script><style type="text/css"><!--.char {background: #ffffff; color:#0000ff;}.comment {background:#ffffff; color:#236e25}.function {background:#ffffff; color:#000000;}.keyword {background:#ffffff; color:#761550;}.number {background: #ffffff; color:#0000ff;}.param {background:#ffffff; color:#000000;}.preprocessor {background:#ffffff; color:#236e25}.string {background: #ffffff; color:#891315;}.template {background:#ffffff; color:#761550;}.type {background:#ffffff; color:#761550;}.var {background:#ffffff; color:#000000;}div {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}td {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}span.hd_tocAccessSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroupSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroup { display: block; font-weight: bold; font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; margin-left: 0px; padding-left: 40px; }span.hd_tocGroup + span.hd_tocAccess { padding-top: 5px; }td.toc_contents_text {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; }li.tocSubEntry {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}p {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}h2.h2tight { margin-top: 0px; padding-top: 0px; }h1 { margin-top: 13px; padding-top: 0px; }h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}h5 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10.1pt; font-weight: bold;}pre {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666; font-size: 10pt;}pre a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}pre a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}body  {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt; padding-left: 0px; padding-top: 0px; margin-left: 0px; margin-top: 0px; border: none; }#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }.afterName { display: none; }.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; min-height: 12px; vertical-align: middle; }.declaration_indent pre { margin-top: 20px; padding-top: 0px; margin-bottom: 20px; padding-bottom: 0px; }.gapBeforeFooter { display: none; }hr { height: 0px; min-height: 0px; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #909090;}hr.afterHeader { display: none }.param_group_indent { margin-left: 25px; }.param_indent { margin-left: 40px; margin-top: 0px; padding-top: 0px; }.param_indent dl { margin-top: 4px; padding-top: 0px; }dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.param_indent dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.note_indent { margin-left: 40px; }h3 {       color: #3C4C6C;}.tight {       margin-top: 2px; margin-bottom: 0px;       padding-top: 0px; padding-bottom: 0px;}h3 a {       color: #3C4C6C;	font-size: 16px;	font-style: normal;	font-variant: normal;	font-weight: bold;	height: 0px;	line-height: normal;}.hd_tocAccess { display: block; margin-left: 40px; font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }.tocSubheading { margin-bottom: 4px; }--></style>
+</head>
+<body bgcolor="#ffffff" onload="hidetoc();">
+<!-- headerDoc=Header;  uid=//apple_ref/doc/header/Accelerometer.h;   name=Accelerometer.h -->
+<a name="//apple_ref/doc/header/Accelerometer.h"></a>
+<table id="hd_outermost_table" height="100%" width="100%"><tr>
+<td valign="top" id="tocMenu" src="toc.html"></td>
+<td id="bodyContents" valign="top">
+<a name="top"></a>
+<h1><a name="Accelerometer.h">Accelerometer.h</a></h1>
+<div class="spec_sheet_info_box"><table cellspacing="0" class="specbox"><tr>
+<td scope="row"><b>Includes:</b></td>
+<td><div style="margin-bottom:1px"><div class="content_text">
+<!-- a logicalPath="//apple_ref/doc/header/stm32f4xx.h" machineGenerated="true" -->&lt;stm32f4xx/stm32f4xx.h&gt;<!-- /a -->
+</div></div></td>
+</tr></table></div>
+<h2>Introduction</h2>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/doc/header/Accelerometer.h;name=start --><p>do not change any Pin or command related defines
+<!-- headerDoc=discussion;uid=//apple_ref/doc/header/Accelerometer.h;name=end --><!-- end discussion -->
+</p>
+<hr class="afterClassOrHeaderInfo">
+<br><a name="HeaderDoc_functions"></a>
+<h2 class="h2tight">Functions</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/func/CalibrateAccelerometer" target="_top">CalibrateAccelerometer</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/InitializeAccelerometer" target="_top">InitializeAccelerometer</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/PingAccelerometer" target="_top">PingAccelerometer</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/ReadCalibratedAccelerometerData" target="_top">ReadCalibratedAccelerometerData</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/ReadRawAccelerometerData" target="_top">ReadRawAccelerometerData</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/ResetAccelerometer" target="_top">ResetAccelerometer</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/ResetAccelerometerFilter" target="_top">ResetAccelerometerFilter</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/SetAccelerometerFilterConfig" target="_top">SetAccelerometerFilterConfig</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/SetAccelerometerInterruptConfig" target="_top">SetAccelerometerInterruptConfig</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/SetAccelerometerMainConfig" target="_top">SetAccelerometerMainConfig</a></tt></dt>
+<dd></dd>
+</dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/CalibrateAccelerometer;   name=CalibrateAccelerometer --><a name="//apple_ref/c/func/CalibrateAccelerometer"></a>
+<h3><a name="CalibrateAccelerometer">CalibrateAccelerometer</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/CalibrateAccelerometer;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/CalibrateAccelerometer //apple_ref/c/clm/CalibrateAccelerometer //apple_ref/c/intfcm/CalibrateAccelerometer //apple_ref/c/intfm/CalibrateAccelerometer //apple_ref/c/func/CalibrateAccelerometer" target="_top" href="index.html#//apple_ref/c/func/CalibrateAccelerometer"><span class="function">CalibrateAccelerometer</span></a>();  <!-- headerDoc=declaration;uid=//apple_ref/c/func/CalibrateAccelerometer;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/CalibrateAccelerometer;name=start --><p>you can get the raw values by calling ReadRawAccelerometerData() nonetheless.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/CalibrateAccelerometer;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/InitializeAccelerometer;   name=InitializeAccelerometer --><a name="//apple_ref/c/func/InitializeAccelerometer"></a>
+<h3><a name="InitializeAccelerometer">InitializeAccelerometer</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/InitializeAccelerometer;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/InitializeAccelerometer //apple_ref/c/clm/InitializeAccelerometer //apple_ref/c/intfcm/InitializeAccelerometer //apple_ref/c/intfm/InitializeAccelerometer //apple_ref/c/func/InitializeAccelerometer" target="_top" href="index.html#//apple_ref/c/func/InitializeAccelerometer"><span class="function">InitializeAccelerometer</span></a>();  <!-- headerDoc=declaration;uid=//apple_ref/c/func/InitializeAccelerometer;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/InitializeAccelerometer;name=start --><p>You have to call this yourself, if you want to use the accelerometer, because the pinout collides with a eventually fitted ethernet PHY
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/InitializeAccelerometer;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/PingAccelerometer;   name=PingAccelerometer --><a name="//apple_ref/c/func/PingAccelerometer"></a>
+<h3><a name="PingAccelerometer">PingAccelerometer</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/PingAccelerometer;name=start --><!-- a logicalPath="//apple_ref/c/cl/uint8_t //apple_ref/c/tdef/uint8_t //apple_ref/c/tag/uint8_t //apple_ref/c/struct/uint8_t //apple_ref/c/intf/uint8_t //apple_ref/doc/anysymbol/uint8_t" machineGenerated="true" --><span class="type">uint8_t</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/PingAccelerometer //apple_ref/c/clm/PingAccelerometer //apple_ref/c/intfcm/PingAccelerometer //apple_ref/c/intfm/PingAccelerometer //apple_ref/c/func/PingAccelerometer" target="_top" href="index.html#//apple_ref/c/func/PingAccelerometer"><span class="function">PingAccelerometer</span></a>();  <!-- headerDoc=declaration;uid=//apple_ref/c/func/PingAccelerometer;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>1 if ok, 0 if unhealthy
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/PingAccelerometer;name=start --><p>Gets accelerometer health<!-- headerDoc=discussion;uid=//apple_ref/c/func/PingAccelerometer;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/ReadCalibratedAccelerometerData;   name=ReadCalibratedAccelerometerData --><a name="//apple_ref/c/func/ReadCalibratedAccelerometerData"></a>
+<h3><a name="ReadCalibratedAccelerometerData">ReadCalibratedAccelerometerData</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/ReadCalibratedAccelerometerData;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/ReadCalibratedAccelerometerData //apple_ref/c/clm/ReadCalibratedAccelerometerData //apple_ref/c/intfcm/ReadCalibratedAccelerometerData //apple_ref/c/intfm/ReadCalibratedAccelerometerData //apple_ref/c/func/ReadCalibratedAccelerometerData" target="_top" href="index.html#//apple_ref/c/func/ReadCalibratedAccelerometerData"><span class="function">ReadCalibratedAccelerometerData</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/int8_t //apple_ref/c/tdef/int8_t //apple_ref/c/tag/int8_t //apple_ref/c/struct/int8_t //apple_ref/c/intf/int8_t //apple_ref/doc/anysymbol/int8_t" machineGenerated="true" --><span class="type">int8_t</span><!-- /a --> <span class="type">*</span><span class="param">values</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/ReadCalibratedAccelerometerData;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ReadCalibratedAccelerometerData/values;   name=values -->
+<a name="//apple_ref/doc/functionparam/ReadCalibratedAccelerometerData/values"></a>
+<code>values</code>
+</dt>
+<dd><p>buffer for current Accelerometer data</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/ReadCalibratedAccelerometerData;name=start --><p>if in doubt, try <tt>int8_t data[3]</tt>
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/ReadCalibratedAccelerometerData;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/ReadRawAccelerometerData;   name=ReadRawAccelerometerData --><a name="//apple_ref/c/func/ReadRawAccelerometerData"></a>
+<h3><a name="ReadRawAccelerometerData">ReadRawAccelerometerData</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/ReadRawAccelerometerData;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/ReadRawAccelerometerData //apple_ref/c/clm/ReadRawAccelerometerData //apple_ref/c/intfcm/ReadRawAccelerometerData //apple_ref/c/intfm/ReadRawAccelerometerData //apple_ref/c/func/ReadRawAccelerometerData" target="_top" href="index.html#//apple_ref/c/func/ReadRawAccelerometerData"><span class="function">ReadRawAccelerometerData</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/int8_t //apple_ref/c/tdef/int8_t //apple_ref/c/tag/int8_t //apple_ref/c/struct/int8_t //apple_ref/c/intf/int8_t //apple_ref/doc/anysymbol/int8_t" machineGenerated="true" --><span class="type">int8_t</span><!-- /a --> <span class="type">*</span><span class="param">values</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/ReadRawAccelerometerData;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/ReadRawAccelerometerData/values;   name=values -->
+<a name="//apple_ref/doc/functionparam/ReadRawAccelerometerData/values"></a>
+<code>values</code>
+</dt>
+<dd><p>buffer for current Accelerometer data</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/ReadRawAccelerometerData;name=start --><p>if in doubt, try <tt>int8_t data[3]</tt>
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/ReadRawAccelerometerData;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/ResetAccelerometer;   name=ResetAccelerometer --><a name="//apple_ref/c/func/ResetAccelerometer"></a>
+<h3><a name="ResetAccelerometer">ResetAccelerometer</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/ResetAccelerometer;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/ResetAccelerometer //apple_ref/c/clm/ResetAccelerometer //apple_ref/c/intfcm/ResetAccelerometer //apple_ref/c/intfm/ResetAccelerometer //apple_ref/c/func/ResetAccelerometer" target="_top" href="index.html#//apple_ref/c/func/ResetAccelerometer"><span class="function">ResetAccelerometer</span></a>();  <!-- headerDoc=declaration;uid=//apple_ref/c/func/ResetAccelerometer;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/ResetAccelerometer;name=start --><p>should not be needed.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/ResetAccelerometer;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/ResetAccelerometerFilter;   name=ResetAccelerometerFilter --><a name="//apple_ref/c/func/ResetAccelerometerFilter"></a>
+<h3><a name="ResetAccelerometerFilter">ResetAccelerometerFilter</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/ResetAccelerometerFilter;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/ResetAccelerometerFilter //apple_ref/c/clm/ResetAccelerometerFilter //apple_ref/c/intfcm/ResetAccelerometerFilter //apple_ref/c/intfm/ResetAccelerometerFilter //apple_ref/c/func/ResetAccelerometerFilter" target="_top" href="index.html#//apple_ref/c/func/ResetAccelerometerFilter"><span class="function">ResetAccelerometerFilter</span></a>();  <!-- headerDoc=declaration;uid=//apple_ref/c/func/ResetAccelerometerFilter;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/ResetAccelerometerFilter;name=start --><p>this removes all filters, including the filters used in InitializeAccelerometer()
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/ResetAccelerometerFilter;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/SetAccelerometerFilterConfig;   name=SetAccelerometerFilterConfig --><a name="//apple_ref/c/func/SetAccelerometerFilterConfig"></a>
+<h3><a name="SetAccelerometerFilterConfig">SetAccelerometerFilterConfig</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/SetAccelerometerFilterConfig;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/SetAccelerometerFilterConfig //apple_ref/c/clm/SetAccelerometerFilterConfig //apple_ref/c/intfcm/SetAccelerometerFilterConfig //apple_ref/c/intfm/SetAccelerometerFilterConfig //apple_ref/c/func/SetAccelerometerFilterConfig" target="_top" href="index.html#//apple_ref/c/func/SetAccelerometerFilterConfig"><span class="function">SetAccelerometerFilterConfig</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/uint8_t //apple_ref/c/tdef/uint8_t //apple_ref/c/tag/uint8_t //apple_ref/c/struct/uint8_t //apple_ref/c/intf/uint8_t //apple_ref/doc/anysymbol/uint8_t" machineGenerated="true" --><span class="type">uint8_t</span><!-- /a --> <span class="param">config</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/SetAccelerometerFilterConfig;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/SetAccelerometerFilterConfig/config;   name=config -->
+<a name="//apple_ref/doc/functionparam/SetAccelerometerFilterConfig/config"></a>
+<code>config</code>
+</dt>
+<dd><p>bitmask with configuration values</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/SetAccelerometerFilterConfig;name=start --><p>Please lookup possible bitmasks in the header file 
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/SetAccelerometerFilterConfig;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/SetAccelerometerInterruptConfig;   name=SetAccelerometerInterruptConfig --><a name="//apple_ref/c/func/SetAccelerometerInterruptConfig"></a>
+<h3><a name="SetAccelerometerInterruptConfig">SetAccelerometerInterruptConfig</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/SetAccelerometerInterruptConfig;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/SetAccelerometerInterruptConfig //apple_ref/c/clm/SetAccelerometerInterruptConfig //apple_ref/c/intfcm/SetAccelerometerInterruptConfig //apple_ref/c/intfm/SetAccelerometerInterruptConfig //apple_ref/c/func/SetAccelerometerInterruptConfig" target="_top" href="index.html#//apple_ref/c/func/SetAccelerometerInterruptConfig"><span class="function">SetAccelerometerInterruptConfig</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/uint8_t //apple_ref/c/tdef/uint8_t //apple_ref/c/tag/uint8_t //apple_ref/c/struct/uint8_t //apple_ref/c/intf/uint8_t //apple_ref/doc/anysymbol/uint8_t" machineGenerated="true" --><span class="type">uint8_t</span><!-- /a --> <span class="param">config</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/SetAccelerometerInterruptConfig;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/SetAccelerometerInterruptConfig/config;   name=config -->
+<a name="//apple_ref/doc/functionparam/SetAccelerometerInterruptConfig/config"></a>
+<code>config</code>
+</dt>
+<dd><p>bitmask with configuration values</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/SetAccelerometerInterruptConfig;name=start --><p>not used atm 
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/SetAccelerometerInterruptConfig;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/SetAccelerometerMainConfig;   name=SetAccelerometerMainConfig --><a name="//apple_ref/c/func/SetAccelerometerMainConfig"></a>
+<h3><a name="SetAccelerometerMainConfig">SetAccelerometerMainConfig</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/SetAccelerometerMainConfig;name=start --><!-- a logicalPath="//apple_ref/c/cl/void //apple_ref/c/tdef/void //apple_ref/c/tag/void //apple_ref/c/struct/void //apple_ref/c/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a --> <a machinegenerated="true" logicalpath="//apple_ref/c/instm/SetAccelerometerMainConfig //apple_ref/c/clm/SetAccelerometerMainConfig //apple_ref/c/intfcm/SetAccelerometerMainConfig //apple_ref/c/intfm/SetAccelerometerMainConfig //apple_ref/c/func/SetAccelerometerMainConfig" target="_top" href="index.html#//apple_ref/c/func/SetAccelerometerMainConfig"><span class="function">SetAccelerometerMainConfig</span></a>(
+    <!-- a logicalPath="//apple_ref/c/cl/uint8_t //apple_ref/c/tdef/uint8_t //apple_ref/c/tag/uint8_t //apple_ref/c/struct/uint8_t //apple_ref/c/intf/uint8_t //apple_ref/doc/anysymbol/uint8_t" machineGenerated="true" --><span class="type">uint8_t</span><!-- /a --> <span class="param">config</span>);  <!-- headerDoc=declaration;uid=//apple_ref/c/func/SetAccelerometerMainConfig;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=functionparam;  uid=//apple_ref/doc/functionparam/SetAccelerometerMainConfig/config;   name=config -->
+<a name="//apple_ref/doc/functionparam/SetAccelerometerMainConfig/config"></a>
+<code>config</code>
+</dt>
+<dd><p>bitmask with configuration values</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/SetAccelerometerMainConfig;name=start --><p>Please lookup possible bitmasks in the header file 
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/SetAccelerometerMainConfig;name=end --><!-- end discussion -->
+</p>
+<p class="gapBeforeFooter">&nbsp;</p>
+<hr class="afterFooter">
+<div class="hd_copyright_and_timestamp">
+<p class="hd_timestamp">Last Updated: Mittwoch, Oktober 24, 2012
+</p>
+</div>
+</td>
+</tr></table>
+</body>
+</html>

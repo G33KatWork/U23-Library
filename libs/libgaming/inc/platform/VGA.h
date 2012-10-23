@@ -1,6 +1,11 @@
 #ifndef __VGA_H__
 #define __VGA_H__
 
+/*! @header VGA.h
+	Implents all the VGA related stuff. Does magic.
+    @discussion please use libgraphics to mess with VGA output
+ */
+
 #include <stm32f4xx/stm32f4xx.h>
 #include <stdint.h>
 

@@ -14,7 +14,7 @@ Game* TheGame = &(Game) {&InitState};
 
 void Init(struct Gamestate* state)
 {
-
+	InitializeAudio();
 }
 
 void Update(uint32_t a) {
@@ -25,4 +25,7 @@ void Update(uint32_t a) {
 		OutputAudioSample(noise - INT16_MIN);
 	}
 }
-void Draw(Bitmap *b) {}
+
+void Draw(Bitmap *b)
+{
+}

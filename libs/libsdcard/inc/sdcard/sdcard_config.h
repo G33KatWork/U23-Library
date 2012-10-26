@@ -2,9 +2,9 @@
 #define _SDCARD_CONF_H_
 
 //FIXME: SD_DETECT pin here is PA8 for OPEN407Z - use correct pin on U23 Board
-#define SD_DETECT_PIN                    GPIO_Pin_8                  /* PA.08 */
-#define SD_DETECT_GPIO_PORT              GPIOA                       /* GPIOA */
-#define SD_DETECT_GPIO_CLK               RCC_AHB1Periph_GPIOA
+#define SD_DETECT_PIN                    GPIO_Pin_2                  /* PB.02 */
+#define SD_DETECT_GPIO_PORT              GPIOB                       /* GPIOB */
+#define SD_DETECT_GPIO_CLK               RCC_AHB1Periph_GPIOB
 
 #define SDIO_FIFO_ADDRESS                ((uint32_t)0x40012C80)
 

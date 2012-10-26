@@ -13,6 +13,8 @@ all:
 distclean: clean
 
 upload: upload-$(FIRMWARE)
+upload-gdb: upload-gdb-$(FIRMWARE)
+debug-gdb: debug-gdb-$(FIRMWARE) 
 
 include $(addsuffix /Makefile,$(SUBDIRS))
 

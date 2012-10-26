@@ -4,13 +4,13 @@
 #include <stdint.h>
 #include <stm32f4xx/stm32f4xx.h>
 
-#define GPIO_SNES1_LATCH_PIN		(GPIO_Pin_1)
-#define GPIO_SNES1_CLOCK_PIN		(GPIO_Pin_3)
-#define GPIO_SNES1_DATA_PIN			(GPIO_Pin_0)
+#define GPIO_SNES1_LATCH_PIN		(GPIO_Pin_6)
+#define GPIO_SNES1_CLOCK_PIN		(GPIO_Pin_7)
+#define GPIO_SNES1_DATA_PIN			(GPIO_Pin_5)
 
-#define GPIO_SNES2_LATCH_PIN		(GPIO_Pin_6)
-#define GPIO_SNES2_CLOCK_PIN		(GPIO_Pin_7)
-#define GPIO_SNES2_DATA_PIN			(GPIO_Pin_5)
+#define GPIO_SNES2_LATCH_PIN		(GPIO_Pin_1)
+#define GPIO_SNES2_CLOCK_PIN		(GPIO_Pin_3)
+#define GPIO_SNES2_DATA_PIN			(GPIO_Pin_0)
 
 #define GPIO_SNES1_LATCH_PORT		(GPIOD)
 #define GPIO_SNES1_CLOCK_PORT		(GPIOD)

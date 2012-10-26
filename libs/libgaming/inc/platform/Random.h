@@ -1,31 +1,37 @@
 #ifndef _RANDOM_H_
 #define _RANDOM_H_
 
-/*! @header NewlibSyscalls.h
-    @discussion This header is used implement the hardware RNG (Random Number Generator)
- */
+/*! @addtogroup libgaming
+ * @{ */
+
+/*! @addtogroup Random
+ * @brief This header is used implement the hardware RNG (Random Number Generator)
+ * @{ */
 
 #include <stdint.h>
 
 /*!
-	@function InitializeRandom
-	Initializes the RNG
-	@discussion This function is called in Main.c
+ * @brief Initializes the RNG
+ *
+ * This function is automatically called in main().
  */
 void InitializeRandom(void);
 
 /*!
-	@function GetRandomInteger
-	@return returns an random integer
-	@discussion returns 0 if not initialized
-	@discussion blocking function: loops while RNG_GetFlagStatus(RNG_FLAG_DRDY) == RESET
+ * @brief Get a random integer
+ *
+ * This function returns 0 when the RNG has not been initialized.
+ * Blocks while RNG_GetFlagStatus(RNG_FLAG_DRDY) == RESET
+ * @return A random integer
  */
 uint32_t GetRandomInteger(void);
 
 /*!
-	@function DeInitializeRandom
-	DeInitializes the hardware RNG
+ * @brief DeInitializes the hardware RNG
  */
 void DeInitializeRandom(void);
+
+/*! @} */
+/*! @} */
 
 #endif

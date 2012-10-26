@@ -1,28 +1,32 @@
 #ifndef _SNES_CTRL_H_
 #define _SNES_CTRL_H_
 
-/*! @header SNES.h
-    @discussion SNES Controller header
- */
+/*! @addtogroup libgaming
+ * @{ */
+
+/*! @addtogroup SNES
+ * @brief SNES Controller Interface
+ * @{ */
 
 #include <stdint.h>
 
-/*! @union snes_button_state_t
-	@field Reserved Reserved for future use
-	@field R Represents right shoulder button
-	@field L Represents left shoulder button 
-	@field X Represents X-Button 
-	@field A Represents A-Button 
-	@field Right Represents Right-Button 
-	@field Left Represents Left-Button 
-	@field Down Represents Down-Button 
-	@field Up Represents Up-Button 
-	@field Start Represents Start-Button 
-	@field Select Represents Select-Button 
-	@field Y Represents Y-Button 
-	@field B Represents B-Button 
-	@field raw raw shift-register data from SNES controller
-    @discussion snes_button_state_t represents the state of a SNES Controller
+/*!
+ * @union snes_button_state_t
+ * @brief Represents the state of a SNES Controller
+ * @field Reserved Reserved for future use
+ * @field R Represents right shoulder button
+ * @field L Represents left shoulder button 
+ * @field X Represents X-Button 
+ * @field A Represents A-Button 
+ * @field Right Represents Right-Button 
+ * @field Left Represents Left-Button 
+ * @field Down Represents Down-Button 
+ * @field Up Represents Up-Button 
+ * @field Start Represents Start-Button 
+ * @field Select Represents Select-Button 
+ * @field Y Represents Y-Button 
+ * @field B Represents B-Button 
+ * @field raw raw shift-register data from SNES controller
  */
 typedef union {
 	struct {
@@ -44,26 +48,27 @@ typedef union {
 } snes_button_state_t;
 
 /*!
-	@function InitializeSnesController
-	Initializes the SNES Controller 
-	@discussion This function is called in Main.c
-	@discussion At the moment there is only one Controller supported
+ * @brief Initializes the SNES Controller 
+ *
+ * This function is automatically called in main().
+ * At the moment there is only one Controller supported.
  */
 void InitializeSnesController();
 
 /*!
-	@function GetControllerState
-	Initializes the SNES Controller 
-	@returns snes_button_state_t The current state of the SNES-Controller connected
-	@discussion At the moment there is only one Controller supported
+ * @brief Gets the current controller state
+ * @return snes_button_state_t The current state of the SNES-Controller connected
  */
 snes_button_state_t GetControllerState();
 
 /*!
-	@function HandleSnesTimerIRQ
-	Handler for the timer used to make SNES-Handling non-blocking
-	@discussion Do not care, read code in .c or ask staff for more information
+ * @brief Handler for the timer used to make SNES-Handling non-blocking
+ *
+ * Ignore this, read code in .c or ask staff for more information
  */
 void HandleSnesTimerIRQ();
+
+/*! @} */
+/*! @} */
 
 #endif

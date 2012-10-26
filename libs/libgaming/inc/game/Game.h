@@ -27,7 +27,8 @@ typedef struct {
 
 extern Game* TheGame;
 
-int ChangeState(Game *game, Gamestate *state);
-void ExitState(Game* game);
+int ChangeState(Gamestate *state);
+
+void ExitState();
 
 #endif

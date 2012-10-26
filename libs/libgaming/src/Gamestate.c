@@ -1,7 +1,7 @@
 #include <game/Game.h>
 #include <stdio.h>
 
-int ChangeState(Game *game, Gamestate *state) {
+int ChangeState(Gamestate *state) {
 	if(!state->Update || !state->Draw) {
 		fprintf(stderr, "PANIC: Update and/or Draw function pointer is NULL\r\n");
 		return -1;
@@ -10,15 +10,15 @@ int ChangeState(Game *game, Gamestate *state) {
 		fprintf(stderr, "This Gamestate is already in the Stack\r\n");
 		return -1;
 	}
-	state->previousState = game->currentState;
-	game->currentState = state;
+	state->previousState = TheGame->currentState;
+	TheGame->currentState = state;
 }
 
-void ExitState(Game* game) {
-	Gamestate* state = game->currentState;
+void ExitState() {
+	Gamestate* state = TheGame->currentState;
 	if (state->previousState)
 	{
-		game->currentState = state->previousState;
+		TheGame->currentState = state->previousState;
 		state->previousState = NULL;
 	}
 }

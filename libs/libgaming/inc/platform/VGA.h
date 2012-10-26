@@ -7,14 +7,14 @@
 #define GPIO_DAC_PINS		(GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15)
 #define GPIO_DAC_PORT		(GPIOE)
 #define GPIO_DAC_DMADESTREG	(((uint32_t)&GPIOE->ODR)+1)
-#define GPIO_HSYNC_PIN		(GPIO_Pin_11)
-#define GPIO_HSYNC_PORT		(GPIOB)
-#define GPIO_VSYNC_PIN		(GPIO_Pin_12)
-#define GPIO_VSYNC_PORT		(GPIOB)
+#define GPIO_HSYNC_PIN		(GPIO_Pin_6)
+#define GPIO_HSYNC_PORT		(GPIOE)
+#define GPIO_VSYNC_PIN		(GPIO_Pin_7)
+#define GPIO_VSYNC_PORT		(GPIOE)
 
 #define GPIO_DAC_PORT_CLK	RCC_AHB1Periph_GPIOE
-#define GPIO_HSYNC_PORT_CLK	RCC_AHB1Periph_GPIOB
-#define GPIO_VSYNC_PORT_CLK	RCC_AHB1Periph_GPIOB
+#define GPIO_HSYNC_PORT_CLK	RCC_AHB1Periph_GPIOE
+#define GPIO_VSYNC_PORT_CLK	RCC_AHB1Periph_GPIOE
 
 typedef void HBlankInterruptFunction(void);
 typedef void VGAHSYNCInterruptHandler(void);

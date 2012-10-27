@@ -1,10 +1,12 @@
 var searchData=
 [
+  ['select',['Select',['../unionsnes__button__state__t.html#a78c9f8a9eb47b89ab039745490a78e39',1,'snes_button_state_t']]],
   ['setfont',['setFont',['../group__Font.html#gaf615b8fa091664500a3f1fc4b3d15a4a',1,'setFont(const RLEBitmap *const *font):&#160;Font.c'],['../group__Font.html#gaf615b8fa091664500a3f1fc4b3d15a4a',1,'setFont(const RLEBitmap *const *font):&#160;Font.c']]],
   ['setleds',['SetLEDs',['../group__LED.html#ga57ff2dcb666794127a1b996f0c08e811',1,'LED.h']]],
   ['setsysclock',['SetSysClock',['../group__STM32F4xx__System__Private__Functions.html#ga1ee14ac28e60198cc998586807b51e4c',1,'SystemInit.c']]],
   ['snes',['SNES',['../group__SNES.html',1,'']]],
   ['snes_5fbutton_5fstate_5ft',['snes_button_state_t',['../unionsnes__button__state__t.html',1,'']]],
+  ['start',['Start',['../unionsnes__button__state__t.html#a0dd34732e58f9fa94ed9a095f3852956',1,'snes_button_state_t']]],
   ['stm32f4xx_5fsystem',['Stm32f4xx_system',['../group__stm32f4xx__system.html',1,'']]],
   ['stm32f4xx_5fsystem_5fexported_5fconstants',['STM32F4xx_System_Exported_Constants',['../group__STM32F4xx__System__Exported__Constants.html',1,'']]],
   ['stm32f4xx_5fsystem_5fexported_5ffunctions',['STM32F4xx_System_Exported_Functions',['../group__STM32F4xx__System__Exported__Functions.html',1,'']]],

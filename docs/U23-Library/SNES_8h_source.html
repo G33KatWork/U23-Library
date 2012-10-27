@@ -116,38 +116,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GPIO_SNES2_CLOCK_CLK        RCC_AHB1Periph_GPIOD</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GPIO_SNES2_DATA_CLK         RCC_AHB1Periph_GPIOD</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html">   56</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">union </span>{</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        uint16_t Reserved : 4;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        uint16_t R        : 1;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        uint16_t L        : 1;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        uint16_t X        : 1;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        uint16_t A        : 1;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        uint16_t Right    : 1;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        uint16_t Left     : 1;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        uint16_t Down     : 1;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        uint16_t Up       : 1;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        uint16_t Start    : 1;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        uint16_t Select   : 1;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        uint16_t Y        : 1;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        uint16_t B        : 1;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    } buttons;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    uint16_t raw;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;} <a class="code" href="unionsnes__button__state__t.html" title="Represents the state of a SNES Controller  Reserved Reserved for future use  R Represents right shoul...">snes_button_state_t</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html">   42</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">union </span>{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        uint16_t Reserved : 4;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a1371d63418078a07944dc48430cb0709">   45</a></span>&#160;        uint16_t R        : 1;  </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a2e41e48bdfc2a7375d4698daeb905f10">   46</a></span>&#160;        uint16_t L        : 1;  </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#afcad6e837d6cf559ec0b0a8af7f4b43e">   47</a></span>&#160;        uint16_t X        : 1;  </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a4b44eb88105b460d5311180935c74612">   48</a></span>&#160;        uint16_t A        : 1;  </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a7477b3d1689f5eb8246e27317dfd093d">   49</a></span>&#160;        uint16_t Right    : 1;  </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a85c03257bfabb701eb4d42332abb0265">   50</a></span>&#160;        uint16_t Left     : 1;  </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a206fe9fc4fff56e410c4e610f3f619d0">   51</a></span>&#160;        uint16_t Down     : 1;  </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a33cccfeae851f7d0869ebbd2b20209f5">   52</a></span>&#160;        uint16_t Up       : 1;  </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a0dd34732e58f9fa94ed9a095f3852956">   53</a></span>&#160;        uint16_t Start    : 1;  </div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a78c9f8a9eb47b89ab039745490a78e39">   54</a></span>&#160;        uint16_t Select   : 1;  </div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a8487ffb3b0abda01e11c2609d19d7d3e">   55</a></span>&#160;        uint16_t Y        : 1;  </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="code" href="unionsnes__button__state__t.html#a37c088a4caefc83a7b25e9c231525cc8">   56</a></span>&#160;        uint16_t B        : 1;  </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    } buttons;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    uint16_t raw;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;} <a class="code" href="unionsnes__button__state__t.html" title="Represents the state of a SNES Controller.">snes_button_state_t</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__SNES.html#ga280d0f889827beda2520cef009ea0ce7" title="Initializes the SNES Controller.">InitializeSnesController</a>();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<a class="code" href="unionsnes__button__state__t.html" title="Represents the state of a SNES Controller.">snes_button_state_t</a> <a class="code" href="group__SNES.html#gaa70ce6aa76ea27fd5649b2501fafc05b" title="Gets the current controller state for Player 1.">GetControllerState1</a>();</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__SNES.html#ga280d0f889827beda2520cef009ea0ce7" title="Initializes the SNES Controller.">InitializeSnesController</a>();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<a class="code" href="unionsnes__button__state__t.html" title="Represents the state of a SNES Controller  Reserved Reserved for future use  R Represents right shoul...">snes_button_state_t</a> <a class="code" href="group__SNES.html#gaa70ce6aa76ea27fd5649b2501fafc05b" title="Gets the current controller state for Player 1.">GetControllerState1</a>();</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<a class="code" href="unionsnes__button__state__t.html" title="Represents the state of a SNES Controller  Reserved Reserved for future use  R Represents right shoul...">snes_button_state_t</a> <a class="code" href="group__SNES.html#gad1533ccab19cc47d4aef4e4590994f2e" title="Gets the current controller state for Player 2.">GetControllerState2</a>();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__SNES.html#ga2c48a12219700586e75a37eb5355ca84" title="Handler for the timer used to make SNES-Handling non-blocking.">HandleSnesTimerIRQ</a>();</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<a class="code" href="unionsnes__button__state__t.html" title="Represents the state of a SNES Controller.">snes_button_state_t</a> <a class="code" href="group__SNES.html#gad1533ccab19cc47d4aef4e4590994f2e" title="Gets the current controller state for Player 2.">GetControllerState2</a>();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__SNES.html#ga2c48a12219700586e75a37eb5355ca84" title="Handler for the timer used to make SNES-Handling non-blocking.">HandleSnesTimerIRQ</a>();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 07:33:44 for U23-Library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 27 2012 07:34:51 for U23-Library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

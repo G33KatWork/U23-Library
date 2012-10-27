@@ -38,36 +38,22 @@
 /*!
  * @union snes_button_state_t
  * @brief Represents the state of a SNES Controller
- * @field Reserved Reserved for future use
- * @field R Represents right shoulder button
- * @field L Represents left shoulder button 
- * @field X Represents X-Button 
- * @field A Represents A-Button 
- * @field Right Represents Right-Button 
- * @field Left Represents Left-Button 
- * @field Down Represents Down-Button 
- * @field Up Represents Up-Button 
- * @field Start Represents Start-Button 
- * @field Select Represents Select-Button 
- * @field Y Represents Y-Button 
- * @field B Represents B-Button 
- * @field raw raw shift-register data from SNES controller
  */
 typedef union {
 	struct {
 		uint16_t Reserved : 4;
-		uint16_t R        : 1;
-		uint16_t L        : 1;
-		uint16_t X        : 1;
-		uint16_t A        : 1;
-		uint16_t Right    : 1;
-		uint16_t Left     : 1;
-		uint16_t Down     : 1;
-		uint16_t Up       : 1;
-		uint16_t Start    : 1;
-		uint16_t Select   : 1;
-		uint16_t Y        : 1;
-		uint16_t B        : 1;
+		uint16_t R        : 1;  /**< @brief State of the R Button.*/
+		uint16_t L        : 1;  /**< @brief State of the L Button.*/
+		uint16_t X        : 1;  /**< @brief State of the X Button.*/
+		uint16_t A        : 1;  /**< @brief State of the A Button.*/
+		uint16_t Right    : 1;  /**< @brief State of the Right Button.*/
+		uint16_t Left     : 1;  /**< @brief State of the Left Button.*/
+		uint16_t Down     : 1;  /**< @brief State of the Down Button.*/
+		uint16_t Up       : 1;  /**< @brief State of the Up Button.*/
+		uint16_t Start    : 1;  /**< @brief State of the Start Button.*/
+		uint16_t Select   : 1;  /**< @brief State of the Select Button.*/
+		uint16_t Y        : 1;  /**< @brief State of the Y Button.*/
+		uint16_t B        : 1;  /**< @brief State of the B Button.*/
 	} buttons;
 	uint16_t raw;
 } snes_button_state_t;

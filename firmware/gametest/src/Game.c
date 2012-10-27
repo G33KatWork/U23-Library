@@ -80,15 +80,27 @@ int myframe = 0;
 void Update(uint32_t delta)
 {
 	snes_button_state_t state = GetControllerState1();
+	pushbutton_button_state_t anotherState = GetPushbuttonState();
 	myframe++;
 }
 
 void Draw(Bitmap* surface)
 {
 	ClearBitmap(surface);
-	DrawFilledRectangle(surface, 30, 30, 50, 50, RGB(myframe%256,0,0));
+	DrawFilledRectangle(surface, 30, 30, 50, 50, GetPushbuttonState().A ? RGB(128,128,128) : RGB(255, 255, 255));
 	setFont(fontwhite16);
-	DrawText(surface, "TEST\nBLA", 10, 10);
-	setFont(fontblack8);
-	DrawText(surface, "TEST", 10, 30);
+
+	char testString[8];
+	testString[7] = '\0';
+
+	testString[0] = GetPushbuttonState().A ? 'A' : ' ';
+	testString[1] = GetPushbuttonState().B ? 'B' : ' ';
+	testString[2] = GetPushbuttonState().Up ? 'U' : ' ';
+	testString[3] = GetPushbuttonState().Down ? 'D' : ' ';
+	testString[4] = GetPushbuttonState().Left ? 'L' : ' ';
+	testString[5] = GetPushbuttonState().Right ? 'R' : ' ';
+	testString[6] = GetPushbuttonState().User ? 'u' : ' ';
+
+	setFont(fontwhite8);
+	DrawText(surface, testString, 10, 100);
 }

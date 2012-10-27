@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <platform/SNES.h>
 #include <platform/LED.h>
-#include <platform/SNES.h>
+#include <platform/UserInterface.h>
 #include <platform/SysTick.h>
 #include <platform/VGA.h>
 #include <platform/Random.h>

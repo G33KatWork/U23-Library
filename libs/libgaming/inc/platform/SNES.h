@@ -47,7 +47,8 @@ typedef union {
 	uint16_t raw;
 } snes_button_state_t;
 
-void InitializeSnesController();
+void InitializeSNESController();
+
 snes_button_state_t GetControllerState1();
 snes_button_state_t GetControllerState2();
 void HandleSnesTimerIRQ();

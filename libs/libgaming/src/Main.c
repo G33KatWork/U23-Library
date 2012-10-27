@@ -4,7 +4,7 @@
 
 #include <platform/SystemInit.h>
 #include <platform/LED.h>
-#include <platform/SNES.h>
+#include <platform/UserInterface.h>
 #include <platform/SysTick.h>
 #include <platform/VGA.h>
 
@@ -33,7 +33,7 @@ int main()
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	
 	InitializeLEDs();
-	InitializeSnesController();
+	InitializeUserInterface();
 	InitializeRandom();
 	
 	//Clear framebuffers

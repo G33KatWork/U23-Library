@@ -99,30 +99,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;Drawing.h&gt;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>Gamestate {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    void (*Init)(<span class="keyword">struct </span>Gamestate* state);      <span class="comment">// executed once entering the state</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    void (*OnEnter)(<span class="keyword">struct </span>Gamestate* state);   <span class="comment">// executed on entering the state</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    void (*OnLeave)(<span class="keyword">struct </span>Gamestate* state);   <span class="comment">// executed before leaving the state</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    void (*Update)(uint32_t);                   <span class="comment">// executed every frame before Draw</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    void (*Draw)(Bitmap* surface);              <span class="comment">// executed every frame after Update</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">struct </span>Gamestate *previousState;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">bool</span> initialized;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;} Gamestate;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    Gamestate *currentState;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;} Game;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">extern</span> Game* TheGame;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">int</span> ChangeState(Game *game, Gamestate *state);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">void</span> ExitState(Game* game);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="code" href="structGamestate.html">   25</a></span>&#160; <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a> {</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="structGamestate.html#a0fc1165ad2c87b2441a417ee88a2af29">   28</a></span>&#160;    void (*<a class="code" href="structGamestate.html#a0fc1165ad2c87b2441a417ee88a2af29" title="Called once for every state.">Init</a>)(<span class="keyword">struct </span><a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a>* state);</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="structGamestate.html#a167e964225b719a3ea14ce8ba5300641">   31</a></span>&#160;    void (*<a class="code" href="structGamestate.html#a167e964225b719a3ea14ce8ba5300641" title="Called every time a state is entered.">OnEnter</a>)(<span class="keyword">struct </span><a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a>* state);</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="code" href="structGamestate.html#ac041552ed5fa25f04925b58a5510ebb2">   34</a></span>&#160;    void (*<a class="code" href="structGamestate.html#ac041552ed5fa25f04925b58a5510ebb2" title="Called every time a state is left.">OnLeave</a>)(<span class="keyword">struct </span><a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a>* state);</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="code" href="structGamestate.html#ab9248c6013c5800efbcef9fb9247bed0">   37</a></span>&#160;    void (*<a class="code" href="structGamestate.html#ab9248c6013c5800efbcef9fb9247bed0" title="Called every frame for the active state.">Update</a>)(uint32_t);</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="structGamestate.html#afb8a41e2c9eaf98192c0b6d5f20721e8">   40</a></span>&#160;    void (*<a class="code" href="structGamestate.html#afb8a41e2c9eaf98192c0b6d5f20721e8" title="Called every frame for the active state after Update.">Draw</a>)(Bitmap* surface);</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="code" href="structGamestate.html#a3a658290fa56755ce7aafa0de74211ca">   42</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a> *<a class="code" href="structGamestate.html#a3a658290fa56755ce7aafa0de74211ca" title="ExitState will return to this state.">previousState</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="structGamestate.html#afe089798ca4d65d47cdf65cf070f43c6">   44</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="structGamestate.html#afe089798ca4d65d47cdf65cf070f43c6" title="Is set after Init was called for this state.">initialized</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;} <a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="code" href="structGame.html">   51</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="code" href="structGame.html#a138f790dde1c8d10a969f011a591027f">   53</a></span>&#160;    <a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a> *<a class="code" href="structGame.html#a138f790dde1c8d10a969f011a591027f" title="The Current state that is used in the Udpate/Draw loop.">currentState</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;} <a class="code" href="structGame.html" title="Represents a Game.">Game</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">extern</span> <a class="code" href="structGame.html" title="Represents a Game.">Game</a>* <a class="code" href="group__Game.html#ga901567b17ed901f59a48fd77392d15e8" title="The only Game you&#39;ll ever need.">TheGame</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">int</span> <a class="code" href="group__Game.html#gad0d50f0950dc263d44dc2627cee5955c" title="Used to switch to a different Gamestate.">ChangeState</a>(<a class="code" href="structGamestate.html" title="Represents a Gamestate for a Game.">Gamestate</a> *state);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Game.html#ga9cf9fc248176b3aa65999135ed5b1d40" title="Used to return from a state to the previous state.">ExitState</a>();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 00:47:27 for U23-Library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 27 2012 02:04:27 for U23-Library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

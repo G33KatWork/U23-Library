@@ -1,6 +1,15 @@
 #ifndef __VGA_H__
 #define __VGA_H__
 
+/*! @addtogroup libgaming
+ * @{ */
+
+/*! @addtogroup VGA
+ * @brief Implents all the VGA related stuff. Does magic.
+ *
+ * Please use libgraphics to mess with VGA output
+ * @{ */
+
 #include <stm32f4xx/stm32f4xx.h>
 #include <stdint.h>
 
@@ -63,5 +72,8 @@ static inline void RaiseVGAHSYNCLine() { GPIO_SetBits(GPIO_HSYNC_PORT, GPIO_HSYN
 static inline void LowerVGAHSYNCLine() { GPIO_ResetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }
 static inline void RaiseVGAVSYNCLine() { GPIO_SetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }
 static inline void LowerVGAVSYNCLine() { GPIO_ResetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }
+
+/*! @} */
+/*! @} */
 
 #endif

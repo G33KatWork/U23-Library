@@ -18,7 +18,7 @@ int main()
 	RCC_GetClocksFreq(&RCC_Clocks);
 
 	SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
-	
+
 	InitializeLEDs();
 	MyUSART_Init();
 
@@ -36,7 +36,7 @@ int main()
 	{
 		a += b;
 		printf("Float: %f\r\n", a);
-		
+
 		SetLEDs(0x5);
 		Delay(50);
 		SetLEDs(0xA);
@@ -53,7 +53,7 @@ void Delay(uint32_t time)
 }
 
 void SysTick_Handler()
-{  
+{
 	SysTickCounter++;
 }
 

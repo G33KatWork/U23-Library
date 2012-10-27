@@ -82,7 +82,7 @@ void Init(struct Gamestate* state)
 		stars[i].dy=1;//6000*1200/(z+200);
 
 		stars[i].f=(6-(z*7)/1000)+(GetRandomInteger()%6)*7;
-	} 
+	}
 }
 
 void Draw(Bitmap *surface) {

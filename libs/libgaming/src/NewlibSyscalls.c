@@ -12,7 +12,7 @@ int _fstat(int fd, struct stat *st)
 		st->st_mode = S_IFCHR;
 		return 0;
 	}
-	
+
 	return _file_fstat(fd, st);
 }
 
@@ -20,7 +20,7 @@ int _lseek(int fd, int ptr, int dir)
 {
 	if(fd == 0 || fd == 1 || fd == 2)
 		return EBADF;
-	
+
 	return _file_lseek(fd, ptr, dir);
 }
 
@@ -29,7 +29,7 @@ int _read(int fd, char *ptr, int len)
 	//TODO: debug read?
 	if(fd == 0 || fd == 1 || fd == 2)
 		return EBADF;
-	
+
 	return _file_read(fd, ptr, len);
 }
 
@@ -37,7 +37,7 @@ int _close(int fd)
 {
 	if(fd == 0 || fd == 1 || fd == 2)
 		return EBADF;
-	
+
 	return _file_close(fd);
 }
 

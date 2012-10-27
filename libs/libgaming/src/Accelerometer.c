@@ -52,10 +52,10 @@ static void LIS302DL_LowLevel_Init(void)
 
   /* Enable CS  GPIO clock */
   RCC_AHB1PeriphClockCmd(LIS302DL_SPI_CS_GPIO_CLK, ENABLE);
-  
+
   /* Enable INT1 GPIO clock */
   RCC_AHB1PeriphClockCmd(LIS302DL_SPI_INT1_GPIO_CLK, ENABLE);
-  
+
   /* Enable INT2 GPIO clock */
   RCC_AHB1PeriphClockCmd(LIS302DL_SPI_INT2_GPIO_CLK, ENABLE);
 

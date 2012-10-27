@@ -217,7 +217,7 @@ static void HSYNCHandler175()
 				LowerVGAVSYNCLine();
 			}
 			else if(Line==389)
-			{		
+			{
 				RaiseVGAVSYNCLine();
 			}
 			else if(Line==448)

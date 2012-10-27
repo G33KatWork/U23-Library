@@ -185,7 +185,7 @@ static void UpdateChannelAtRow(BitBinSong *self,BitBinChannel *channel)
 			self->ticksperrow=parameter;
 		break;
 
-		case 'D': 
+		case 'D':
 			if(hi==0x0f)
 			{
 				if(lo==0) channel->requestedvolume+=15;
@@ -233,7 +233,7 @@ static void UpdateChannelAtNonRowTick(BitBinSong *self,BitBinChannel *channel)
 
 	switch(channel->effect)
 	{
-		case 'D': 
+		case 'D':
 			if(hi==0) channel->requestedvolume-=lo;
 			else if(lo==0) channel->requestedvolume+=hi;
 

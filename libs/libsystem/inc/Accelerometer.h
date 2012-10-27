@@ -44,10 +44,10 @@
 
 #define LIS302DL_DATARATE_100                             0x00
 #define LIS302DL_DATARATE_400                             0x80
-  
+
 #define LIS302DL_LOWPOWERMODE_POWERDOWN                   0x00
 #define LIS302DL_LOWPOWERMODE_ACTIVE                      0x40
-  
+
 #define LIS302DL_FULLSCALE_2_3                            0x00
 #define LIS302DL_FULLSCALE_9_2                            0x20
 
@@ -67,11 +67,11 @@
 *  CTRL_REG2 Regsiter: Control Register 2
 *  Read Write register
 *  Default value: 0x00
-*  7 SIM: SPI Serial Interface Mode Selection. 
+*  7 SIM: SPI Serial Interface Mode Selection.
 *         0 - 4 wire interface
 *         1 - 3 wire interface
 *  6 BOOT: Reboot memory content
-*          0 - normal mode 
+*          0 - normal mode
 *          1 - reboot memory content
 *  5 Reserved
 *  4 FDS: Filtered data selection.
@@ -144,7 +144,7 @@
 #define LIS302DL_CTRL_REG3_ADDR              0x22
 
 /*******************************************************************************
-*  HP_FILTER_RESET Register: Dummy register. Reading at this address zeroes 
+*  HP_FILTER_RESET Register: Dummy register. Reading at this address zeroes
 *  instantaneously the content of the internal high pass filter. If the high pass
 *  filter is enabled all three axes are instantaneously set to 0g.
 *  This allows to overcome the settling time of the high pass filter.
@@ -160,7 +160,7 @@
 *           0: no overrun has occurred
 *           1: new data has overwritten the previous one before it was read
 *  6 ZOR: Z axis data overrun.
-*         0: no overrun has occurred 
+*         0: no overrun has occurred
 *         1: new data for Z-axis has overwritten the previous one before it was read
 *  5 yOR: y axis data overrun.
 *         0: no overrun has occurred
@@ -211,9 +211,9 @@
 *  FF_WW_CFG_1 Register: Configuration register for Interrupt 1 source.
 *  Read write register
 *  Default value: 0x00
-*  7 AOI: AND/OR combination of Interrupt events. 
+*  7 AOI: AND/OR combination of Interrupt events.
 *         0: OR combination of interrupt events
-*         1: AND combination of interrupt events 
+*         1: AND combination of interrupt events
 *  6 LIR: Latch/not latch interrupt request
 *         0: interrupt request not latched
 *         1: interrupt request latched
@@ -226,7 +226,7 @@
 *  3 YHIE: Enable interrupt generation on Y high event.
 *          0: disable interrupt request
 *          1: enable interrupt request on measured accel. value higher than preset threshold
-*  2 YLIE: Enable interrupt generation on Y low event. 
+*  2 YLIE: Enable interrupt generation on Y low event.
 *          0: disable interrupt request
 *          1: enable interrupt request on measured accel. value lower than preset threshold
 *  1 XHIE: Enable interrupt generation on X high event.
@@ -264,21 +264,21 @@
 *  6 IA: Interrupt active.
 *        0: no interrupt has been generated
 *        1: one or more interrupts have been generated
-*  5 ZH: Z high. 
+*  5 ZH: Z high.
 *        0: no interrupt
-*        1: ZH event has occurred 
+*        1: ZH event has occurred
 *  4 ZL: Z low.
 *        0: no interrupt
 *        1: ZL event has occurred
 *  3 YH: Y high.
 *        0: no interrupt
-*        1: YH event has occurred 
+*        1: YH event has occurred
 *  2 YL: Y low.
 *        0: no interrupt
 *        1: YL event has occurred
 *  1 YH: X high.
 *        0: no interrupt
-*        1: XH event has occurred 
+*        1: XH event has occurred
 *  0 YL: X low.
 *        0: no interrupt
 *        1: XL event has occurred
@@ -308,9 +308,9 @@
 *  FF_WW_CFG_2 Register: Configuration register for Interrupt 2 source.
 *  Read write register
 *  Default value: 0x00
-*  7 AOI: AND/OR combination of Interrupt events. 
+*  7 AOI: AND/OR combination of Interrupt events.
 *         0: OR combination of interrupt events
-*         1: AND combination of interrupt events 
+*         1: AND combination of interrupt events
 *  6 LIR: Latch/not latch interrupt request
 *         0: interrupt request not latched
 *         1: interrupt request latched
@@ -323,7 +323,7 @@
 *  3 YHIE: Enable interrupt generation on Y high event.
 *          0: disable interrupt request
 *          1: enable interrupt request on measured accel. value higher than preset threshold
-*  2 YLIE: Enable interrupt generation on Y low event. 
+*  2 YLIE: Enable interrupt generation on Y low event.
 *          0: disable interrupt request
 *          1: enable interrupt request on measured accel. value lower than preset threshold
 *  1 XHIE: Enable interrupt generation on X high event.
@@ -346,21 +346,21 @@
 *  6 IA: Interrupt active.
 *        0: no interrupt has been generated
 *        1: one or more interrupts have been generated
-*  5 ZH: Z high. 
+*  5 ZH: Z high.
 *        0: no interrupt
-*        1: ZH event has occurred 
+*        1: ZH event has occurred
 *  4 ZL: Z low.
 *        0: no interrupt
 *        1: ZL event has occurred
 *  3 YH: Y high.
 *        0: no interrupt
-*        1: YH event has occurred 
+*        1: YH event has occurred
 *  2 YL: Y low.
 *        0: no interrupt
 *        1: YL event has occurred
 *  1 YH: X high.
 *        0: no interrupt
-*        1: XH event has occurred 
+*        1: XH event has occurred
 *  0 YL: X low.
 *        0: no interrupt
 *        1: XL event has occurred
@@ -425,22 +425,22 @@
 *        1: one or more interrupts have been generated
 *  5 Double_Z: Double click on Z axis event.
 *        0: no interrupt
-*        1: Double Z event has occurred 
+*        1: Double Z event has occurred
 *  4 Single_Z: Z low.
 *        0: no interrupt
-*        1: Single Z event has occurred 
+*        1: Single Z event has occurred
 *  3 Double_Y: Y high.
 *        0: no interrupt
-*        1: Double Y event has occurred 
+*        1: Double Y event has occurred
 *  2 Single_Y: Y low.
 *        0: no interrupt
-*        1: Single Y event has occurred 
+*        1: Single Y event has occurred
 *  1 Double_X: X high.
 *        0: no interrupt
-*        1: Double X event has occurred 
+*        1: Double X event has occurred
 *  0 Single_X: X low.
 *        0: no interrupt
-*        1: Single X event has occurred 
+*        1: Single X event has occurred
 *******************************************************************************/
 #define LIS302DL_CLICK_SRC_REG_ADDR        0x39
 

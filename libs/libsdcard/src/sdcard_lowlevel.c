@@ -32,7 +32,7 @@ void SD_LowLevel_Init()
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOC, &GPIO_InitStructure);
-  
+
   /*!< Configure SD_SPI_DETECT_PIN pin: SD Card detect pin */
   GPIO_InitStructure.GPIO_Pin = SD_DETECT_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
@@ -49,16 +49,16 @@ void SD_LowLevel_Init()
 void SD_LowLevel_DeInit()
 {
   GPIO_InitTypeDef  GPIO_InitStructure;
-  
+
   /*!< Disable SDIO Clock */
   SDIO_ClockCmd(DISABLE);
-  
+
   /*!< Set Power State to OFF */
   SDIO_SetPowerState(SDIO_PowerState_OFF);
 
   /*!< DeInitializes the SDIO peripheral */
   SDIO_DeInit();
-  
+
   /* Disable the SDIO APB2 Clock */
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_SDIO, DISABLE);
 
@@ -117,7 +117,7 @@ void SD_LowLevel_DMA_TxConfig(uint32_t *BufferSRC, uint32_t BufferSize)
 
   /* DMA2 Stream3  or Stream6 enable */
   DMA_Cmd(SD_SDIO_DMA_STREAM, ENABLE);
-    
+
 }
 
 void SD_LowLevel_DMA_RxConfig(uint32_t *BufferDST, uint32_t BufferSize)

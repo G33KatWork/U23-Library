@@ -15,7 +15,7 @@
 $ screen /dev/ttyUSB0 115200
 
 # to end the screen session:
-^A 
+^A
 K
 Y
 @endverbatim

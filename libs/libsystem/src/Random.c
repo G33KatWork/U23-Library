@@ -40,11 +40,11 @@ float RandomFloat()
 
 double RandomDouble()
 {
-	return (double)RandomInteger()*(1.0/4294967296.0); 
+	return (double)RandomInteger()*(1.0/4294967296.0);
 }
 
 double PreciseRandomDouble()
 {
-	uint32_t a=RandomInteger()>>5,b=RandomInteger()>>6; 
-	return (a*67108864.0+b)/9007199254740992.0; 
+	uint32_t a=RandomInteger()>>5,b=RandomInteger()>>6;
+	return (a*67108864.0+b)/9007199254740992.0;
 }

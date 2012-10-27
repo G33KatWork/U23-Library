@@ -19,7 +19,7 @@ int main()
 	RCC_GetClocksFreq(&RCC_Clocks);
 
 	SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
-	
+
 	InitializeLEDs();
 	MyUSART_Init();
 
@@ -40,7 +40,7 @@ int main()
 
 	printf("Initializing SD Card\r\n");
 	SD_Error err = SD_Init();
-	
+
 	if(err != SD_OK)
 	{
 		printf("ERR: %X\r\n", err);
@@ -159,7 +159,7 @@ void Delay(uint32_t time)
 }
 
 void SysTick_Handler()
-{  
+{
 	SysTickCounter++;
 }
 
@@ -168,11 +168,11 @@ void hexdump(void* start, size_t len)
 	for(unsigned int i = 0; i < (len / 0x10); i++)
     {
     	printf("%08X: ", (uint32_t)start);
-        
+
         char* ptr = (char*)start;
         for(int j = 0; j < 0x10; j++)
         	printf("%02X ", *ptr++);
-        
+
         ptr = (char*)start;
         printf("\t");
         for(int j = 0; j < 0x10; j++)
@@ -183,7 +183,7 @@ void hexdump(void* start, size_t len)
             else
                 printf("%c", c);
         }
-        
+
         printf("\r\n");
         start += 0x10;
     }

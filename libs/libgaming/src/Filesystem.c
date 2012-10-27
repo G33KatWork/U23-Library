@@ -21,7 +21,7 @@ void InitializeFilesystem()
 		return;
 
 	FRESULT res = f_mount(0, &fatfs);
-	
+
 	if(res != FR_OK)
 		return;
 
@@ -339,7 +339,7 @@ int _file_isatty(int fd)
 static FIL* __get_file(int *fd)
 {
 	*fd -= 3;
-	
+
 	if((*fd < 0) || (*fd > MAX_OPEN_FILES)) {
 		errno = EBADF;
 		return NULL;

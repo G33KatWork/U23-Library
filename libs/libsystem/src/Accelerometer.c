@@ -92,11 +92,11 @@ void ReadRawAccelerometerData(int8_t *values)
 
 
 
-#define ReadCommand 0x80 
+#define ReadCommand 0x80
 #define MultiByteCommand 0x40
 
 static uint8_t ReadByte(uint8_t address)
-{  
+{
 	LowerCS();
 
 	TransferByte(address|ReadCommand);
@@ -108,7 +108,7 @@ static uint8_t ReadByte(uint8_t address)
 }
 
 static void ReadBytes(uint8_t *buffer,uint8_t address,int numbytes)
-{  
+{
 	if(numbytes>1) address|=ReadCommand|MultiByteCommand;
 	else address|=ReadCommand;
 

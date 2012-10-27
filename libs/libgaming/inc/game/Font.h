@@ -28,6 +28,7 @@ extern const RLEBitmap * const fontwhite8[256];
  *	@param font Pointer to the font that will be used by DrawText
  *
  *	This needs to be called before you can use DrawText.
+ *	Usage example: setFont(fontblack8);
  */
 void setFont(const RLEBitmap * const * font);
 
@@ -40,6 +41,7 @@ void setFont(const RLEBitmap * const * font);
  *
  *	Before calling DrawText you need to call setFont once to set a font. Draw Text will use this font until you set a different one.
  *	Newlines are supported, text will continue at x / y + width of font
+ *	Usage example: DrawText(surface, "Bla\nBlub", 10, 10);
  */
 void DrawText(Bitmap* dest, char *text, int x, int y);
 

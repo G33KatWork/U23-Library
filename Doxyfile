@@ -1,5 +1,5 @@
 PROJECT_NAME = "U23-Library"
-OUTPUT_DIRECTORY = docs/
+OUTPUT_DIRECTORY = docs/U23-Library
 INPUT = libs/libgaming
 RECURSIVE = YES
 EXTRACT_STATIC = YES

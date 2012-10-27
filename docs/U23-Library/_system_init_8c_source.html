@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group___s_t_m32_f4xx___system___private___functions.html#ga1ee14ac28e60198cc998586807b51e4c" title="Configures the System clock source, PLL Multiplier and Divider factors, AHB/APBx prescalers and Flash...">SetSysClock</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor">#ifdef DATA_IN_ExtSRAM</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">void</span> SystemInit_ExtMemCtl(<span class="keywordtype">void</span>); </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="preprocessor"></span>  <span class="keyword">static</span> <span class="keywordtype">void</span> SystemInit_ExtMemCtl(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* DATA_IN_ExtSRAM */</span><span class="preprocessor"></span></div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00209"></a><span class="lineno"><a class="code" href="group___s_t_m32_f4xx___system___private___functions.html#ga93f514700ccf00d08dbdcff7f1224eb2">  209</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="group___s_t_m32_f4xx___system___exported___functions.html#ga93f514700ccf00d08dbdcff7f1224eb2" title="Setup the microcontroller system Initialize the Embedded Flash Interface, the PLL and update the Syst...">SystemInit</a>(<span class="keywordtype">void</span>)</div>
@@ -158,10 +158,10 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  SCB-&gt;CPACR |= ((3UL &lt;&lt; 10*2)|(3UL &lt;&lt; 11*2));  <span class="comment">/* set CP10 and CP11 Full Access */</span></div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">#ifdef DATA_IN_ExtSRAM</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor"></span>  SystemInit_ExtMemCtl(); </div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor"></span>  SystemInit_ExtMemCtl();</div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* DATA_IN_ExtSRAM */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor"></span>         </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="comment">/* Configure the System clock source, PLL Multiplier and Divider factors, </span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="comment">/* Configure the System clock source, PLL Multiplier and Divider factors,</span></div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">     AHB/APBx prescalers and Flash settings ----------------------------------*/</span></div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  <a class="code" href="group___s_t_m32_f4xx___system___private___functions.html#ga1ee14ac28e60198cc998586807b51e4c" title="Configures the System clock source, PLL Multiplier and Divider factors, AHB/APBx prescalers and Flash...">SetSysClock</a>();</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
@@ -176,7 +176,7 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00285"></a><span class="lineno"><a class="code" href="group___s_t_m32_f4xx___system___private___functions.html#gae0c36a9591fe6e9c45ecb21a794f0f0f">  285</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="group___s_t_m32_f4xx___system___exported___functions.html#gae0c36a9591fe6e9c45ecb21a794f0f0f" title="Update SystemCoreClock variable according to Clock Register Values. The SystemCoreClock variable cont...">SystemCoreClockUpdate</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;{</div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;  uint32_t tmp = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  </div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  <span class="comment">/* Get SYSCLK source -------------------------------------------------------*/</span></div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  tmp = RCC-&gt;CFGR &amp; RCC_CFGR_SWS;</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
@@ -192,10 +192,10 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;      <span class="comment">/* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N</span></div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">         SYSCLK = PLL_VCO / PLL_P</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">         */</span>    </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">         */</span></div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      pllsource = (RCC-&gt;PLLCFGR &amp; RCC_PLLCFGR_PLLSRC) &gt;&gt; 22;</div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;      pllm = RCC-&gt;PLLCFGR &amp; RCC_PLLCFGR_PLLM;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      </div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;      <span class="keywordflow">if</span> (pllsource != 0)</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      {</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="comment">/* HSE used as PLL clock source */</span></div>
@@ -204,7 +204,7 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      {</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="comment">/* HSI used as PLL clock source */</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        pllvco = (HSI_VALUE / pllm) * ((RCC-&gt;PLLCFGR &amp; RCC_PLLCFGR_PLLN) &gt;&gt; 6);      </div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        pllvco = (HSI_VALUE / pllm) * ((RCC-&gt;PLLCFGR &amp; RCC_PLLCFGR_PLLN) &gt;&gt; 6);</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;      }</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;      pllp = (((RCC-&gt;PLLCFGR &amp; RCC_PLLCFGR_PLLP) &gt;&gt;16) + 1 ) *2;</div>
@@ -227,10 +227,10 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">/*            PLL (clocked by HSE) used as System clock source                */</span></div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment">/******************************************************************************/</span></div>
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  </div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;</div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  <span class="comment">/* Enable HSE */</span></div>
 <div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  RCC-&gt;CR |= ((uint32_t)RCC_CR_HSEON);</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  <span class="comment">/* Wait till HSE is ready and if Time out is reached exit */</span></div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  <span class="keywordflow">do</span></div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  {</div>
@@ -251,14 +251,14 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  {</div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="comment">/* Enable high performance mode, System frequency up to 168 MHz */</span></div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    RCC-&gt;APB1ENR |= RCC_APB1ENR_PWREN;</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    PWR-&gt;CR |= PWR_CR_PMODE;  </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    PWR-&gt;CR |= PWR_CR_PMODE;</div>
 <div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;</div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="comment">/* HCLK = SYSCLK / 1*/</span></div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    RCC-&gt;CFGR |= RCC_CFGR_HPRE_DIV1;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;      </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;</div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="comment">/* PCLK2 = HCLK / 2*/</span></div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    RCC-&gt;CFGR |= RCC_CFGR_PPRE2_DIV2;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    </div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="comment">/* PCLK1 = HCLK / 4*/</span></div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    RCC-&gt;CFGR |= RCC_CFGR_PPRE1_DIV4;</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
@@ -273,7 +273,7 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    <span class="keywordflow">while</span>((RCC-&gt;CR &amp; RCC_CR_PLLRDY) == 0)</div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    {</div>
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    }</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;   </div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;</div>
 <div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <span class="comment">/* Configure Flash prefetch, Instruction cache, Data cache and wait state */</span></div>
 <div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    FLASH-&gt;ACR = FLASH_ACR_ICEN |FLASH_ACR_DCEN |FLASH_ACR_LATENCY_5WS;</div>
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;</div>
@@ -318,16 +318,16 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="comment"> +-------------------+--------------------+------------------+------------------+</span></div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="comment"> +                       SRAM pins assignment                                   +</span></div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<span class="comment"> +-------------------+--------------------+------------------+------------------+</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="comment"> | PD0  &lt;-&gt; FSMC_D2  | PE0  &lt;-&gt; FSMC_NBL0 | PF0  &lt;-&gt; FSMC_A0 | PG0 &lt;-&gt; FSMC_A10 | </span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="comment"> | PD1  &lt;-&gt; FSMC_D3  | PE1  &lt;-&gt; FSMC_NBL1 | PF1  &lt;-&gt; FSMC_A1 | PG1 &lt;-&gt; FSMC_A11 | </span></div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<span class="comment"> | PD4  &lt;-&gt; FSMC_NOE | PE3  &lt;-&gt; FSMC_A19  | PF2  &lt;-&gt; FSMC_A2 | PG2 &lt;-&gt; FSMC_A12 | </span></div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="comment"> | PD5  &lt;-&gt; FSMC_NWE | PE4  &lt;-&gt; FSMC_A20  | PF3  &lt;-&gt; FSMC_A3 | PG3 &lt;-&gt; FSMC_A13 | </span></div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="comment"> | PD8  &lt;-&gt; FSMC_D13 | PE7  &lt;-&gt; FSMC_D4   | PF4  &lt;-&gt; FSMC_A4 | PG4 &lt;-&gt; FSMC_A14 | </span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="comment"> | PD9  &lt;-&gt; FSMC_D14 | PE8  &lt;-&gt; FSMC_D5   | PF5  &lt;-&gt; FSMC_A5 | PG5 &lt;-&gt; FSMC_A15 | </span></div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;<span class="comment"> | PD10 &lt;-&gt; FSMC_D15 | PE9  &lt;-&gt; FSMC_D6   | PF12 &lt;-&gt; FSMC_A6 | PG9 &lt;-&gt; FSMC_NE2 | </span></div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="comment"> | PD0  &lt;-&gt; FSMC_D2  | PE0  &lt;-&gt; FSMC_NBL0 | PF0  &lt;-&gt; FSMC_A0 | PG0 &lt;-&gt; FSMC_A10 |</span></div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="comment"> | PD1  &lt;-&gt; FSMC_D3  | PE1  &lt;-&gt; FSMC_NBL1 | PF1  &lt;-&gt; FSMC_A1 | PG1 &lt;-&gt; FSMC_A11 |</span></div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<span class="comment"> | PD4  &lt;-&gt; FSMC_NOE | PE3  &lt;-&gt; FSMC_A19  | PF2  &lt;-&gt; FSMC_A2 | PG2 &lt;-&gt; FSMC_A12 |</span></div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="comment"> | PD5  &lt;-&gt; FSMC_NWE | PE4  &lt;-&gt; FSMC_A20  | PF3  &lt;-&gt; FSMC_A3 | PG3 &lt;-&gt; FSMC_A13 |</span></div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="comment"> | PD8  &lt;-&gt; FSMC_D13 | PE7  &lt;-&gt; FSMC_D4   | PF4  &lt;-&gt; FSMC_A4 | PG4 &lt;-&gt; FSMC_A14 |</span></div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="comment"> | PD9  &lt;-&gt; FSMC_D14 | PE8  &lt;-&gt; FSMC_D5   | PF5  &lt;-&gt; FSMC_A5 | PG5 &lt;-&gt; FSMC_A15 |</span></div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;<span class="comment"> | PD10 &lt;-&gt; FSMC_D15 | PE9  &lt;-&gt; FSMC_D6   | PF12 &lt;-&gt; FSMC_A6 | PG9 &lt;-&gt; FSMC_NE2 |</span></div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="comment"> | PD11 &lt;-&gt; FSMC_A16 | PE10 &lt;-&gt; FSMC_D7   | PF13 &lt;-&gt; FSMC_A7 |------------------+</span></div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;<span class="comment"> | PD12 &lt;-&gt; FSMC_A17 | PE11 &lt;-&gt; FSMC_D8   | PF14 &lt;-&gt; FSMC_A8 | </span></div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="comment"> | PD13 &lt;-&gt; FSMC_A18 | PE12 &lt;-&gt; FSMC_D9   | PF15 &lt;-&gt; FSMC_A9 | </span></div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;<span class="comment"> | PD12 &lt;-&gt; FSMC_A17 | PE11 &lt;-&gt; FSMC_D8   | PF14 &lt;-&gt; FSMC_A8 |</span></div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="comment"> | PD13 &lt;-&gt; FSMC_A18 | PE12 &lt;-&gt; FSMC_D9   | PF15 &lt;-&gt; FSMC_A9 |</span></div>
 <div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;<span class="comment"> | PD14 &lt;-&gt; FSMC_D0  | PE13 &lt;-&gt; FSMC_D10  |------------------+</span></div>
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<span class="comment"> | PD15 &lt;-&gt; FSMC_D1  | PE14 &lt;-&gt; FSMC_D11  |</span></div>
 <div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;<span class="comment"> |                   | PE15 &lt;-&gt; FSMC_D12  |</span></div>
@@ -335,55 +335,55 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;<span class="comment">*/</span></div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;   <span class="comment">/* Enable GPIOD, GPIOE, GPIOF and GPIOG interface clock */</span></div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;  RCC-&gt;AHB1ENR   = 0x00000078;</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;  </div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;</div>
 <div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;  <span class="comment">/* Connect PDx pins to FSMC Alternate function */</span></div>
 <div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;  GPIOD-&gt;AFR[0]  = 0x00cc00cc;</div>
 <div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;  GPIOD-&gt;AFR[1]  = 0xcc0ccccc;</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;  <span class="comment">/* Configure PDx pins in Alternate function mode */</span>  </div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;  <span class="comment">/* Configure PDx pins in Alternate function mode */</span></div>
 <div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;  GPIOD-&gt;MODER   = 0xaaaa0a0a;</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;  <span class="comment">/* Configure PDx pins speed to 100 MHz */</span>  </div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;  <span class="comment">/* Configure PDx pins speed to 100 MHz */</span></div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;  GPIOD-&gt;OSPEEDR = 0xffff0f0f;</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;  <span class="comment">/* Configure PDx pins Output type to push-pull */</span>  </div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;  <span class="comment">/* Configure PDx pins Output type to push-pull */</span></div>
 <div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;  GPIOD-&gt;OTYPER  = 0x00000000;</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;  <span class="comment">/* No pull-up, pull-down for PDx pins */</span> </div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;  <span class="comment">/* No pull-up, pull-down for PDx pins */</span></div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;  GPIOD-&gt;PUPDR   = 0x00000000;</div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;</div>
 <div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;  <span class="comment">/* Connect PEx pins to FSMC Alternate function */</span></div>
 <div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;  GPIOE-&gt;AFR[0]  = 0xc00cc0cc;</div>
 <div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;  GPIOE-&gt;AFR[1]  = 0xcccccccc;</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;  <span class="comment">/* Configure PEx pins in Alternate function mode */</span> </div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;  <span class="comment">/* Configure PEx pins in Alternate function mode */</span></div>
 <div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;  GPIOE-&gt;MODER   = 0xaaaa828a;</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;  <span class="comment">/* Configure PEx pins speed to 100 MHz */</span> </div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;  <span class="comment">/* Configure PEx pins speed to 100 MHz */</span></div>
 <div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;  GPIOE-&gt;OSPEEDR = 0xffffc3cf;</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;  <span class="comment">/* Configure PEx pins Output type to push-pull */</span>  </div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;  <span class="comment">/* Configure PEx pins Output type to push-pull */</span></div>
 <div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;  GPIOE-&gt;OTYPER  = 0x00000000;</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;  <span class="comment">/* No pull-up, pull-down for PEx pins */</span> </div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;  <span class="comment">/* No pull-up, pull-down for PEx pins */</span></div>
 <div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;  GPIOE-&gt;PUPDR   = 0x00000000;</div>
 <div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;</div>
 <div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;  <span class="comment">/* Connect PFx pins to FSMC Alternate function */</span></div>
 <div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;  GPIOF-&gt;AFR[0]  = 0x00cccccc;</div>
 <div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;  GPIOF-&gt;AFR[1]  = 0xcccc0000;</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;  <span class="comment">/* Configure PFx pins in Alternate function mode */</span>   </div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;  <span class="comment">/* Configure PFx pins in Alternate function mode */</span></div>
 <div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;  GPIOF-&gt;MODER   = 0xaa000aaa;</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;  <span class="comment">/* Configure PFx pins speed to 100 MHz */</span> </div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;  <span class="comment">/* Configure PFx pins speed to 100 MHz */</span></div>
 <div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;  GPIOF-&gt;OSPEEDR = 0xff000fff;</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;  <span class="comment">/* Configure PFx pins Output type to push-pull */</span>  </div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;  <span class="comment">/* Configure PFx pins Output type to push-pull */</span></div>
 <div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;  GPIOF-&gt;OTYPER  = 0x00000000;</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;  <span class="comment">/* No pull-up, pull-down for PFx pins */</span> </div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;  <span class="comment">/* No pull-up, pull-down for PFx pins */</span></div>
 <div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;  GPIOF-&gt;PUPDR   = 0x00000000;</div>
 <div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;</div>
 <div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;  <span class="comment">/* Connect PGx pins to FSMC Alternate function */</span></div>
 <div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;  GPIOG-&gt;AFR[0]  = 0x00cccccc;</div>
 <div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;  GPIOG-&gt;AFR[1]  = 0x000000c0;</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;  <span class="comment">/* Configure PGx pins in Alternate function mode */</span> </div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;  <span class="comment">/* Configure PGx pins in Alternate function mode */</span></div>
 <div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;  GPIOG-&gt;MODER   = 0x00080aaa;</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;  <span class="comment">/* Configure PGx pins speed to 100 MHz */</span> </div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;  <span class="comment">/* Configure PGx pins speed to 100 MHz */</span></div>
 <div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;  GPIOG-&gt;OSPEEDR = 0x000c0fff;</div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;  <span class="comment">/* Configure PGx pins Output type to push-pull */</span>  </div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;  <span class="comment">/* Configure PGx pins Output type to push-pull */</span></div>
 <div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;  GPIOG-&gt;OTYPER  = 0x00000000;</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;  <span class="comment">/* No pull-up, pull-down for PGx pins */</span> </div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;  <span class="comment">/* No pull-up, pull-down for PGx pins */</span></div>
 <div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;  GPIOG-&gt;PUPDR   = 0x00000000;</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;  </div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;</div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;<span class="comment">/*-- FSMC Configuration ------------------------------------------------------*/</span></div>
 <div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;  <span class="comment">/* Enable the FSMC interface clock */</span></div>
 <div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;  RCC-&gt;AHB3ENR         = 0x00000001;</div>
@@ -408,7 +408,7 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_MemoryType = FSMC_MemoryType_PSRAM;</span></div>
 <div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_MemoryDataWidth = FSMC_MemoryDataWidth_16b;</span></div>
 <div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_BurstAccessMode = FSMC_BurstAccessMode_Disable;</span></div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;  </span></div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_AsynchronousWait = FSMC_AsynchronousWait_Disable;</span></div>
 <div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_WaitSignalPolarity = FSMC_WaitSignalPolarity_Low;</span></div>
 <div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_WrapMode = FSMC_WrapMode_Disable;</span></div>
 <div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_WaitSignalActive = FSMC_WaitSignalActive_BeforeWaitState;</span></div>
@@ -419,7 +419,7 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_ReadWriteTimingStruct = &amp;p;</span></div>
 <div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;<span class="comment">  FSMC_NORSRAMInitStructure.FSMC_WriteTimingStruct = &amp;p;</span></div>
 <div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;  </div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;</div>
 <div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;}</div>
 <div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* DATA_IN_ExtSRAM */</span><span class="preprocessor"></span></div>
 <div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;<span class="preprocessor"></span></div>
@@ -432,7 +432,7 @@ $(document).ready(function(){initNavTree('_system_init_8c_source.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_6719ab1f1f7655efc2fa43f7eb574fd1.html">libs</a></li><li class="navelem"><a class="el" href="dir_d1ff791c8db94f80f2ea3ff2460b251b.html">libgaming</a></li><li class="navelem"><a class="el" href="dir_7df6ea0751d56e82e82fa3a0709e8416.html">src</a></li><li class="navelem"><b>SystemInit.c</b></li>
-    <li class="footer">Generated on Sat Oct 27 2012 07:52:16 for U23-Library by
+    <li class="footer">Generated on Sat Oct 27 2012 23:24:29 for U23-Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

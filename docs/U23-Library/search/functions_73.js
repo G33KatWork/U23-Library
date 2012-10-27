@@ -1,5 +1,8 @@
 var searchData=
 [
+  ['setaccelerometerfilterconfig',['SetAccelerometerFilterConfig',['../group___accelerometer.html#ga19a40cbe81865baf7ac63b893010c284',1,'SetAccelerometerFilterConfig(uint8_t config):&#160;Accelerometer.c'],['../group___accelerometer.html#ga19a40cbe81865baf7ac63b893010c284',1,'SetAccelerometerFilterConfig(uint8_t config):&#160;Accelerometer.c']]],
+  ['setaccelerometerinterruptconfig',['SetAccelerometerInterruptConfig',['../group___accelerometer.html#ga69bedf99461ab8d1a3ef5a5d17afc557',1,'SetAccelerometerInterruptConfig(uint8_t config):&#160;Accelerometer.c'],['../group___accelerometer.html#ga69bedf99461ab8d1a3ef5a5d17afc557',1,'SetAccelerometerInterruptConfig(uint8_t config):&#160;Accelerometer.c']]],
+  ['setaccelerometermainconfig',['SetAccelerometerMainConfig',['../group___accelerometer.html#gac7166d5dfa2a902198c80cde57d6bf0a',1,'SetAccelerometerMainConfig(uint8_t config):&#160;Accelerometer.c'],['../group___accelerometer.html#gac7166d5dfa2a902198c80cde57d6bf0a',1,'SetAccelerometerMainConfig(uint8_t config):&#160;Accelerometer.c']]],
   ['setfont',['setFont',['../group___font.html#gaf615b8fa091664500a3f1fc4b3d15a4a',1,'setFont(const RLEBitmap *const *font):&#160;Font.c'],['../group___font.html#gaf615b8fa091664500a3f1fc4b3d15a4a',1,'setFont(const RLEBitmap *const *font):&#160;Font.c']]],
   ['setleds',['SetLEDs',['../group___l_e_d.html#ga57ff2dcb666794127a1b996f0c08e811',1,'LED.h']]],
   ['setsysclock',['SetSysClock',['../group___s_t_m32_f4xx___system___private___functions.html#ga1ee14ac28e60198cc998586807b51e4c',1,'SystemInit.c']]],

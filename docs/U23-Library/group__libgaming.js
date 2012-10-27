@@ -1,5 +1,6 @@
 var group__libgaming =
 [
+    [ "Accelerometer", "group___accelerometer.html", "group___accelerometer" ],
     [ "Font", "group___font.html", "group___font" ],
     [ "Game", "group___game.html", "group___game" ],
     [ "LED", "group___l_e_d.html", "group___l_e_d" ],

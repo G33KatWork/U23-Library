@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('_main_8c_source.html','');});
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;platform/SystemInit.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;platform/LED.h&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;platform/SNES.h&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;platform/UserInterface.h&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;platform/SysTick.h&gt;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;platform/VGA.h&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
@@ -135,11 +135,11 @@ $(document).ready(function(){initNavTree('_main_8c_source.html','');});
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="group___l_e_d.html#gaa2e7411b0e523cd80c3856c91a873387" title="Initializes the LEDs.">InitializeLEDs</a>();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="group___s_n_e_s.html#ga280d0f889827beda2520cef009ea0ce7" title="Initializes the SNES Controller.">InitializeSnesController</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    InitializeUserInterface();</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="group___random.html#ga9f5cea47eea120d910a525da3154f088" title="Initializes the RNG.">InitializeRandom</a>();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">//Clear framebuffers</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    memset(ADDR_FRAMEBUFFER1, 0x00, 320*200);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    memset(ADDR_FRAMEBUFFER2, 0x00, 320*200);</div>
@@ -208,7 +208,7 @@ $(document).ready(function(){initNavTree('_main_8c_source.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_6719ab1f1f7655efc2fa43f7eb574fd1.html">libs</a></li><li class="navelem"><a class="el" href="dir_d1ff791c8db94f80f2ea3ff2460b251b.html">libgaming</a></li><li class="navelem"><a class="el" href="dir_7df6ea0751d56e82e82fa3a0709e8416.html">src</a></li><li class="navelem"><b>Main.c</b></li>
-    <li class="footer">Generated on Sat Oct 27 2012 07:52:16 for U23-Library by
+    <li class="footer">Generated on Sat Oct 27 2012 23:24:28 for U23-Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

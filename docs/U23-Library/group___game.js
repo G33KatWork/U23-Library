@@ -13,6 +13,6 @@ var group___game =
       [ "currentState", "struct_game.html#a138f790dde1c8d10a969f011a591027f", null ]
     ] ],
     [ "ChangeState", "group___game.html#gad0d50f0950dc263d44dc2627cee5955c", null ],
-    [ "ExitState", "group___game.html#ga9cf9fc248176b3aa65999135ed5b1d40", null ],
+    [ "ExitState", "group___game.html#gaa55a4bf0cc9db07beec4315b1eff3337", null ],
     [ "TheGame", "group___game.html#ga901567b17ed901f59a48fd77392d15e8", null ]
 ];

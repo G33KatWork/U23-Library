@@ -167,9 +167,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>InitializeVGAScreenMo
 <tr class="memitem:gab68e58170fe511e2f1366c130120fb35"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gab68e58170fe511e2f1366c130120fb35"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>InitializeVGAScreenMode175</b> (uint8_t *framebuffer, int pixelsperrow, int pixelclock)</td></tr>
 <tr class="separator:gab68e58170fe511e2f1366c130120fb35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac5656ff94dcb03efa98f4fce8f7fa8b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gac5656ff94dcb03efa98f4fce8f7fa8b3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>WaitVBL</b> ()</td></tr>
-<tr class="separator:gac5656ff94dcb03efa98f4fce8f7fa8b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga299053f8e72618d71b742d7d0e0d8caa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga299053f8e72618d71b742d7d0e0d8caa"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>WaitVBL</b> (void)</td></tr>
+<tr class="separator:ga299053f8e72618d71b742d7d0e0d8caa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2a5fc2ee61ffa701081a8c5ff8eafb63"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga2a5fc2ee61ffa701081a8c5ff8eafb63"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SetFrameBuffer</b> (uint8_t *framebuffer)</td></tr>
 <tr class="separator:ga2a5fc2ee61ffa701081a8c5ff8eafb63"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,27 +182,27 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>IntializeVGASc
 <tr class="memitem:gab8ad827dc8150ed9ce86219aa052f5cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gab8ad827dc8150ed9ce86219aa052f5cd"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>IntializeVGAScreenMode320x175</b> (uint8_t *framebuffer)</td></tr>
 <tr class="separator:gab8ad827dc8150ed9ce86219aa052f5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga481c0551b969f20f24b7c37055ca9e6c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga481c0551b969f20f24b7c37055ca9e6c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>InitializeVGAPort</b> ()</td></tr>
-<tr class="separator:ga481c0551b969f20f24b7c37055ca9e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0c738d3912e69f7a81df0d36205bb53c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga0c738d3912e69f7a81df0d36205bb53c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>InitializeVGAPort</b> (void)</td></tr>
+<tr class="separator:ga0c738d3912e69f7a81df0d36205bb53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2c63666a1b6afe63da4bea46222e0c9f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga2c63666a1b6afe63da4bea46222e0c9f"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>InitializeVGAHorizontalSync31kHz</b> (VGAHSYNCInterruptHandler *handler)</td></tr>
 <tr class="separator:ga2c63666a1b6afe63da4bea46222e0c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5cfe1f96197952ea3907e37877ed40fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga5cfe1f96197952ea3907e37877ed40fe"></a>
-static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>VGAHorizontalSyncInterruptType</b> ()</td></tr>
-<tr class="separator:ga5cfe1f96197952ea3907e37877ed40fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf1151dcaa6750325fe195198385627a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaf1151dcaa6750325fe195198385627a9"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>RaiseVGAHSYNCLine</b> ()</td></tr>
-<tr class="separator:gaf1151dcaa6750325fe195198385627a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga369b432abb96819114095d885ac00d62"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga369b432abb96819114095d885ac00d62"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>LowerVGAHSYNCLine</b> ()</td></tr>
-<tr class="separator:ga369b432abb96819114095d885ac00d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3f61829a94492dcf902a0a79c6c37199"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga3f61829a94492dcf902a0a79c6c37199"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>RaiseVGAVSYNCLine</b> ()</td></tr>
-<tr class="separator:ga3f61829a94492dcf902a0a79c6c37199"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf1ec1765ac4213ed433fbb8176987406"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaf1ec1765ac4213ed433fbb8176987406"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>LowerVGAVSYNCLine</b> ()</td></tr>
-<tr class="separator:gaf1ec1765ac4213ed433fbb8176987406"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae7e551253fde31cda320097314562657"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gae7e551253fde31cda320097314562657"></a>
+static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>VGAHorizontalSyncInterruptType</b> (void)</td></tr>
+<tr class="separator:gae7e551253fde31cda320097314562657"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga34bd57a4209f5b532fc9ad015ab8b662"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga34bd57a4209f5b532fc9ad015ab8b662"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>RaiseVGAHSYNCLine</b> (void)</td></tr>
+<tr class="separator:ga34bd57a4209f5b532fc9ad015ab8b662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3050a1246e5fef50443acac5f88f62cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga3050a1246e5fef50443acac5f88f62cb"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>LowerVGAHSYNCLine</b> (void)</td></tr>
+<tr class="separator:ga3050a1246e5fef50443acac5f88f62cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2cd37af97d1bf72a0a51c8abddef6c8a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga2cd37af97d1bf72a0a51c8abddef6c8a"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>RaiseVGAVSYNCLine</b> (void)</td></tr>
+<tr class="separator:ga2cd37af97d1bf72a0a51c8abddef6c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab76600e9a4c0e9fee531143de2a4449b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gab76600e9a4c0e9fee531143de2a4449b"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>LowerVGAVSYNCLine</b> (void)</td></tr>
+<tr class="separator:gab76600e9a4c0e9fee531143de2a4449b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Implents all the VGA related stuff. Does magic. </p>
@@ -212,7 +212,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>LowerVGAVSYNCL
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Oct 27 2012 07:52:16 for U23-Library by
+    <li class="footer">Generated on Sat Oct 27 2012 23:24:29 for U23-Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

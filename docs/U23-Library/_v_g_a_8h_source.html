@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('_v_g_a_8h_source.html','');});
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> InitializeVGAScreenMode200(uint8_t *framebuffer,<span class="keywordtype">int</span> pixelsperrow,<span class="keywordtype">int</span> pixelclock);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">void</span> InitializeVGAScreenMode175(uint8_t *framebuffer,<span class="keywordtype">int</span> pixelsperrow,<span class="keywordtype">int</span> pixelclock);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> WaitVBL();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> WaitVBL(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">void</span> SetFrameBuffer(uint8_t *framebuffer); <span class="comment">// Only safe to call in the vertical blank!</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> IntializeVGAScreenMode320x240(uint8_t *framebuffer)</div>
@@ -149,24 +149,24 @@ $(document).ready(function(){initNavTree('_v_g_a_8h_source.html','');});
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// Functions for implementing your own video driving code.</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> InitializeVGAPort();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">void</span> InitializeVGAPort(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">void</span> InitializeVGAHorizontalSync31kHz(VGAHSYNCInterruptHandler *handler);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#define VGAHorizontalSyncStartInterrupt 1 // Overflow interrupt</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define VGAHorizontalSyncEndInterrupt 2 // Output compare 1 interrupt</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define VGAVideoStartInterrupt 4 // Output compare 2 interrupt</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> uint32_t VGAHorizontalSyncInterruptType()</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> uint32_t VGAHorizontalSyncInterruptType(<span class="keywordtype">void</span>)</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    uint32_t sr=TIM9-&gt;SR;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    TIM9-&gt;SR=0;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">return</span> sr;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> RaiseVGAHSYNCLine() { GPIO_SetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> LowerVGAHSYNCLine() { GPIO_ResetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> RaiseVGAVSYNCLine() { GPIO_SetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> LowerVGAVSYNCLine() { GPIO_ResetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> RaiseVGAHSYNCLine(<span class="keywordtype">void</span>) { GPIO_SetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> LowerVGAHSYNCLine(<span class="keywordtype">void</span>) { GPIO_ResetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> RaiseVGAVSYNCLine(<span class="keywordtype">void</span>) { GPIO_SetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> LowerVGAVSYNCLine(<span class="keywordtype">void</span>) { GPIO_ResetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -175,7 +175,7 @@ $(document).ready(function(){initNavTree('_v_g_a_8h_source.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_6719ab1f1f7655efc2fa43f7eb574fd1.html">libs</a></li><li class="navelem"><a class="el" href="dir_d1ff791c8db94f80f2ea3ff2460b251b.html">libgaming</a></li><li class="navelem"><a class="el" href="dir_4cc607109ad4c352e77e7e1eedc3f521.html">inc</a></li><li class="navelem"><a class="el" href="dir_85fe416b53fe3b588683c30f86075628.html">platform</a></li><li class="navelem"><b>VGA.h</b></li>
-    <li class="footer">Generated on Sat Oct 27 2012 07:52:15 for U23-Library by
+    <li class="footer">Generated on Sat Oct 27 2012 23:24:28 for U23-Library by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
   </ul>

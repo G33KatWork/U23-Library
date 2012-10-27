@@ -17,8 +17,8 @@ var group___s_n_e_s =
       [ "X", "unionsnes__button__state__t.html#afcad6e837d6cf559ec0b0a8af7f4b43e", null ],
       [ "Y", "unionsnes__button__state__t.html#a8487ffb3b0abda01e11c2609d19d7d3e", null ]
     ] ],
-    [ "GetControllerState1", "group___s_n_e_s.html#gaa70ce6aa76ea27fd5649b2501fafc05b", null ],
-    [ "GetControllerState2", "group___s_n_e_s.html#gad1533ccab19cc47d4aef4e4590994f2e", null ],
-    [ "HandleSnesTimerIRQ", "group___s_n_e_s.html#ga2c48a12219700586e75a37eb5355ca84", null ],
-    [ "InitializeSnesController", "group___s_n_e_s.html#ga280d0f889827beda2520cef009ea0ce7", null ]
+    [ "GetControllerState1", "group___s_n_e_s.html#gaff49a47eccbd5822142c48df0190c8bb", null ],
+    [ "GetControllerState2", "group___s_n_e_s.html#ga6d9b6777bc4dcb715adefca925c95294", null ],
+    [ "HandleSnesTimerIRQ", "group___s_n_e_s.html#ga51dccf79fd8e6e20502ce30393dc66bf", null ],
+    [ "InitializeSnesController", "group___s_n_e_s.html#ga89994df75220b4237d29d82622f61001", null ]
 ];

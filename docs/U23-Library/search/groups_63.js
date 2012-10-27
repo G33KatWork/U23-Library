@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cmsis',['CMSIS',['../group__CMSIS.html',1,'']]]
+  ['cmsis',['CMSIS',['../group___c_m_s_i_s.html',1,'']]]
 ];

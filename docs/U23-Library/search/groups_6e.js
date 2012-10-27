@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['newlibsyscalls',['NewlibSyscalls',['../group__NewlibSyscalls.html',1,'']]]
+  ['newlibsyscalls',['NewlibSyscalls',['../group___newlib_syscalls.html',1,'']]]
 ];

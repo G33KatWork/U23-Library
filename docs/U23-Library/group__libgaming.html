@@ -7,6 +7,12 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -37,7 +43,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -58,12 +64,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('group__libgaming.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Data Structures</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -82,41 +102,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 Modules</h2></td></tr>
-<tr class="memitem:group__Font"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Font.html">Font</a></td></tr>
-<tr class="memdesc:group__Font"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used to define Fonts and Text-drawing functions. <br/></td></tr>
+<tr class="memitem:group___font"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___font.html">Font</a></td></tr>
+<tr class="memdesc:group___font"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used to define Fonts and Text-drawing functions. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__Game"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Game.html">Game</a></td></tr>
-<tr class="memdesc:group__Game"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used to define the basic structure of games. <br/></td></tr>
+<tr class="memitem:group___game"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___game.html">Game</a></td></tr>
+<tr class="memdesc:group___game"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used to define the basic structure of games. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__LED"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__LED.html">LED</a></td></tr>
-<tr class="memdesc:group__LED"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used define basic LED functionality. <br/></td></tr>
+<tr class="memitem:group___l_e_d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___l_e_d.html">LED</a></td></tr>
+<tr class="memdesc:group___l_e_d"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used define basic LED functionality. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__NewlibSyscalls"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__NewlibSyscalls.html">NewlibSyscalls</a></td></tr>
-<tr class="memdesc:group__NewlibSyscalls"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used implement all necessary newlib stubs. If you need any further information google it for yourself or ask the staff. <br/></td></tr>
+<tr class="memitem:group___newlib_syscalls"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___newlib_syscalls.html">NewlibSyscalls</a></td></tr>
+<tr class="memdesc:group___newlib_syscalls"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used implement all necessary newlib stubs. If you need any further information google it for yourself or ask the staff. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__Random"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Random.html">Random</a></td></tr>
-<tr class="memdesc:group__Random"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used implement the hardware RNG (Random Number Generator) <br/></td></tr>
+<tr class="memitem:group___random"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___random.html">Random</a></td></tr>
+<tr class="memdesc:group___random"><td class="mdescLeft">&#160;</td><td class="mdescRight">This header is used implement the hardware RNG (Random Number Generator) <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__SNES"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__SNES.html">SNES</a></td></tr>
-<tr class="memdesc:group__SNES"><td class="mdescLeft">&#160;</td><td class="mdescRight">SNES Controller Interface. <br/></td></tr>
+<tr class="memitem:group___s_n_e_s"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s_n_e_s.html">SNES</a></td></tr>
+<tr class="memdesc:group___s_n_e_s"><td class="mdescLeft">&#160;</td><td class="mdescRight">SNES Controller Interface. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__SysTick"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__SysTick.html">SysTick</a></td></tr>
-<tr class="memdesc:group__SysTick"><td class="mdescLeft">&#160;</td><td class="mdescRight">SysTick is used to to implement a counter that is incremented all 10ms. <br/></td></tr>
+<tr class="memitem:group___sys_tick"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___sys_tick.html">SysTick</a></td></tr>
+<tr class="memdesc:group___sys_tick"><td class="mdescLeft">&#160;</td><td class="mdescRight">SysTick is used to to implement a counter that is incremented all 10ms. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__USART"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__USART.html">USART</a></td></tr>
-<tr class="memdesc:group__USART"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface to the USART. <br/></td></tr>
+<tr class="memitem:group___u_s_a_r_t"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___u_s_a_r_t.html">USART</a></td></tr>
+<tr class="memdesc:group___u_s_a_r_t"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface to the USART. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__VGA"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__VGA.html">VGA</a></td></tr>
-<tr class="memdesc:group__VGA"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implents all the VGA related stuff. Does magic. <br/></td></tr>
+<tr class="memitem:group___v_g_a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___v_g_a.html">VGA</a></td></tr>
+<tr class="memdesc:group___v_g_a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implents all the VGA related stuff. Does magic. <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 07:42:58 for U23-Library by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.2
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Sat Oct 27 2012 07:52:16 for U23-Library by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.2 </li>
+  </ul>
+</div>
 </body>
 </html>

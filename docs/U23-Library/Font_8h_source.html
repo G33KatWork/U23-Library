@@ -92,22 +92,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Bitmap.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;RLEBitmap.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> fontblack16[256];</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> fontblack8[256];</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> fontwhite16[256];</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> fontwhite8[256];</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">void</span> setFont(<span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> * font);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> DrawText(Bitmap* dest, <span class="keywordtype">char</span> *text, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> <a class="code" href="group__Font.html#gab8356ab90b350e4a76a7f2497f9c399e" title="16-Pixel font - black">fontblack16</a>[256];</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> <a class="code" href="group__Font.html#ga32b551ce3d6d01d2722edc80fcbc3740" title="8-Pixel font - black">fontblack8</a>[256];</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> <a class="code" href="group__Font.html#gae798301142294b4e114f4c1520aa3abe" title="16-Pixel font - white">fontwhite16</a>[256];</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">extern</span> <span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> <a class="code" href="group__Font.html#ga605761b77d01f3c8681511f913f9998b" title="8-Pixel font - white">fontwhite8</a>[256];</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Font.html#gaf615b8fa091664500a3f1fc4b3d15a4a" title="Sets the font that is used by DrawText.">setFont</a>(<span class="keyword">const</span> RLEBitmap * <span class="keyword">const</span> * font);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> <a class="code" href="group__Font.html#gaa4bcc50857838ca507805e1b335eaf46" title="Draws Text to a Bitmap.">DrawText</a>(Bitmap* dest, <span class="keywordtype">char</span> *text, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Oct 27 2012 07:12:16 for U23-Library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 27 2012 07:33:44 for U23-Library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>

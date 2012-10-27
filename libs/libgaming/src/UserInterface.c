@@ -5,6 +5,7 @@ static void InitializeTimer(void);
 void InitializeUserInterface(void) {
 	InitializeTimer();
 	InitializePushButtons();
+	InitializeSnesController();
 }
 
 static void InitializeTimer(void)

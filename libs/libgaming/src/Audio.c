@@ -1,9 +1,11 @@
 #include <stm32f4xx/stm32f4xx.h>
 #include <game/Audio.h>
+#include <platform/SysTick.h>
 
 #include <stdlib.h>
 
 static void WriteRegister(uint8_t RegisterAddr, uint8_t RegisterValue);
+static uint32_t ReadRegister(uint8_t RegisterAddr);
 
 static _Bool audio_initialized = 0;
 
@@ -76,7 +78,8 @@ void InitializeAudio(void)
 
 	// Reset the codec.
 	GPIO_ResetBits(GPIOD, GPIO_Pin_4);
-	for(volatile int i = 0; i < 0x4fff; i++) __asm__ volatile("nop");
+	// for(volatile int i = 0; i < 0x4fff; i++) __asm__ volatile("nop");
+	Delay(0xff);
 	GPIO_SetBits(GPIOD, GPIO_Pin_4);
 
 	// Reset I2C.
@@ -95,7 +98,16 @@ void InitializeAudio(void)
 
 	// Configure codec.
 	WriteRegister(0x02, 0x01); // Keep codec powered off.
-	WriteRegister(0x04, 0xaf); // SPK always off and HP always on.
+
+	// Start "required" initialization (DOCS)
+	WriteRegister(0x00, 0x99);
+	WriteRegister(0x47, 0x80);
+	WriteRegister(0x32, 1<<7);
+	WriteRegister(0x32, 0x00);
+	WriteRegister(0x00, 0x00);
+	// End
+
+	//WriteRegister(0x04, 0xaf); // SPK always off and HP always on.
 
 	WriteRegister(0x05, 0x81); // Clock configuration: Auto detection.
 	WriteRegister(0x06, 0x04); // Set slave mode and Philips audio standard.
@@ -115,8 +127,11 @@ void InitializeAudio(void)
 	WriteRegister(0x1a, 0x0a); // Adjust PCM volume level.
 	WriteRegister(0x1b, 0x0a);
 
+	// Frequency generator
+	WriteRegister(0x1e, 0xc0);
+
 	// Reset I2S.
-	//SPI_I2S_DeInit(SPI3);
+	SPI_I2S_DeInit(SPI3);
 
 	I2S_Init(SPI3, &(I2S_InitTypeDef){
 		.I2S_Mode = I2S_Mode_MasterTx,
@@ -181,6 +196,73 @@ static void WriteRegister(uint8_t RegisterAddr, uint8_t RegisterValue)
 	/* End the configuration sequence */
 	I2C_GenerateSTOP(I2C1, ENABLE);
 }
+
+static uint32_t ReadRegister(uint8_t RegisterAddr)
+{
+	uint32_t result = 0;
+
+	/*!< While the bus is busy */
+	while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY));
+
+	/* Start the config sequence */
+	I2C_GenerateSTART(I2C1, ENABLE);
+
+	/* Test on EV5 and clear it */
+	while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
+
+	/* Transmit the slave address and enable writing operation */
+	I2C_Send7bitAddress(I2C1, 0x94, I2C_Direction_Transmitter);
+
+	/* Test on EV6 and clear it */
+	while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+
+	/* Transmit the register address to be read */
+	I2C_SendData(I2C1, RegisterAddr);
+
+	/* Test on EV8 and clear it */
+	while (I2C_GetFlagStatus(I2C1, I2C_FLAG_BTF) == RESET);
+
+	/*!< Send START condition a second time */
+	I2C_GenerateSTART(I2C1, ENABLE);
+
+	/*!< Test on EV5 and clear it (cleared by reading SR1 then writing to DR) */
+	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
+
+	/*!< Send Codec address for read */
+	I2C_Send7bitAddress(I2C1, 0x94, I2C_Direction_Receiver);
+
+	/* Wait on ADDR flag to be set (ADDR is still not cleared at this level */
+	while(I2C_GetFlagStatus(I2C1, I2C_FLAG_ADDR) == RESET);
+
+	/*!< Disable Acknowledgment */
+	I2C_AcknowledgeConfig(I2C1, DISABLE);
+
+	/* Clear ADDR register by reading SR1 then SR2 register (SR1 has already been read) */
+	(void)I2C1->SR2;
+
+	/*!< Send STOP Condition */
+	I2C_GenerateSTOP(I2C1, ENABLE);
+
+	/* Wait for the byte to be received */
+	while(I2C_GetFlagStatus(I2C1, I2C_FLAG_RXNE) == RESET);
+
+	/*!< Read the byte received from the Codec */
+	result = I2C_ReceiveData(I2C1);
+
+	/* Wait to make sure that STOP flag has been cleared */
+	while(I2C1->CR1 & I2C_CR1_STOP);
+
+	/*!< Re-Enable Acknowledgment to be ready for another reception */
+	I2C_AcknowledgeConfig(I2C1, ENABLE);
+
+	/* Clear AF flag for next communication */
+	I2C_ClearFlag(I2C1, I2C_FLAG_AF);
+
+	/* Return the byte read from Codec */
+	return result;
+}
+
+
 
 void SetAudioVolume(int volume)
 {

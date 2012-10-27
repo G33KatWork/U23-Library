@@ -16,7 +16,7 @@ void Red_Init(struct Gamestate* state)
 
 void Red_Update(uint32_t delta)
 {
-	snes_button_state_t state = GetControllerState();
+	snes_button_state_t state = GetControllerState1();
 	if (state.buttons.Down)
 		ExitState(TheGame);
 }

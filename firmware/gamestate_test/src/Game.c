@@ -30,10 +30,10 @@ int myframe = 0;
 
 void Update(uint32_t delta)
 {
-	snes_button_state_t state = GetControllerState();
+	snes_button_state_t state = GetControllerState1();
 	myframe++;
 	if (state.buttons.Up)
-		ChangeState(TheGame, &RedState);
+		ChangeState(&RedState);
 }
 
 void Draw(Bitmap* surface)

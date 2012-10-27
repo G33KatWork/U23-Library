@@ -9,6 +9,31 @@
  * @{ */
 
 #include <stdint.h>
+#include <stm32f4xx/stm32f4xx.h>
+
+#define GPIO_SNES1_LATCH_PIN		(GPIO_Pin_6)
+#define GPIO_SNES1_CLOCK_PIN		(GPIO_Pin_7)
+#define GPIO_SNES1_DATA_PIN			(GPIO_Pin_5)
+
+#define GPIO_SNES2_LATCH_PIN		(GPIO_Pin_1)
+#define GPIO_SNES2_CLOCK_PIN		(GPIO_Pin_3)
+#define GPIO_SNES2_DATA_PIN			(GPIO_Pin_0)
+
+#define GPIO_SNES1_LATCH_PORT		(GPIOD)
+#define GPIO_SNES1_CLOCK_PORT		(GPIOD)
+#define GPIO_SNES1_DATA_PORT		(GPIOD)
+
+#define GPIO_SNES2_LATCH_PORT		(GPIOD)
+#define GPIO_SNES2_CLOCK_PORT		(GPIOD)
+#define GPIO_SNES2_DATA_PORT		(GPIOD)
+
+#define GPIO_SNES1_LATCH_CLK		RCC_AHB1Periph_GPIOD
+#define GPIO_SNES1_CLOCK_CLK		RCC_AHB1Periph_GPIOD
+#define GPIO_SNES1_DATA_CLK			RCC_AHB1Periph_GPIOD
+
+#define GPIO_SNES2_LATCH_CLK		RCC_AHB1Periph_GPIOD
+#define GPIO_SNES2_CLOCK_CLK		RCC_AHB1Periph_GPIOD
+#define GPIO_SNES2_DATA_CLK			RCC_AHB1Periph_GPIOD
 
 /*!
  * @union snes_button_state_t
@@ -56,10 +81,16 @@ typedef union {
 void InitializeSnesController();
 
 /*!
- * @brief Gets the current controller state
- * @return snes_button_state_t The current state of the SNES-Controller connected
+ * @brief Gets the current controller state for Player 1
+ * @return snes_button_state_t The current state of the first SNES-Controller
  */
-snes_button_state_t GetControllerState();
+snes_button_state_t GetControllerState1();
+
+/*!
+ * @brief Gets the current controller state for Player 2
+ * @return snes_button_state_t The current state of the second SNES-Controller
+ */
+snes_button_state_t GetControllerState2();
 
 /*!
  * @brief Handler for the timer used to make SNES-Handling non-blocking

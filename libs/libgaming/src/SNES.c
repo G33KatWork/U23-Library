@@ -1,7 +1,4 @@
 #include <platform/SNES.h>
-#include <stm32f4xx/stm32f4xx.h>
-
-//TODO: copy code and do the same for a second controller
 
 enum SNES_CTRL_STATE
 {
@@ -24,9 +21,13 @@ enum SNES_CTRL_STATE
 	SHIFT16, SHIFT16_END
 };
 
-volatile enum SNES_CTRL_STATE state_ctrl1 = START_LATCH;
+volatile enum SNES_CTRL_STATE state_ctrl = START_LATCH;
+
 snes_button_state_t buttons_ctrl1 = {.raw = 0};
 volatile uint16_t buttons_tmp_ctrl1 = 0;
+
+snes_button_state_t buttons_ctrl2 = {.raw = 0};
+volatile uint16_t buttons_tmp_ctrl2 = 0;
 
 void InitializeSnesController()
 {
@@ -34,32 +35,50 @@ void InitializeSnesController()
 	NVIC_InitTypeDef NVIC_InitStructure;
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 
-	//Enable GPIOD clock
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	//Enable GPIO clocks
+	RCC_AHB1PeriphClockCmd(GPIO_SNES1_LATCH_CLK | GPIO_SNES1_CLOCK_CLK | GPIO_SNES1_DATA_CLK, ENABLE);
+	RCC_AHB1PeriphClockCmd(GPIO_SNES2_LATCH_CLK | GPIO_SNES2_CLOCK_CLK | GPIO_SNES2_DATA_CLK, ENABLE);
 
-	//Configure pins
-	//PD0 = Data (Input, Pullup)
+	//Configure data pins (Input, Pullup)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-	//PD1 = Latch (Output)
-	//PD3 = Clock (Output)
+	GPIO_InitStructure.GPIO_Pin = GPIO_SNES1_DATA_PIN;
+	GPIO_Init(GPIO_SNES1_DATA_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_SNES2_DATA_PIN;
+	GPIO_Init(GPIO_SNES2_DATA_PORT, &GPIO_InitStructure);
+
+
+	//Configure Latch and Clock pins
+	//Latch (Output)
+	//Clock (Output)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_3;
-	GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-	//Set clock
-	GPIO_SetBits(GPIOD, GPIO_Pin_3);
+	GPIO_InitStructure.GPIO_Pin = GPIO_SNES1_LATCH_PIN;
+	GPIO_Init(GPIO_SNES1_LATCH_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_SNES1_CLOCK_PIN;
+	GPIO_Init(GPIO_SNES1_CLOCK_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_SNES2_LATCH_PIN;
+	GPIO_Init(GPIO_SNES2_LATCH_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_SNES2_CLOCK_PIN;
+	GPIO_Init(GPIO_SNES2_CLOCK_PORT, &GPIO_InitStructure);
+
+	//Set clocks
+	GPIO_SetBits(GPIO_SNES1_CLOCK_PORT, GPIO_SNES1_CLOCK_PIN);
+	GPIO_SetBits(GPIO_SNES2_CLOCK_PORT, GPIO_SNES2_CLOCK_PIN);
 	
-	//Reset latch
-	GPIO_ResetBits(GPIOD, GPIO_Pin_1);
+	//Reset latchs
+	GPIO_ResetBits(GPIO_SNES1_LATCH_PORT, GPIO_SNES1_LATCH_PIN);
+	GPIO_ResetBits(GPIO_SNES2_LATCH_PORT, GPIO_SNES2_LATCH_PIN);
 
 
 	//Setup timer for statemachine
@@ -87,9 +106,14 @@ void InitializeSnesController()
 	TIM_Cmd(TIM2, ENABLE);
 }
 
-snes_button_state_t GetControllerState()
+snes_button_state_t GetControllerState1()
 {
 	return buttons_ctrl1;
+}
+
+snes_button_state_t GetControllerState2()
+{
+	return buttons_ctrl2;
 }
 
 void HandleSnesTimerIRQ()
@@ -99,13 +123,15 @@ void HandleSnesTimerIRQ()
 	{
 		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 
-		switch(state_ctrl1) {
+		switch(state_ctrl) {
 			case START_LATCH:
-				GPIO_SetBits(GPIOD, GPIO_Pin_1);	//Latch = 1
+				GPIO_SetBits(GPIO_SNES1_LATCH_PORT, GPIO_SNES1_LATCH_PIN);	//Latch = 1
+				GPIO_SetBits(GPIO_SNES2_LATCH_PORT, GPIO_SNES2_LATCH_PIN);
 				break;
 
 			case END_LATCH:
-				GPIO_ResetBits(GPIOD, GPIO_Pin_1);	//Latch = 0
+				GPIO_ResetBits(GPIO_SNES1_LATCH_PORT, GPIO_SNES1_LATCH_PIN);	//Latch = 0
+				GPIO_ResetBits(GPIO_SNES2_LATCH_PORT, GPIO_SNES2_LATCH_PIN);
 				break;
 
 			case SHIFT1:
@@ -124,7 +150,8 @@ void HandleSnesTimerIRQ()
 			case SHIFT14:
 			case SHIFT15:
 			case SHIFT16:
-				GPIO_ResetBits(GPIOD, GPIO_Pin_3);	//CLK = 0
+				GPIO_ResetBits(GPIO_SNES1_CLOCK_PORT, GPIO_SNES1_CLOCK_PIN);	//Clock = 0
+				GPIO_ResetBits(GPIO_SNES2_CLOCK_PORT, GPIO_SNES2_CLOCK_PIN);
 				break;
 
 			case SHIFT1_END:
@@ -143,18 +170,21 @@ void HandleSnesTimerIRQ()
 			case SHIFT14_END:
 			case SHIFT15_END:
 			case SHIFT16_END:
-				buttons_tmp_ctrl1 = (buttons_tmp_ctrl1 << 1) | GPIO_ReadInputDataBit(GPIOD, GPIO_Pin_0);
-				GPIO_SetBits(GPIOD, GPIO_Pin_3);	//CLK = 1
+				buttons_tmp_ctrl1 = (buttons_tmp_ctrl1 << 1) | GPIO_ReadInputDataBit(GPIO_SNES1_DATA_PORT, GPIO_SNES1_DATA_PIN);
+				buttons_tmp_ctrl2 = (buttons_tmp_ctrl2 << 1) | GPIO_ReadInputDataBit(GPIO_SNES2_DATA_PORT, GPIO_SNES2_DATA_PIN);
+				GPIO_SetBits(GPIO_SNES1_CLOCK_PORT, GPIO_SNES1_CLOCK_PIN);	//Clock = 1
+				GPIO_SetBits(GPIO_SNES2_CLOCK_PORT, GPIO_SNES2_CLOCK_PIN);
 				break;
 		}
 
-		if(state_ctrl1 == SHIFT16_END)
+		if(state_ctrl == SHIFT16_END)
 		{
-			state_ctrl1 = START_LATCH;
+			state_ctrl = START_LATCH;
 			buttons_ctrl1.raw = ~buttons_tmp_ctrl1;
+			buttons_ctrl2.raw = ~buttons_tmp_ctrl2;
 		}
 		else
-			state_ctrl1++;
+			state_ctrl++;
 	}
 }
 

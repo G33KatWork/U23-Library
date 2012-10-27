@@ -144,7 +144,7 @@ void CalibrateAccelerometer(void) {
 	ReadRawAccelerometerData(calibrationVector);
 }
 
-void ReadCalibratedAccelerometerData(int8_t *values) {
+void ReadCalibratedAccelerometerData(int8_t values[3]) {
 	int8_t newValues[3];
 	ReadRawAccelerometerData(newValues);
 
@@ -164,7 +164,7 @@ void ResetAccelerometerFilter(void)
 	ReadByte(LIS302DL_HP_FILTER_RESET_REG_ADDR);
 }
 
-void ReadRawAccelerometerData(int8_t *values)
+void ReadRawAccelerometerData(int8_t values[3])
 {
 	uint8_t buffer[5];
 	ReadBytes(buffer,LIS302DL_OUT_X_ADDR,5);

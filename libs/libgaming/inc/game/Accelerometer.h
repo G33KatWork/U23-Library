@@ -3,10 +3,13 @@
 
 #include <stm32f4xx/stm32f4xx.h>
 
-/*! @header Accelerometer.h
-	Implents all the Accelerometer related stuff
-    @discussion do not change any Pin or command related defines
- */
+/*! @addtogroup libgaming
+ * @{ */
+
+/*! @addtogroup Accelerometer
+ * @brief Implents all the Accelerometer related stuff
+ * @{ */
+
 
 /**
   * @brief  LIS302DL SPI Interface pins
@@ -534,70 +537,86 @@
 *******************************************************************************/
 #define LIS302DL_CLICK_WINDOW_REG_ADDR        0x3F
 
-/*! @function InitializeAccelerometer
-	Initializes the Accelerometer subsystem
-    @discussion You have to call this yourself, if you want to use the accelerometer, because the pinout collides with a eventually fitted ethernet PHY
+/*!
+ * @brief Initializes the Accelerometer subsystem
+ *
+ * You have to call this yourself, if you want to use the accelerometer,
+ * because the pinout collides with a optionally fitted ethernet PHY
  */
 void InitializeAccelerometer(void);
 
-/*! @function PingAccelerometer
-	Gets accelerometer health
-    @returns 1 if ok, 0 if unhealthy
+/*!
+ * @brief Gets accelerometer health
+ *
+ * @return 1 if ok, 0 if unhealthy
  */
 uint8_t PingAccelerometer(void);
 
-/*! @function SetAccelerometerMainConfig
-	Used to configure the accelerometer
-	@param config bitmask with configuration values
-    @discussion Please lookup possible bitmasks in the header file
+/*!
+ * @brief Used to configure the accelerometer
+ *
+ * Refer to the header file for possible configuration options
+ * @param config bitmask with configuration values
  */
 void SetAccelerometerMainConfig(uint8_t config);
 
-/*! @function SetAccelerometerFilterConfig
-	Used to configure the accelerometers internal hardware filter system
-	@param config bitmask with configuration values
-    @discussion Please lookup possible bitmasks in the header file
+/*!
+ * @brief Used to configure the accelerometers internal hardware filter system
+ *
+ * Refer to the header file for possible configuration options
+ * @param config bitmask with configuration values
  */
 void SetAccelerometerFilterConfig(uint8_t config);
 
-/*! @function SetAccelerometerInterruptConfig
-	Used to configure the accelerometers interrupt engine, that can trigger interupt signals when exceeding certain thresholds.
-	@param config bitmask with configuration values
-    @discussion not used atm
+/*!
+ * @brief Used to configure the accelerometers interrupt engine
+ *
+ * Interupts can be triggered when signals exceed certain thresholds.
+ * @param config bitmask with configuration values
  */
 void SetAccelerometerInterruptConfig(uint8_t config);
 
-/*! @function CalibrateAccelerometer
-	Call this function to reset the accelerometer's calibration vector to the accelerometer's current raw values
-    @discussion you can get the raw values by calling ReadRawAccelerometerData() nonetheless.
+/*!
+ * @brief Resets the calibration vector
+ *
+ * This function resets the accelerometer's calibration vector to the
+ * accelerometer's current raw values.
+ * Raw values can be obtained by calling ReadRawAccelerometerData().
  */
 void CalibrateAccelerometer(void);
 
-/*! @function ResetAccelerometer
-	Call this function to reboot the Accelerometer
-    @discussion should not be needed.
+/*!
+ * @brief Reboots the Accelerometer
+ *
+ * This should not normally need to be called
  */
 void ResetAccelerometer(void);
 
-/*! @function ResetAccelerometerFilter
-	Call this function to reset all internal hardware filters
-    @discussion this removes all filters, including the filters used in InitializeAccelerometer()
+/*!
+ * @brief Reset all internal hardware filters
+ *
+ * Removes all filters, including the ones set in InitializeAccelerometer()
  */
 void ResetAccelerometerFilter(void);
 
-/*! @function ReadRawAccelerometerData
-	returns the raw acceleremoter data without considering any calibration data.
-	@param values buffer for current Accelerometer data
-	@discussion if in doubt, try <tt>int8_t data[3]</tt>
+/*!
+ * @brief Read raw accelerometer data
+ *
+ * @param values buffer for current Accelerometer data
+ * @return Raw acceleremoter data without considering any calibration data.
  */
-void ReadRawAccelerometerData(int8_t *values);
+void ReadRawAccelerometerData(int8_t values[3]);
 
-/*! @function ReadCalibratedAccelerometerData
-	returns the calibrated accelerometer data
-	@param values buffer for current Accelerometer data
-	@discussion if in doubt, try <tt>int8_t data[3]</tt>
+/*!
+ * @brief Read calibrated accelerometer data
+ *
+ * @param values buffer for current Accelerometer data
+ * @return Calibrated accelerometer data
  */
-void ReadCalibratedAccelerometerData(int8_t *values);
+void ReadCalibratedAccelerometerData(int8_t values[3]);
 //void DeInitializeAccelerometer(void);
+
+/*! @} */
+/*! @} */
 
 #endif

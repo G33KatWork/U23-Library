@@ -70,7 +70,7 @@ int ChangeState(Gamestate *state);
  *
  *	Use this in a Gamestates Update function. After the Update call is finished the Draw and OnLeave function of the current state will be called. After that the OnEnter functions of the state that you entered the current state from will be called. The Game then return to the Update/Draw loop of the previous state.
  */
-void ExitState();
+void ExitState(void);
 
 /*! @} */
 /*! @} */

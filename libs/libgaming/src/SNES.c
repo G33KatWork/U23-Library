@@ -29,7 +29,7 @@ volatile uint16_t buttons_tmp_ctrl1 = 0;
 snes_button_state_t buttons_ctrl2 = {.raw = 0};
 volatile uint16_t buttons_tmp_ctrl2 = 0;
 
-void InitializeSnesController()
+void InitializeSnesController(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -79,17 +79,17 @@ void InitializeSnesController()
 	GPIO_ResetBits(GPIO_SNES2_LATCH_PORT, GPIO_SNES2_LATCH_PIN);
 }
 
-snes_button_state_t GetControllerState1()
+snes_button_state_t GetControllerState1(void)
 {
 	return buttons_ctrl1;
 }
 
-snes_button_state_t GetControllerState2()
+snes_button_state_t GetControllerState2(void)
 {
 	return buttons_ctrl2;
 }
 
-void HandleSnesTimerIRQ()
+void HandleSnesTimerIRQ(void)
 {
 	//The if causes massive jitter in the VGA output, we currently don't need it anyways
 	//if(TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)

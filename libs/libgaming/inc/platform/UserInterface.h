@@ -5,6 +5,6 @@
 #include <platform/SNES.h>
 #include <platform/PushButtons.h>
 
-void InitializeUserInterface();
+void InitializeUserInterface(void);
 
 #endif

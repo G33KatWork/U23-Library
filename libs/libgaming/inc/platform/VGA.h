@@ -32,7 +32,7 @@ void InitializeVGAScreenMode240(uint8_t *framebuffer,int pixelsperrow,int pixelc
 void InitializeVGAScreenMode200(uint8_t *framebuffer,int pixelsperrow,int pixelclock);
 void InitializeVGAScreenMode175(uint8_t *framebuffer,int pixelsperrow,int pixelclock);
 
-void WaitVBL();
+void WaitVBL(void);
 void SetFrameBuffer(uint8_t *framebuffer); // Only safe to call in the vertical blank!
 
 static inline void IntializeVGAScreenMode320x240(uint8_t *framebuffer)
@@ -54,24 +54,24 @@ static inline void IntializeVGAScreenMode320x175(uint8_t *framebuffer)
 
 // Functions for implementing your own video driving code.
 
-void InitializeVGAPort();
+void InitializeVGAPort(void);
 void InitializeVGAHorizontalSync31kHz(VGAHSYNCInterruptHandler *handler);
 
 #define VGAHorizontalSyncStartInterrupt 1 // Overflow interrupt
 #define VGAHorizontalSyncEndInterrupt 2 // Output compare 1 interrupt
 #define VGAVideoStartInterrupt 4 // Output compare 2 interrupt
 
-static inline uint32_t VGAHorizontalSyncInterruptType()
+static inline uint32_t VGAHorizontalSyncInterruptType(void)
 {
 	uint32_t sr=TIM9->SR;
 	TIM9->SR=0;
 	return sr;
 }
 
-static inline void RaiseVGAHSYNCLine() { GPIO_SetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }
-static inline void LowerVGAHSYNCLine() { GPIO_ResetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }
-static inline void RaiseVGAVSYNCLine() { GPIO_SetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }
-static inline void LowerVGAVSYNCLine() { GPIO_ResetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }
+static inline void RaiseVGAHSYNCLine(void) { GPIO_SetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }
+static inline void LowerVGAHSYNCLine(void) { GPIO_ResetBits(GPIO_HSYNC_PORT, GPIO_HSYNC_PIN); }
+static inline void RaiseVGAVSYNCLine(void) { GPIO_SetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }
+static inline void LowerVGAVSYNCLine(void) { GPIO_ResetBits(GPIO_VSYNC_PORT, GPIO_VSYNC_PIN); }
 
 /*! @} */
 /*! @} */

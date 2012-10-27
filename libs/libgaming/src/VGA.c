@@ -42,7 +42,7 @@ void InitializeVGAScreenMode175(uint8_t *framebuffer,int pixelsperrow,int pixelc
 	InitializeVGAHorizontalSync31kHz(HSYNCHandler175);
 }
 
-void InitializeVGAPort()
+void InitializeVGAPort(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -128,7 +128,7 @@ static void InitializeState(uint8_t *framebuffer,int pixelsperrow)
 	PixelsPerRow=pixelsperrow;
 }
 
-static void HSYNCHandler240()
+static void HSYNCHandler240(void)
 {
 	switch(VGAHorizontalSyncInterruptType())
 	{
@@ -169,7 +169,7 @@ static void HSYNCHandler240()
 	}
 }
 
-static void HSYNCHandler200()
+static void HSYNCHandler200(void)
 {
 	switch(VGAHorizontalSyncInterruptType())
 	{
@@ -210,7 +210,7 @@ static void HSYNCHandler200()
 	}
 }
 
-static void HSYNCHandler175()
+static void HSYNCHandler175(void)
 {
 	switch(VGAHorizontalSyncInterruptType())
 	{
@@ -238,7 +238,7 @@ static void HSYNCHandler175()
 				LowerVGAVSYNCLine();
 			}
 			else if(Line==389)
-			{		
+			{
 				RaiseVGAVSYNCLine();
 			}
 			else if(Line==448)
@@ -264,7 +264,7 @@ static void InitializePixelDMA(int pixelclock)
 	// DMA2 stream 1 channel 7 is triggered by timer 8.
 	// Stop it and configure interrupts.
 	DMA2_Stream1->CR&=~DMA_SxCR_EN;
-	
+
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = DMA2_Stream1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
@@ -273,22 +273,22 @@ static void InitializePixelDMA(int pixelclock)
 	NVIC_Init(&NVIC_InitStructure);
 }
 
-void DMA2_Stream1_IRQHandler()
+void DMA2_Stream1_IRQHandler(void)
 {
 	GPIO_ResetBits(GPIO_DAC_PORT, GPIO_DAC_PINS); // Set signal to black.
 	DMA2->LIFCR|=DMA_LIFCR_CTCIF1; // Clear interrupt flag.
-	
+
 	StopPixelDMA();
 
 	if(HBlankInterruptHandler) HBlankInterruptHandler();
 }
 
-void TIM1_BRK_TIM9_IRQHandler()
+void TIM1_BRK_TIM9_IRQHandler(void)
 {
 	HSyncHandler();
 }
 
-static inline void StartPixelDMA()
+static inline void StartPixelDMA(void)
 {
 	// Visible line. Configure and enable pixel DMA.
 	DMA2_Stream1->CR=(7*DMA_SxCR_CHSEL_0)| // Channel 7
@@ -307,7 +307,7 @@ static inline void StartPixelDMA()
 	TIM8->CR1|=TIM_CR1_CEN;
 }
 
-static inline void StopPixelDMA()
+static inline void StopPixelDMA(void)
 {
 	TIM8->CR1&=~TIM_CR1_CEN; // Stop pixel clock.
 	DMA2_Stream1->CR=0; // Disable pixel DMA.
@@ -315,7 +315,7 @@ static inline void StopPixelDMA()
 
 
 
-void WaitVBL()
+void WaitVBL(void)
 {
 	uint32_t currframe=Frame;
 	while(Frame==currframe);

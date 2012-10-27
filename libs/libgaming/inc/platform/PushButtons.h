@@ -38,11 +38,11 @@ typedef struct {
 	uint16_t User     : 1;
 } pushbutton_button_state_t;
 
-void InitializePushButtons();
+void InitializePushButtons(void);
 
-pushbutton_button_state_t GetPushbuttonState();
-pushbutton_button_state_t CurrentPushButtonState();
+pushbutton_button_state_t GetPushbuttonState(void);
+pushbutton_button_state_t CurrentPushButtonState(void);
 
-void HandlePushbuttonTimerIRQ();
+void HandlePushbuttonTimerIRQ(void);
 
 #endif

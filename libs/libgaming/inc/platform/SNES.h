@@ -59,31 +59,31 @@ typedef union {
 } snes_button_state_t;
 
 /*!
- * @brief Initializes the SNES Controller 
+ * @brief Initializes the SNES Controller
  *
  * This function is automatically called in main().
  * At the moment there is only one Controller supported.
  */
-void InitializeSnesController();
+void InitializeSnesController(void);
 
 /*!
  * @brief Gets the current controller state for Player 1
  * @return snes_button_state_t The current state of the first SNES-Controller
  */
-snes_button_state_t GetControllerState1();
+snes_button_state_t GetControllerState1(void);
 
 /*!
  * @brief Gets the current controller state for Player 2
  * @return snes_button_state_t The current state of the second SNES-Controller
  */
-snes_button_state_t GetControllerState2();
+snes_button_state_t GetControllerState2(void);
 
 /*!
  * @brief Handler for the timer used to make SNES-Handling non-blocking
  *
  * Ignore this, read code in .c or ask staff for more information
  */
-void HandleSnesTimerIRQ();
+void HandleSnesTimerIRQ(void);
 
 /*! @} */
 /*! @} */

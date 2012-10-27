@@ -14,7 +14,7 @@ int ChangeState(Gamestate *state) {
 	TheGame->currentState = state;
 }
 
-void ExitState() {
+void ExitState(void) {
 	Gamestate* state = TheGame->currentState;
 	if (state->previousState)
 	{

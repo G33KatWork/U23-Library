@@ -6,7 +6,7 @@ pushbutton_button_state_t CurrentPushButtonState();
 pushbutton_button_state_t pushbutton_state = {0,0,0,0,0,0,0};
 pushbutton_button_state_t pushbutton_state_debounce = {0,0,0,0,0,0,0};
 
-void InitializePushButtons() 
+void InitializePushButtons(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -48,11 +48,13 @@ void InitializePushButtons()
 	pushbutton_state_debounce = pushbutton_state;
 }
 
-pushbutton_button_state_t GetPushbuttonState() {
+pushbutton_button_state_t GetPushbuttonState(void)
+{
 	return pushbutton_state;
 }
 
-pushbutton_button_state_t CurrentPushButtonState() {
+pushbutton_button_state_t CurrentPushButtonState(void)
+{
 	pushbutton_button_state_t currentState;
 
 	currentState.A = GPIO_ReadInputDataBit(GPIO_PUSHBUTTON_A_PORT, GPIO_PUSHBUTTON_A_PIN);
@@ -66,7 +68,8 @@ pushbutton_button_state_t CurrentPushButtonState() {
 	return currentState;
 }
 
-void HandlePushbuttonTimerIRQ() {
+void HandlePushbuttonTimerIRQ(void)
+{
 	static int16_t delayCounter = 0;
 	delayCounter++;
 	if (delayCounter >= 3)
@@ -81,7 +84,7 @@ void HandlePushbuttonTimerIRQ() {
 		pushbutton_state.User &= pushbutton_state_debounce.User;
 
 		delayCounter = 0;
-		pushbutton_state = CurrentPushButtonState();	
+		pushbutton_state = CurrentPushButtonState();
 	}
-	pushbutton_state_debounce = CurrentPushButtonState();	
+	pushbutton_state_debounce = CurrentPushButtonState();
 }

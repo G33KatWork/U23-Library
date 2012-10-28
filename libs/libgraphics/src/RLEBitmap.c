@@ -38,7 +38,7 @@ size_t SizeOfRLEBitmapFromPartialBitmap(const Bitmap *bitmap,int x0,int y0,int w
 
 			numpixels+=1+filled;
 
-			#ifdef SingleBytePixels
+			#if PixelSize==1
 			if(x<width || filled!=0) numpixels++;
 			#endif
 		}
@@ -81,7 +81,7 @@ void InitializeRLEBitmapFromPartialBitmap(RLEBitmap *self,const Bitmap *bitmap,i
 			}
 			int filled=x-filledstart;
 
-			#ifdef SingleBytePixels
+			#if PixelSize==1
 			*ptr++=empty;
 			if(x<width || filled!=0) *ptr++=filled;
 			#else

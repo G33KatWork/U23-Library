@@ -9,8 +9,8 @@ static void ReadBytes(uint8_t *buffer,uint8_t address,int numbytes);
 static void WriteByte(uint8_t byte,uint8_t address);
 static void WriteBytes(uint8_t *bytes,uint8_t address,int numbytes);
 
-static inline uint8_t LowerCS();
-static inline uint8_t RaiseCS();
+static inline void LowerCS();
+static inline void RaiseCS();
 static uint8_t TransferByte(uint8_t byte);
 
 void InitializeAccelerometer()
@@ -142,12 +142,12 @@ static void WriteBytes(uint8_t *bytes,uint8_t address,int numbytes)
 	RaiseCS();
 }
 
-static inline uint8_t LowerCS()
+static inline void LowerCS()
 {
 	SetGPIOOutputMode(GPIOE,(1<<3));
 }
 
-static inline uint8_t RaiseCS()
+static inline void RaiseCS()
 {
 	SetGPIOInputMode(GPIOE,(1<<3));
 }

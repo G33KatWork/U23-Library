@@ -9,6 +9,7 @@
  * @{ */
 
 #include <sys/stat.h>
+#include <stddef.h>
 
 //File operations
 int _file_fstat(int fd, struct stat *st);

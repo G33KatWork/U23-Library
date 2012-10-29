@@ -6,8 +6,8 @@
 
 void ReadHighscore(FILE *file);
 void ErrorHandler(FILE *file);
-void quick_sort (int *a, int n);
 void reverse(int32_t *array, int32_t n);
+int intcmp(const void *a, const void *b);
 
 static int32_t score[10];
 
@@ -27,7 +27,7 @@ void WriteHighscore(int32_t newScore) {
 	if (newScore > score[0])
 	{
 		score[9] = newScore;
-		quick_sort((int *)score, 10);
+		qsort(score, 10, sizeof(score), intcmp);
 		//reverse(score, 10);
 	} else {
 		ErrorHandler(file);
@@ -97,6 +97,18 @@ void GetHighscoreList(char **formattedString) {
 	ErrorHandler(file);
 }
 
+int intcmp(const void *o, const void *t)
+{
+	const int *a = o, *b = t;
+
+	if (*a < *b)
+		return -1;
+	else if (*a > *b)
+		return 1;
+	else
+		return 0;
+}
+
 void ReadHighscore(FILE *file) {
 	//Read file
 	char readcontent[1024];
@@ -121,7 +133,7 @@ void ReadHighscore(FILE *file) {
 		}
 	}
 
-	quick_sort((int *)score, 10);
+	qsort(score, 10, sizeof(score), intcmp);
 }
 
 void ErrorHandler(FILE *file) {
@@ -141,25 +153,4 @@ void reverse(int32_t *array, int32_t n) {
         array[i++] = array[n];
         array[n--] = c;
     }
-}
-
-void quick_sort (int *a, int n) {
-    if (n < 2)
-        return;
-    int p = a[n / 2];
-    int *l = a;
-    int *r = a + n - 1;
-    while (l <= r) {
-        while (*l < p)
-            l++;
-        while (*r > p)
-            r--;
-        if (l <= r) {
-            int t = *l;
-            *l++ = *r;
-            *r-- = t;
-        }
-    }
-    quick_sort(a, r - a + 1);
-    quick_sort(l, a + n - l);
 }

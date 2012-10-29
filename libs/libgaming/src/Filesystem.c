@@ -286,14 +286,14 @@ off_t _file_lseek(int fd, off_t offset, int whence)
     switch (whence)
     {
         case SEEK_CUR:
-            if ((UINT32_MAX - offset) > file->fptr) goto error;
+            if ((UINT32_MAX - offset) < file->fptr) goto error;
             goal = file->fptr + offset;
             break;
         case SEEK_SET:
             goal = offset;
             break;
         case SEEK_END:
-            if ((UINT32_MAX - offset) > file->fsize) goto error;
+            if ((UINT32_MAX - offset) < file->fsize) goto error;
             goal = file->fsize + offset;
             break;
         default:

@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stm32f4xx/stm32f4xx_rng.h>
 
+#include "../inc/Highscore.h"
 #include "../inc/Sprites.h"
 
 //#define ACCELEROMETER
@@ -15,18 +16,22 @@
 static uint32_t sqrti(uint32_t n);
 
 void Init(struct Gamestate*);
+void OnEnter(struct Gamestate*);
 void Update(uint32_t );
 void Draw(Bitmap* surface);
 
-Gamestate game = { Init, NULL, NULL, Update, Draw, };
+Gamestate game = { Init, OnEnter, NULL, Update, Draw, };
 
 #ifdef ACCELEROMETER
 static uint32_t sqrti(uint32_t n);
 static int32_t acc_x=0,acc_y=0;
 #endif
 
+static int32_t highscore = 0;
 static int32_t lastMenuUpdate;
+static int32_t gameOverEntryTime;
 static int pause_mode = 0;
+static int gameover = 0;
 
 int pos_x = (320-42)/2;
 int pos_y = (200-42)/2;
@@ -56,8 +61,37 @@ inline bool RectRectIntersection(int16_t x1, int16_t y1, int16_t w1, int16_t h1,
 	return (x1 <= x2+w2 && x2 <= x1+w1 && y1 <= y2+h2 && y2 <= y1+h1);
 }
 
-void gameOver(Bitmap *currframe, int16_t pos_x, int16_t pos_y){
-	DrawFilledRectangle(currframe,0,0,320,200,RGB(255,0,0));
+void gameOver(Bitmap *currframe){
+	if (gameover) {
+		if (currframe)
+		{
+			DrawFilledRectangle(currframe,0,0,320,200,RGB(255,0,0));
+		}
+
+		if (highscore)
+		{
+			WriteHighscore(highscore);
+		}
+
+		DrawText(currframe, "GAME OVER", 50, 50);
+		highscore = 0;
+
+		for (int i = 0; i < NumberOfStars; ++i)
+		{
+			stars[i].y = 400;
+		}
+
+		pos_x = (320-42)/2;
+		pos_y = (200-42)/2;
+		dir = 0;
+	} 
+}
+
+void OnEnter(struct Gamestate* state) {
+	highscore = 0;
+	pause_mode = 0;
+	gameOver(NULL);
+	gameover = 0;
 }
 
 void Init(struct Gamestate* state)
@@ -93,7 +127,14 @@ void Draw(Bitmap *surface) {
 
 	if (pause_mode)
 	{
+		setFont(fontwhite16);
 		DrawText(surface, "PAUSE", 50, 180);
+	} else if (gameover) {
+		gameOver(surface);
+		if (SysTickCounter - gameOverEntryTime > 200)
+		{
+			gameover = 0;
+		}
 	} else {
 		for(int i=0;i<NumberOfStars;i++)
 		{
@@ -111,10 +152,17 @@ void Draw(Bitmap *surface) {
 			const RLEBitmap spaceBitmap = *spacecraft[0];
 			if (RectRectIntersection(stars[i].x, stars[i].y, sprite.width, sprite.height, pos_x, pos_y, spaceBitmap.width, spaceBitmap.height))
 			{
-				gameOver(surface, pos_x, pos_y);
+				gameover = 1;
+				gameOverEntryTime = SysTickCounter;
 			}
 		}
 	}
+
+	setFont(fontwhite16);
+	char *highscoreString;
+	asprintf(&highscoreString, "%d", highscore);
+	DrawText(surface, highscoreString, 0, 8);
+	free(highscoreString);
 
 	DrawRLEBitmap(surface, spacecraft[dir+1], pos_x, pos_y);
 }
@@ -122,6 +170,23 @@ void Draw(Bitmap *surface) {
 void Update(uint32_t delta) {
 	int32_t old_pos_x = pos_x;
 	int32_t old_pos_y = pos_y;
+
+	if ((SysTickCounter - lastMenuUpdate) > 40 )
+	{
+		if (GetControllerState1().buttons.Start) {
+			lastMenuUpdate = SysTickCounter;
+			pause_mode = pause_mode ? 0 : 1;
+		} else if (GetControllerState1().buttons.Select) {
+			ExitState();
+		}
+	}
+
+	if (pause_mode)
+	{
+		return;
+	} else {
+		highscore += delta;
+	}
 
 	#ifdef ACCELEROMETER
 		/*if (UserButtonState()) {
@@ -140,17 +205,6 @@ void Update(uint32_t delta) {
 		pos_x -= (dx / 10) * delta;
 		pos_y -= (dy / 10) * delta;
 	#else
-		if (GetControllerState1().buttons.Start && (SysTickCounter - lastMenuUpdate) > 40 )
-		{
-			lastMenuUpdate = SysTickCounter;
-			pause_mode = pause_mode ? 0 : 1;
-		}
-
-		if (pause_mode)
-		{
-			return;
-		}
-
 		pos_x += GetControllerState1().buttons.Right * delta;
 		pos_x -= GetControllerState1().buttons.Left * delta;
 		pos_y -= GetControllerState1().buttons.Up *delta;

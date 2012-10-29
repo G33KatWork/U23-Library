@@ -2,7 +2,7 @@
 TARGET = spacecraft
 
 # List C source files here.
-CCSOURCES = Spacecraft.c Sprites.c Menu.c
+CCSOURCES = Spacecraft.c Sprites.c Menu.c Highscore.c
 
 # Additional local static libs to link against
 LIBS = gaming stm32f4xx fatfs sdcard graphics

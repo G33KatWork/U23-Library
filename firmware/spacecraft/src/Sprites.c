@@ -1,8 +1,8 @@
 #include <RLEBitmap.h>
 
-
-
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(533,40,42)]; } Space_0_0 = {
+const RLEBitmap * const spacecraft[3] =
+{
+	(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(533,40,42)]; }) {
 		{ 42,42 },
 		{
 			RLEEndCode(0x2a),   RLEEndCode(0x2a),   RLEEndCode(0x2a),   RLEEndCode(0x2a),
@@ -160,8 +160,8 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(533,40,42)]; } Space_0_0 
 			RLEEndCode(0x1d),   RLECode(0x0a,0x02), RGB(0x84,0x00,0x00),RGB(0xff,0x00,0x00),
 			RLEEndCode(0x1e),   RLEEndCode(0x2a),   RLEEndCode(0x2a),
 		}
-	};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(649,52,42)]; } Space_0_1 = {
+	},
+	(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(649,52,42)]; }) {
 		{ 42,42 },
 		{
 			RLEEndCode(0x2a),   RLEEndCode(0x2a),   RLEEndCode(0x2a),   RLEEndCode(0x2a),
@@ -351,8 +351,8 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(649,52,42)]; } Space_0_1 
 			RGB(0x84,0x00,0x00),RLEEndCode(0x13),   RLECode(0x15,0x01), RGB(0x84,0x00,0x00),
 			RLEEndCode(0x14),   RLEEndCode(0x2a),   RLEEndCode(0x2a),
 		}
-	};
-	const struct { RLEBitmap rle; Pixel codes[RLECodeCount(517,41,42)]; } Space_0_2 = {
+	},
+	(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(517,41,42)]; }) {
 		{ 42,42 },
 		{
 			RLEEndCode(0x2a),   RLEEndCode(0x2a),   RLEEndCode(0x2a),   RLEEndCode(0x2a),
@@ -506,10 +506,11 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(649,52,42)]; } Space_0_1 
 			RGB(0x5a,0x5a,0x52),RLEEndCode(0x0a),   RLECode(0x1e,0x02), RGB(0xff,0x00,0x00),
 			RGB(0x84,0x00,0x00),RLEEndCode(0x0a),   RLEEndCode(0x2a),   RLEEndCode(0x2a),
 		}
-	};
+	}
+};
 
-	const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_0=
-	{
+const RLEBitmap * const sprites[7*6] = {
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; }) {
 		{ 32,32 },
 		{
 			RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -528,11 +529,10 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(649,52,42)]; } Space_0_1 
 			RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 			RLEEndCode(0x20),   RLEEndCode(0x20),
 		}
-	};
+	},
 
 
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_1=
-{
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -551,9 +551,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_1=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_2=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -572,9 +572,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_2=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_3=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -593,9 +593,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_3=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_4=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -614,9 +614,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_4=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_5=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -635,9 +635,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(21,5,32)]; } Star1_5=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_0=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -662,9 +662,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_0=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_1=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -689,9 +689,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_1=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_2=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -716,9 +716,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_2=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_3=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -743,9 +743,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_3=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_4=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -770,9 +770,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_4=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_5=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -797,9 +797,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(45,7,32)]; } Star2_5=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_0=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -828,9 +828,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_0=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_1=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -859,9 +859,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_1=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_2=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -890,9 +890,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_2=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_3=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -921,9 +921,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_3=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_4=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -952,9 +952,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_4=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_5=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -983,9 +983,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(57,9,32)]; } Star3_5=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_0=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1016,9 +1016,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_0=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_1=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1049,9 +1049,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_1=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_2=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1082,9 +1082,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_2=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_3=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1115,9 +1115,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_3=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_4=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1148,9 +1148,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_4=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_5=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1181,9 +1181,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(65,11,32)]; } Star4_5=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_0=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1225,9 +1225,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_0=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_1=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1269,9 +1269,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_1=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_2=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1313,9 +1313,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_2=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_3=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1357,9 +1357,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_3=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_4=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1401,9 +1401,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_4=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_5=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1445,9 +1445,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(97,21,32)]; } Star5_5=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_0=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1505,9 +1505,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_0=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_1=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1565,9 +1565,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_1=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_2=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1625,9 +1625,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_2=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_3=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1685,9 +1685,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_3=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_4=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1745,9 +1745,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_4=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_5=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
@@ -1805,9 +1805,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(153,29,32)]; } Star6_5=
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_0=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLECode(0x0f,0x01),
@@ -1877,9 +1877,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_0=
 		RGB(0x5c,0x00,0x00),RLEEndCode(0x10),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_1=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLECode(0x0f,0x01),
@@ -1949,9 +1949,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_1=
 		RGB(0x00,0x5c,0x00),RLEEndCode(0x10),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_2=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLECode(0x0f,0x01),
@@ -2021,9 +2021,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_2=
 		RGB(0x00,0x00,0x5c),RLEEndCode(0x10),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_3=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLECode(0x0f,0x01),
@@ -2093,9 +2093,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_3=
 		RGB(0x5c,0x5c,0x00),RLEEndCode(0x10),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_4=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLECode(0x0f,0x01),
@@ -2165,9 +2165,9 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_4=
 		RGB(0x00,0x5c,0x5c),RLEEndCode(0x10),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
-};
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_5=
-{
+},
+
+(const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; }) {
 	{ 32,32 },
 	{
 		RLEEndCode(0x20),   RLEEndCode(0x20),   RLEEndCode(0x20),   RLECode(0x0f,0x01),
@@ -2237,10 +2237,10 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(197,33,32)]; } Star7_5=
 		RGB(0x5c,0x00,0x5c),RLEEndCode(0x10),   RLEEndCode(0x20),   RLEEndCode(0x20),
 		RLEEndCode(0x20),   RLEEndCode(0x20),
 	}
+}
 };
 
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(37,7,4)]; } explo_1=
-{
+const RLEBitmap *explo_1 = (const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(37,7,4)]; }) {
 	{ 7,7 },
 	{
 		RLECode(0x02,0x03), RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),
@@ -2257,8 +2257,8 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(37,7,4)]; } explo_1=
 		RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RLEEndCode(0x02),
 	}
 };
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(177,15,10)]; } explo_2=
-{
+
+const RLEBitmap *explo_2 = (const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(177,15,10)]; }) {
 	{ 15,15 },
 	{
 		RLECode(0x05,0x05), RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),
@@ -2314,8 +2314,8 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(177,15,10)]; } explo_2=
 		RGB(0x00,0xff,0x00),RLEEndCode(0x05),
 	}
 };
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(333,21,16)]; } explo_3=
-{
+
+const RLEBitmap *explo_3 = (const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(333,21,16)]; }) {
 	{ 21,21 },
 	{
 		RLECode(0x08,0x05), RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),
@@ -2413,8 +2413,8 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(333,21,16)]; } explo_3=
 		RGB(0x00,0xff,0x00),RLEEndCode(0x08),
 	}
 };
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(860,50,30)]; } explo_4=
-{
+
+const RLEBitmap *explo_4 = (const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(860,50,30)]; }) {
 	{ 39,35 },
 	{
 		RLECode(0x11,0x05), RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),
@@ -2654,8 +2654,8 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(860,50,30)]; } explo_4=
 		RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RLEEndCode(0x11),
 	}
 };
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(1076,62,36)]; } explo_5=
-{
+
+const RLEBitmap *explo_5 = (const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(1076,62,36)]; }) {
 	{ 45,41 },
 	{
 		RLECode(0x14,0x05), RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),
@@ -2954,8 +2954,8 @@ const struct { RLEBitmap rle; Pixel codes[RLECodeCount(1076,62,36)]; } explo_5=
 		RGB(0x00,0xff,0x00),RLEEndCode(0x14),
 	}
 };
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(968,84,40)]; } explo_6=
-{
+
+const RLEBitmap *explo_6 = (const RLEBitmap*)&(const struct { RLEBitmap rle; Pixel codes[RLECodeCount(968,84,40)]; }) {
 	{ 53,49 },
 	{
 		RLECode(0x15,0x0b), RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),RGB(0x00,0xff,0x00),

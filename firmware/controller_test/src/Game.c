@@ -40,7 +40,7 @@ void Draw(Bitmap* surface)
 
 	DrawText(surface, "Controller Test v0.1", 5, 1);
 
-  DrawRLEBitmap(surface, &controller, 5, 10);
+  DrawRLEBitmap(surface, controller, 5, 10);
 
   if (state1.buttons.Up )
     OffsDrawFilledRectangle(surface,  67, 81, 10, 15, RGB(255,0,0));

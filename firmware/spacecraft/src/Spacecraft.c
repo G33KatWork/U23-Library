@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stm32f4xx/stm32f4xx_rng.h>
+#include <math.h>
 
 #include "../inc/Highscore.h"
 #include "../inc/Sprites.h"
@@ -42,19 +43,6 @@ static struct Star
 {
 	int x,y,dy,f;
 } stars[NumberOfStars];
-
-const RLEBitmap *sprites[7*6]={
-	&Star1_0,&Star2_0,&Star3_0,&Star4_0,&Star5_0,&Star6_0,&Star7_0,
-	&Star1_1,&Star2_1,&Star3_1,&Star4_1,&Star5_1,&Star6_1,&Star7_1,
-	&Star1_2,&Star2_2,&Star3_2,&Star4_2,&Star5_2,&Star6_2,&Star7_2,
-	&Star1_3,&Star2_3,&Star3_3,&Star4_3,&Star5_3,&Star6_3,&Star7_3,
-	&Star1_4,&Star2_4,&Star3_4,&Star4_4,&Star5_4,&Star6_4,&Star7_4,
-	&Star1_5,&Star2_5,&Star3_5,&Star4_5,&Star5_5,&Star6_5,&Star7_5,
-};
-
-const RLEBitmap *spacecraft[3]={
-	&Space_0_0, &Space_0_1, &Space_0_2
-};
 
 inline bool RectRectIntersection(int16_t x1, int16_t y1, int16_t w1, int16_t h1, int16_t x2, int16_t y2, int16_t w2, int16_t h2)
 {

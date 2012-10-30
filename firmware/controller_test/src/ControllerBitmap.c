@@ -1,6 +1,8 @@
 #include <RLEBitmap.h>
-const struct { RLEBitmap rle; Pixel codes[RLECodeCount(54428,714,0)]; } controller=
-{
+
+const RLEBitmap * const controller =
+(const RLEBitmap *)&(const struct
+		{ RLEBitmap rle; Pixel codes[RLECodeCount(54428,714,0)]; }) {
 	{ 310,180 },
 	{
 		RLECode(0x00,0xff), RGB(0xff,0xff,0xff),RGB(0xff,0xff,0xff),RGB(0xff,0xff,0xff),

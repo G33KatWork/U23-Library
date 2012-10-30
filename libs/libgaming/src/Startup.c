@@ -29,7 +29,7 @@ void Reset_Handler()
 	SystemInit();
 
 	// Call the application's entry point.
-    main();
+	main();
 
 	// If main ever exits, lock up.
 	for(;;);

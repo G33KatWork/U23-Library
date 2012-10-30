@@ -3,6 +3,6 @@
 
 #include <RLEBitmap.h>
 
-extern const RLEBitmap controller;
+extern const RLEBitmap *const controller;
 
 #endif

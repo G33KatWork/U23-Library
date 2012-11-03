@@ -1,0 +1,6 @@
+PE11: Sync input (photo diode)
+PB15: Laser modulation output (MOSI)
+
+PA4: Motor speed control output (DAC)
+
+PB1: Debug output

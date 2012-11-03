@@ -8,6 +8,8 @@
 #include <stm32f4xx/misc.h>
 #include <stm32f4xx/stm32f4xx_rcc.h>
 #include <stm32f4xx/stm32f4xx_spi.h>
+#include <stm32f4xx/stm32f4xx_dac.h>
+#include <stm32f4xx/stm32f4xx_tim.h>
 
 SPI_InitTypeDef  SPI_InitStructure;
 
@@ -100,10 +102,106 @@ static void SPI_Config(void)
   SPI_Cmd(SPIx, ENABLE);
 }
 
+void TIM_Config(void)
+{
+  GPIO_InitTypeDef GPIO_InitStructure;
+  NVIC_InitTypeDef NVIC_InitStructure;
+  
+  /* TIM1 clock enable */
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+
+  /* GPIOE clock enable */
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+  
+  /* TIM1 channel 2 pin (PE.11) configuration */
+  GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_11;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_Init(GPIOE, &GPIO_InitStructure);
+
+  /* Connect TIM pins to AF2 */
+  GPIO_PinAFConfig(GPIOE, GPIO_PinSource11, GPIO_AF_TIM1);
+  
+  /* Enable the TIM1 global Interrupt */
+  NVIC_InitStructure.NVIC_IRQChannel = TIM1_CC_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  
+}
+
+volatile int EnableClosedLoop = 0;
+
 int main()
 {
 	InitializeSystem();
 	SysTick_Config(HCLKFrequency()/100);
+	
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	/* DMA1 clock and GPIOA clock enable (to be used with DAC) */
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+
+    /* DAC Periph clock enable */
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
+	
+	/* DAC channel 1 & 2 (DAC_OUT1 = PA.4)(DAC_OUT2 = PA.5) configuration */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    
+    DAC_InitTypeDef  DAC_InitStructure;
+    
+    /* DAC channel1 Configuration */
+    DAC_InitStructure.DAC_Trigger = DAC_Trigger_None;
+    DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
+    DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
+    DAC_Init(DAC_Channel_1, &DAC_InitStructure);
+    DAC_Init(DAC_Channel_2, &DAC_InitStructure);
+    
+    /* Enable DAC Channel1 */
+    DAC_Cmd(DAC_Channel_1, ENABLE);
+    DAC_Cmd(DAC_Channel_2, ENABLE);
+    DAC_SetChannel1Data(DAC_Align_12b_R, 3700);
+    DAC_SetChannel2Data(DAC_Align_12b_R, 0);
+    
+    TIM_ICInitTypeDef  TIM_ICInitStructure;
+    /* TIM1 Configuration */
+    TIM_Config();
+
+  /* TIM1 configuration: Input Capture mode ---------------------
+     The external signal is connected to TIM1 CH2 pin (PE.11)  
+     The Rising edge is used as active edge,
+     The TIM1 CCR2 is used to compute the frequency value 
+  ------------------------------------------------------------ */
+
+  TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
+  TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
+  TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
+  TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+  TIM_ICInitStructure.TIM_ICFilter = 0x0;
+
+  TIM_ICInit(TIM1, &TIM_ICInitStructure);
+  
+  TIM_PrescalerConfig(TIM1, 512, TIM_PSCReloadMode_Immediate);
+  
+  /* TIM enable counter */
+  TIM_Cmd(TIM1, ENABLE);
+
+  /* Enable the CC2 Interrupt Request */
+  TIM_ITConfig(TIM1, TIM_IT_CC2, ENABLE);
+
+    
+    /* while(1) {
+        for(int i=0; i<4096; i++) {
+            DAC_SetChannel1Data(DAC_Align_12b_R, i);
+            for(int j=0; j<100; j++);
+        }
+    } */
 	
 	/* EnableAHB1PeripheralClock(RCC_AHB1ENR_GPIOBEN);
 
@@ -120,15 +218,27 @@ int main()
 	
 	EnableAHB1PeripheralClock(RCC_AHB1ENR_GPIOBEN);
 
-	SetGPIOInputMode(GPIOB,(1<<0));
-	SetGPIONoPullResistor(GPIOB,(1<<0));
+	//SetGPIOInputMode(GPIOB,(1<<0));
+	//SetGPIONoPullResistor(GPIOB,(1<<0));
+
+    SetGPIOOutputMode(GPIOB,(1<<0));
+	SetGPIOPushPullOutput(GPIOB,(1<<0));
+	SetGPIOSpeed100MHz(GPIOB,(1<<0));
+
+	SetGPIOOutputMode(GPIOB,(1<<1));
+	SetGPIOPushPullOutput(GPIOB,(1<<1));
+	SetGPIOSpeed100MHz(GPIOB,(1<<1));
 	
 	SPI_Config();
+	
+	Delay(700);
+	
+	EnableClosedLoop = 1;
 	
     while(1) {
         while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
         SPI_I2S_SendData(SPIx, 0xFF);
-        while(GPIOB->IDR&0x01);
+        while(GPIOE->IDR&(1<<11));
         
         for(unsigned int i=0; i<20; i++) {
             while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
@@ -140,6 +250,72 @@ int main()
             SPI_I2S_SendData(SPIx, i);
         }
     }
+}
+
+volatile int CaptureNumber = 0;
+volatile uint16_t IC3ReadValue1, IC3ReadValue2;
+
+volatile int32_t integral = 0;
+
+void TIM1_CC_IRQHandler(void)
+{
+  int Capture, TIM1Freq;
+  
+
+  if(TIM_GetITStatus(TIM1, TIM_IT_CC2) == SET) 
+  {
+    /* Clear TIM1 Capture compare interrupt pending bit */
+    TIM_ClearITPendingBit(TIM1, TIM_IT_CC2);
+    if(CaptureNumber == 0)
+    {
+      /* Get the Input Capture value */
+      IC3ReadValue1 = TIM_GetCapture2(TIM1);
+      CaptureNumber = 1;
+    }
+    else if(CaptureNumber == 1)
+    {
+      /* Get the Input Capture value */
+      IC3ReadValue2 = TIM_GetCapture2(TIM1); 
+      
+      /* Capture computation */
+      if (IC3ReadValue2 > IC3ReadValue1)
+      {
+        Capture = (IC3ReadValue2 - IC3ReadValue1); 
+      }
+      else if (IC3ReadValue2 < IC3ReadValue1)
+      {
+        Capture = ((0xFFFF - IC3ReadValue1) + IC3ReadValue2); 
+      }
+      else
+      {
+        Capture = 0;
+      }
+      /* Frequency computation */ 
+      // TIM1Freq = (uint32_t) SystemCoreClock / Capture;
+      CaptureNumber = 0;
+      
+      int speed = (uint32_t) 1000000 / Capture;
+      
+      int32_t control = 3550 - (speed - 381)*4 - integral/128;
+      if(control > 4000) control = 4000;
+      if(control < 3400) control = 3400;
+      
+      integral += (speed - 304);
+      
+      if(integral > 100000) integral = 100000;
+      if(integral < -100000) integral = -100000;
+      
+      if(EnableClosedLoop)
+        DAC_SetChannel1Data(DAC_Align_12b_R, control);
+      
+      DAC_SetChannel2Data(DAC_Align_12b_R, speed);
+    }
+  }
+  
+  /* for(int i=15; i>=0; i--) {
+    GPIOB->ODR |= (Capture & (1<<i) ? 3 : 1);
+    GPIOB->ODR &= ~(3);
+  } */
 }
 
 volatile uint32_t SysTickCounter=0;

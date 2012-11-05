@@ -2,6 +2,7 @@
 #include "RLELoader.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <strings.h>
 #include <ctype.h>
 
@@ -129,8 +130,9 @@ static void ProcessRLEBitmap(UnpackedBitmap *bitmap,const char *name,int numargs
 	}
 	if(!rle) exit(1);
 
+	printf("const RLEBitmap * const %s=\n(const RLEBitmap *)&(", name);
 	PrintRLEStructDefinition(rle);
-	printf(" %s=\n",name);
+	printf(")");
 	PrintRLEBitmapInitializer(rle,"");
 	printf(";\n");
 

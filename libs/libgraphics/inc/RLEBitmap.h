@@ -64,9 +64,9 @@ static inline int RLEBitmapSpanStart(RLEBitmapSpanIterator *self) { return self-
 static inline int RLEBitmapSpanLength(RLEBitmapSpanIterator *self) { return self->spanlength; }
 static inline const Pixel *RLEBitmapSpanPixels(RLEBitmapSpanIterator *self) { return self->pointer; }
 
-static inline void ClipRLEBitmapSpanIteratorRows(RLEBitmapSpanIterator *self,const Bitmap *bitmap,int y)
+static inline void ClipRLEBitmapSpanIteratorRowsByValue(RLEBitmapSpanIterator *self,int bitmapHeight,int y)
 {
-	if(y+self->height>bitmap->height) self->height=bitmap->height-y;
+	if(y+self->height>bitmapHeight) self->height=bitmapHeight-y;
 
 	if(y<0)
 	{
@@ -75,6 +75,11 @@ static inline void ClipRLEBitmapSpanIteratorRows(RLEBitmapSpanIterator *self,con
 		while(NextRLEBitmapSpan(self));
 		self->height=oldheight;
 	}
+}
+
+static inline void ClipRLEBitmapSpanIteratorRows(RLEBitmapSpanIterator *self,const Bitmap *bitmap,int y)
+{
+  return ClipRLEBitmapSpanIteratorRowsByValue(self, bitmap->height, y);
 }
 
 #if PixelSize!=1

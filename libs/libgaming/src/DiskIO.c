@@ -22,7 +22,6 @@ DSTATUS disk_initialize (
 	{
 		//FIXME: DMA stuff - fix later...
 		// NVIC_InitTypeDef NVIC_InitStructure;
-		// NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 		// NVIC_InitStructure.NVIC_IRQChannel = SDIO_IRQn;
 		// NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 		// NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
@@ -33,9 +32,9 @@ DSTATUS disk_initialize (
 		// NVIC_Init(&NVIC_InitStructure);
 
 		Status = SD_Init();
-		
+
 		if(Status != SD_OK)
-			return STA_NOINIT;
+			return STA_NODISK;	//assume no disk if initialization failed
 		else
 		{
 			Status = SD_GetCardInfo(&SDCardInfo);
@@ -73,7 +72,7 @@ DSTATUS disk_status (
 	}
 
 	return Stat;
-} 
+}
 
 /*-----------------------------------------------------------------------*/
 /* Read Sector(s)                                                        */
@@ -109,9 +108,9 @@ DRESULT disk_read (
 		for(int i = 0; i < count; i++)
 		{
 			Status = SD_ReadBlock((BYTE*)(((uintptr_t)buff)+BlockSize*i), (uint32_t)(sector*BlockSize), BlockSize);
-			
+
 			while(SD_GetStatus() != SD_TRANSFER_OK);
-			
+
 			if(Status != SD_OK)
 				return RES_ERROR;
 		}
@@ -122,7 +121,7 @@ DRESULT disk_read (
 			return RES_ERROR;
 	}
 	else
-		return RES_ERROR;  
+		return RES_ERROR;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -159,9 +158,9 @@ DRESULT disk_write (
 		for(int i = 0; i < count; i++)
 		{
 			Status = SD_WriteBlock((BYTE*)(((uintptr_t)buff)+BlockSize*i), (uint32_t)(sector*BlockSize), BlockSize);
-			
+
 			while(SD_GetStatus() != SD_TRANSFER_OK);
-			
+
 			if(Status != SD_OK)
 				return RES_ERROR;
 		}
@@ -172,7 +171,7 @@ DRESULT disk_write (
 			return RES_ERROR;
 	}
 	else
-		return RES_ERROR;  
+		return RES_ERROR;
 }
 #endif /* _READONLY */
 
@@ -187,7 +186,7 @@ DRESULT disk_ioctl (
 	//printf("Disk ioctl: %x, Disk: %x\r\n", ctrl, drv);
 	u32 x, y, z;
 	DRESULT res;
-	
+
 	if (drv==0)
 	{
 		switch(ctrl)
@@ -195,7 +194,7 @@ DRESULT disk_ioctl (
 			case CTRL_SYNC:
 				res = RES_OK;
 				break;
-		
+
 			case GET_BLOCK_SIZE:
 				*(WORD*)buff = BlockSize;
 				res = RES_OK;
@@ -214,30 +213,30 @@ DRESULT disk_ioctl (
 			default:
 				res = RES_PARERR;
 		}
-		
+
 		return res;
 	}
 	else
-		return RES_ERROR;  
+		return RES_ERROR;
 }
 
 
 /*-----------------------------------------------------------------------*/
 /* User defined to give a current time to fatfs module          */
-/* 31-25: Year(0-127 org.1980), 24-21: Month(1-12), 20-16: Day(1-31)     */                                                                                                                                                                                                                                          
-/* 15-11: Hour(0-23), 10-5: Minute(0-59), 4-0: Second(0-29 *2)           */ 
-/*-----------------------------------------------------------------------*/                                                                                                                                                                                                                                               
+/* 31-25: Year(0-127 org.1980), 24-21: Month(1-12), 20-16: Day(1-31)     */
+/* 15-11: Hour(0-23), 10-5: Minute(0-59), 4-0: Second(0-29 *2)           */
+/*-----------------------------------------------------------------------*/
 DWORD get_fattime (void)
 {
 #if 0
 	struct tm t;
 	DWORD date;
-	
+
 	t = Time_GetCalendarTime();
 	t.tm_year -= 1980;
 	t.tm_mon++;
 	t.tm_sec /= 2;
-	
+
 	date = 0;
 	date = (t.tm_year << 25) | (t.tm_mon<<21) | (t.tm_mday<<16)|\
 			(t.tm_hour<<11) | (t.tm_min<<5) | (t.tm_sec);
@@ -263,11 +262,11 @@ void SD_SDIO_DMA_IRQHANDLER(void)
 // 	for(unsigned int i = 0; i < (len / 0x10); i++)
 // 	{
 // 		printf("%08X: ", (uint32_t)start);
-		
+
 // 		char* ptr = (char*)start;
 // 		for(int j = 0; j < 0x10; j++)
 // 			printf("%02X ", *ptr++);
-		
+
 // 		ptr = (char*)start;
 // 		printf("\t");
 // 		for(int j = 0; j < 0x10; j++)
@@ -278,7 +277,7 @@ void SD_SDIO_DMA_IRQHANDLER(void)
 // 			else
 // 				printf("%c", c);
 // 		}
-		
+
 // 		printf("\r\n");
 // 		start += 0x10;
 // 	}

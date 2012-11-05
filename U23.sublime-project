@@ -1,0 +1,27 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"file_exclude_patterns": ["*.d", "*.o", "*.a", "*.elf", "*.bin"],
+			"folder_exclude_patterns": ["obj"]
+		}
+	],
+	"settings":
+	    {
+	        "sublimeclang_options":
+	        [
+	        	"-Werror",
+		        "-DRGB8Pixels -DDEBUG",
+	     		//"-I${folder:${project_path:U23.sublime-project}}//libs/libsystem/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/cmsis/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/fatfs/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/libgaming/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/libgraphics/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/libsdcard/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/libstm32f4xx/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/libusbcore/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}/libs/libusbdevice/inc"
+	        ]
+	    }
+}

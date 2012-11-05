@@ -296,7 +296,7 @@ void TIM1_CC_IRQHandler(void)
       
       int speed = (uint32_t) 1000000 / Capture;
       
-      int32_t control = 3550 - (speed - 381)*4 - integral/128;
+      int32_t control = 3550 - (speed - 304)*4 - integral/128;
       if(control > 4000) control = 4000;
       if(control < 3400) control = 3400;
       

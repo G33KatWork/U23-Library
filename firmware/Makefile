@@ -1,22 +1,4 @@
-ROOT                 := ..
-include $(ROOT)/build/base.mak
+SUBDIRS = gametest spacecraft controller_test gamestate_test exposer
 
-SUBDIRS = helloworld accelerometer audiotest spritetest usbtest usarttest sdcardtest fputest snestest gametest exposer
-
-# Main targets
-all: $(SUBDIRS:%=%.subdir)
-clean: $(SUBDIRS:%=%.subclean)
-distclean: clean $(SUBDIRS:%=%.subdistclean)
-
-#subdir rules
-%.subdir:
-	$(call cmd_msg,SUBDIR,$*)
-	$(call call_submake,$*,all)
-
-%.subclean:
-	$(call call_submake,$*,clean)
-
-%.subdistclean:
-	$(call call_submake,$*,distclean)
-
-.PHONY: all clean distclean
+SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+include $(addprefix $(SELF_DIR),$(addsuffix /Makefile,$(SUBDIRS)))

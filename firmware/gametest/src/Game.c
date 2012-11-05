@@ -1,97 +1,106 @@
 #include <game/Game.h>
 #include <game/Debug.h>
 #include <game/Filesystem.h>
+#include <game/Font.h>
 
 #include <stdio.h>
 #include <string.h>
 
-#include <fatfs/ff.h>
-
-void Init(void);
+void Init(struct Gamestate*);
 void Update(uint32_t);
-void Draw(void);
+void Draw(Bitmap* surface);
 
-FRESULT scan_files(char* path);
+Gamestate InitState = { Init, NULL, NULL, Update, Draw };
+Game* TheGame = &(Game) {&InitState};
 
-Game MyGame = { Init, Update, Draw };
-Game* TheGame = &MyGame;
-
-void Init()
+void Init(struct Gamestate* state)
 {
 	EnableDebugOutput(DEBUG_USART);
 	printf("Init\r\n");
+	setFont(fontblack8);
 
 	InitializeFilesystem();
 
-	FRESULT res;
+	//Open a file
+	FILE* file = fopen("0:TESTFILE", "w+");
+	if(!file) {
+		perror("fopen()");
+		goto fs_err;
+	}
+	printf("opened file: %x\r\n", (uint32_t)file);
 
-	// printf("Formatting...\r\n");
-	// res = f_mkfs(0, 1, 2*8192);
-	// printf("mkfs result: %x\r\n", res);
+	//Write to file
+	const char* writecontent = "This is a test";
+	int res = fwrite(writecontent, 1, strlen(writecontent), file);
+	if(!res) {
+		if(ferror(file))
+			printf("Error occured\r\n");
+		perror("fwrite()");
+		goto fs_err;
+	}
+	printf("wrote file: %x\r\n", res);
 
-	printf("Creating file\r\n");
-	FIL f;
-	res = f_open(&f, "0:TESTFILE", FA_CREATE_ALWAYS | FA_WRITE);
-	printf("open(): %x\r\n", res);
+	//Seek to start
+	res = fseek(file, 0, SEEK_SET);
+	if(res == -1) {
+		perror("fseek()");
+		goto fs_err;
+	}
+	printf("seeked file: %x\r\n", res);
 
-	printf("Writing\r\n");
-	char* string = "Test";
-	UINT written;
-	res = f_write(&f, string, 4, &written);
-	printf("write(): %x written: %x\r\n", res, written);
+	//Read file
+	char readcontent[256];
+	res = fread(readcontent, 1, 255, file);
+	if(!res) {
+		if(ferror(file))
+			printf("Error occured\r\n");
+		if(feof(file))
+			printf("EOF occured\r\n");
+		perror("fread()");
+		goto fs_err;
+	}
+	readcontent[res] = '\0';
+	printf("read file: %x\r\n", res);
+	printf("content: %s\r\n", readcontent);
 
-	res = f_sync(&f);
-	printf("sync(): %x\r\n", res);
-
-	printf("Closing\r\n");
-	res = f_close(&f);
-	printf("close(): %x\r\n", res);
-
-	printf("Dirlisting:\r\n");
-	res = scan_files("0:");
-	printf("Scan files: %x\r\n", res);
+fs_err:
+	//Close file
+	res = fclose(file);
+	if(res != 0) {
+		perror("fclose()");
+		goto fs_err;
+	}
+	printf("closed file: %x\r\n", res);
 
 	DeinitializeFilesystem();
 }
 
+int myframe = 0;
+
 void Update(uint32_t delta)
 {
-	snes_button_state_t state = GetControllerState();
-	//printf("Delta: %d\r\n", delta);
-	//printf("Button A: %d\r\n", state.buttons.A);
-	Delay(100);
+	snes_button_state_t state = GetControllerState1();
+	pushbutton_button_state_t anotherState = GetPushbuttonState();
+	myframe++;
 }
 
-void Draw()
+void Draw(Bitmap* surface)
 {
+	ClearBitmap(surface);
+	DrawFilledRectangle(surface, 30, 30, 50, 50, GetPushbuttonState().A ? RGB(128,128,128) : RGB(255, 255, 255));
+	setFont(fontwhite16);
 
-}
+	char testString[8];
+	testString[7] = '\0';
 
+	testString[0] = GetPushbuttonState().A ? 'A' : ' ';
+	testString[1] = GetPushbuttonState().B ? 'B' : ' ';
+	testString[2] = GetPushbuttonState().Up ? 'U' : ' ';
+	testString[3] = GetPushbuttonState().Down ? 'D' : ' ';
+	testString[4] = GetPushbuttonState().Left ? 'L' : ' ';
+	testString[5] = GetPushbuttonState().Right ? 'R' : ' ';
+	testString[6] = GetPushbuttonState().User ? 'u' : ' ';
 
-FRESULT scan_files(char* path)
-{
-	FRESULT res;
-	FILINFO fno;
-	DIR dir;
-	int i;
-	char *fn;
-
-	res = f_opendir(&dir, path);
-	if (res == FR_OK) {
-		i = strlen(path);
-		for (;;) {
-			res = f_readdir(&dir, &fno);
-			if (res != FR_OK || fno.fname[0] == 0) break;
-			if (fno.fname[0] == '.') continue;
-			fn = fno.fname;
-
-			if (fno.fattrib & AM_DIR) {
-				printf("Directory: %s/%s\r\n", path, fn);
-			} else {
-				printf("File: %s/%s\r\n", path, fn);
-			}
-		}
-	}
-
-	return res;
+	setFont(fontwhite8);
+	DrawText(surface, testString, 10, 100);
 }

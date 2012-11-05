@@ -50,7 +50,7 @@ CompositionMode comp,GenericDrawPixelFunction *pixelfunc)
 	{
 		error+=2*dy+1;
 		dy++;
- 
+
 		if(error>=0)
 		{
 			error-=2*dx-1;

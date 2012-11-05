@@ -29,7 +29,7 @@
 
 /** @defgroup USB_CONF_Exported_Defines
   * @{
-  */ 
+  */
 
 //FIXME: patch this out and do user request for that... more decoupling
 #define USBD_CFG_MAX_NUM           1
@@ -38,37 +38,37 @@
 
 /**
   * @}
-  */ 
+  */
 
 
 /** @defgroup USB_CONF_Exported_Types
   * @{
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 
 /** @defgroup USB_CONF_Exported_Macros
   * @{
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup USB_CONF_Exported_Variables
   * @{
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup USB_CONF_Exported_FunctionsPrototype
   * @{
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 
 #endif //__USBD_CONF__H__

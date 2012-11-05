@@ -80,12 +80,16 @@ upload-$(TARGET): $(ROOT)/firmware/$(TARGET)/$(TARGET).bin
 	-c "flash write_bank 0 $^ 0" \
 	-c "reset run" -c shutdown
 
+upload-fast-$(TARGET): $(ROOT)/firmware/$(TARGET)/$(TARGET).bin
+	$(call cmd_msg,STLINK,$<)
+	$(Q)st-flash write $< 0x8000000
+
 upload-gdb-$(TARGET): $(ROOT)/firmware/$(TARGET)/$(TARGET).elf
 	$(call cmd_msg,GDB,$<)
-	$(Q)st-util & arm-none-eabi-gdb -ex "tar ext :4242" -ex "load $<" < /dev/null
+	$(Q)st-util & $(GDB) -ex "tar ext :4242" -ex "load $<" < /dev/null
 
 debug-gdb-$(TARGET): $(ROOT)/firmware/$(TARGET)/$(TARGET).elf
-	st-util & gdb -ex "tar ext :4242" $<
+	st-util & $(GDB) -ex "tar ext :4242" $<
 
 .PHONY: clean-$(TARGET) upload-gdb-$(TARGET) upload-$(TARGET) debug-gdb-$(TARGET) $(TARGET)
 

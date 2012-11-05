@@ -19,7 +19,7 @@ int _fstat(int file, struct stat *st)
 int _write(int file, char *ptr, int len)
 {
 	int counter;
- 
+
 	counter = len;
 	for (; counter > 0; counter--)
 	{

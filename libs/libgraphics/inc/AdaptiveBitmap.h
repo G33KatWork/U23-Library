@@ -8,7 +8,7 @@
 typedef struct AdaptiveBitmap {} AdaptiveBitmap;
 
 #define StartBitmapToAdaptiveBitmapCast (const AdaptiveBitmap *)
-#define EndBitmapToAdaptiveBitmapCast 
+#define EndBitmapToAdaptiveBitmapCast
 #define StartRLEBitmapToAdaptiveBitmapCast (const AdaptiveBitmap *)(1+(uintptr_t)(
 #define EndRLEBitmapToAdaptiveBitmapCast ))
 

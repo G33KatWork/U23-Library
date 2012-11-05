@@ -4,7 +4,7 @@
 
 #include <platform/SystemInit.h>
 #include <platform/LED.h>
-#include <platform/SNES.h>
+#include <platform/UserInterface.h>
 #include <platform/SysTick.h>
 #include <platform/VGA.h>
 
@@ -31,11 +31,11 @@ int main()
 	SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
 
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-	
+
 	InitializeLEDs();
-	InitializeSnesController();
+	InitializeUserInterface();
 	InitializeRandom();
-	
+
 	//Clear framebuffers
 	memset(ADDR_FRAMEBUFFER1, 0x00, 320*200);
 	memset(ADDR_FRAMEBUFFER2, 0x00, 320*200);

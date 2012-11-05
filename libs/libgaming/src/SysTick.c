@@ -9,6 +9,6 @@ void Delay(uint32_t time)
 }
 
 void SysTick_Handler()
-{  
+{
 	SysTickCounter++;
 }

@@ -27,7 +27,7 @@ void InitializeSystem()
 	RCC->CR&=0xFFFBFFFF; // Reset HSEBYP bit
 	RCC->CIR=0x00000000; // Disable all interrupts
 
-	// Configure the System clock source, PLL Multiplier and Divider factors, 
+	// Configure the System clock source, PLL Multiplier and Divider factors,
 	// AHB/APBx prescalers and Flash settings
 	InitializeClocks();
 
@@ -48,7 +48,7 @@ static void InitializeClocks()
 
 	// Enable high performance mode, System frequency up to 168 MHz.
 	RCC->APB1ENR|=RCC_APB1ENR_PWREN;
-	PWR->CR|=PWR_CR_PMODE;  
+	PWR->CR|=PWR_CR_PMODE;
 
 	RCC->CFGR|=RCC_CFGR_HPRE_DIV1; // HCLK = SYSCLK / 1
 	RCC->CFGR|=RCC_CFGR_PPRE2_DIV2; // PCLK2 = HCLK / 2
@@ -60,7 +60,7 @@ static void InitializeClocks()
 	// Enable the main PLL and wait until it is ready.
 	RCC->CR|=RCC_CR_PLLON;
 	while(!(RCC->CR&RCC_CR_PLLRDY));
-   
+
 	// Configure Flash prefetch, Instruction cache, Data cache and wait state
 	FLASH->ACR=FLASH_ACR_ICEN|FLASH_ACR_DCEN|FLASH_ACR_LATENCY_5WS;
 

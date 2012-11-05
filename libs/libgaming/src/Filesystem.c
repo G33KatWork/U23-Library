@@ -21,7 +21,7 @@ void InitializeFilesystem()
 		return;
 
 	FRESULT res = f_mount(0, &fatfs);
-	
+
 	if(res != FR_OK)
 		return;
 
@@ -283,22 +283,23 @@ off_t _file_lseek(int fd, off_t offset, int whence)
     if(!file)
         return -1;
 
-    if(whence == SEEK_CUR)
-        goal = file->fptr + offset;
-    else if(whence == SEEK_SET)
-        goal = offset;
-    else if(whence == SEEK_END)
-        goal = file->fsize + offset;
-    else
+    switch (whence)
     {
-        errno = EINVAL;
-        return -1;
-    }
-
-    if(goal < 0)
-    {
-        errno = EINVAL;
-        return -1;
+        case SEEK_CUR:
+            if ((UINT32_MAX - offset) < file->fptr) goto error;
+            goal = file->fptr + offset;
+            break;
+        case SEEK_SET:
+            goal = offset;
+            break;
+        case SEEK_END:
+            if ((UINT32_MAX - offset) < file->fsize) goto error;
+            goal = file->fsize + offset;
+            break;
+        default:
+        error:
+            errno = EINVAL;
+            return -1;
     }
 
     switch(f_lseek(file, goal))
@@ -339,7 +340,7 @@ int _file_isatty(int fd)
 static FIL* __get_file(int *fd)
 {
 	*fd -= 3;
-	
+
 	if((*fd < 0) || (*fd > MAX_OPEN_FILES)) {
 		errno = EBADF;
 		return NULL;

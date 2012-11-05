@@ -25,7 +25,7 @@ int _fstat(int file, struct stat *st)
 int _write(int file, char *ptr, int len)
 {
 	int counter;
- 
+
 	counter = len;
 	for (; counter > 0; counter--)
 	{
@@ -43,16 +43,16 @@ caddr_t _sbrk(int incr)
 	printf("sbrk: %x\r\n", incr);
 	static unsigned char *heap_end;
 	unsigned char *prev_heap_end;
-	
+
 	if(heap_end == 0) heap_end = heap;
 	prev_heap_end = heap_end;
-	
+
 	if(heap_end + incr - heap > HEAPSIZE ) {
 		printf("ERR: out of heap memory\r\n");
 		errno = ENOMEM;
 		return (caddr_t)-1;
 	}
-	
+
 	heap_end += incr;
 
 	return (caddr_t) prev_heap_end;

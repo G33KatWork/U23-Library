@@ -18,7 +18,7 @@ static void LIS302DL_LowLevel_Init(void);
 
 static int8_t calibrationVector[3];
 
-void InitializeAccelerometer() 
+void InitializeAccelerometer(void)
 {
 	LIS302DL_LowLevel_Init();
 
@@ -52,10 +52,10 @@ static void LIS302DL_LowLevel_Init(void)
 
   /* Enable CS  GPIO clock */
   RCC_AHB1PeriphClockCmd(LIS302DL_SPI_CS_GPIO_CLK, ENABLE);
-  
+
   /* Enable INT1 GPIO clock */
   RCC_AHB1PeriphClockCmd(LIS302DL_SPI_INT1_GPIO_CLK, ENABLE);
-  
+
   /* Enable INT2 GPIO clock */
   RCC_AHB1PeriphClockCmd(LIS302DL_SPI_INT2_GPIO_CLK, ENABLE);
 
@@ -105,7 +105,7 @@ static void LIS302DL_LowLevel_Init(void)
 
   /* Deselect : Chip Select high */
   GPIO_SetBits(LIS302DL_SPI_CS_GPIO_PORT, LIS302DL_SPI_CS_PIN);
-  
+
   /* Configure GPIO PINs to detect Interrupts */
   GPIO_InitStructure.GPIO_Pin = LIS302DL_SPI_INT1_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
@@ -113,13 +113,13 @@ static void LIS302DL_LowLevel_Init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
   GPIO_Init(LIS302DL_SPI_INT1_GPIO_PORT, &GPIO_InitStructure);
-  
+
   GPIO_InitStructure.GPIO_Pin = LIS302DL_SPI_INT2_PIN;
   GPIO_Init(LIS302DL_SPI_INT2_GPIO_PORT, &GPIO_InitStructure);
 }
 
 
-uint8_t PingAccelerometer()
+uint8_t PingAccelerometer(void)
 {
 	uint8_t byte=ReadByte(LIS302DL_WHO_AM_I_ADDR);
 	return byte==0x3b;
@@ -140,11 +140,11 @@ void SetAccelerometerInterruptConfig(uint8_t config)
 	WriteByte(config,LIS302DL_CLICK_CFG_REG_ADDR);
 }
 
-void CalibrateAccelerometer() {
+void CalibrateAccelerometer(void) {
 	ReadRawAccelerometerData(calibrationVector);
 }
 
-void ReadCalibratedAccelerometerData(int8_t *values) {
+void ReadCalibratedAccelerometerData(int8_t values[3]) {
 	int8_t newValues[3];
 	ReadRawAccelerometerData(newValues);
 
@@ -153,18 +153,18 @@ void ReadCalibratedAccelerometerData(int8_t *values) {
 	values[2]=(int8_t)newValues[2]-calibrationVector[2];
 }
 
-void ResetAccelerometer()
+void ResetAccelerometer(void)
 {
 	uint8_t val=ReadByte(LIS302DL_CTRL_REG2_ADDR);
 	WriteByte(val|LIS302DL_BOOT_REBOOTMEMORY,LIS302DL_CTRL_REG2_ADDR);
 }
 
-void ResetAccelerometerFilter()
+void ResetAccelerometerFilter(void)
 {
 	ReadByte(LIS302DL_HP_FILTER_RESET_REG_ADDR);
 }
 
-void ReadRawAccelerometerData(int8_t *values)
+void ReadRawAccelerometerData(int8_t values[3])
 {
 	uint8_t buffer[5];
 	ReadBytes(buffer,LIS302DL_OUT_X_ADDR,5);
@@ -173,11 +173,11 @@ void ReadRawAccelerometerData(int8_t *values)
 	values[2]=(int8_t)buffer[4];
 }
 
-#define ReadCommand 0x80 
+#define ReadCommand 0x80
 #define MultiByteCommand 0x40
 
 static uint8_t ReadByte(uint8_t address)
-{  
+{
 	LowerCS();
 
 	TransferByte(address|ReadCommand);
@@ -189,7 +189,7 @@ static uint8_t ReadByte(uint8_t address)
 }
 
 static void ReadBytes(uint8_t *buffer,uint8_t address,int numbytes)
-{  
+{
 	if(numbytes>1) address|=ReadCommand|MultiByteCommand;
 	else address|=ReadCommand;
 

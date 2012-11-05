@@ -9,18 +9,18 @@ static uint8_t USBD_DEV_DeInit(void *pdev, uint8_t cfgidx);
 static uint8_t USBD_DEV_Setup(void *pdev, USB_SETUP_REQ *req);
 static uint8_t *USBD_DEV_GetCfgDesc(uint8_t speed, uint16_t *length);
 
-USBD_Class_cb_TypeDef USBD_DEV_cb = 
+USBD_Class_cb_TypeDef USBD_DEV_cb =
 {
   USBD_DEV_Init,
   USBD_DEV_DeInit,
   USBD_DEV_Setup,
-  NULL, /*EP0_TxSent*/  
+  NULL, /*EP0_TxSent*/
   NULL, /*EP0_RxReady*/
   NULL, /*DataIn*/
   NULL, /*DataOut*/
   NULL, /*SOF */
   NULL,
-  NULL,      
+  NULL,
   USBD_DEV_GetCfgDesc
 };
 
@@ -34,7 +34,7 @@ __ALIGN_BEGIN static uint8_t USBD_DEV_CfgDesc[USB_DEV_CONFIG_DESC_SIZ] __ALIGN_E
   USBD_IDX_CONFIG_STR,         /*iConfiguration: Index of string descriptor describing the configuration*/
   0xC0,         /*bmAttributes: bus powered */
   0x32,         /*MaxPower 100 mA: this current is used for detecting Vbus*/
-  
+
   /************** Interface descriptor ****************/
   /* 09 */
   0x09,         /*bLength: Interface Descriptor size*/
@@ -80,14 +80,14 @@ static uint8_t USBD_DEV_Setup(void *pdev, USB_SETUP_REQ *req)
         case USB_REQ_SET_VALUE:
           value = req->wValue;
           break;
-        
+
         case USB_REQ_GET_VALUE:
           USBD_CtlSendData(pdev, (uint8_t*)&value, sizeof(value));
           break;
-        
+
         default:
           USBD_CtlError(pdev, req);
-          return USBD_FAIL; 
+          return USBD_FAIL;
       }
   }
 

@@ -6,7 +6,7 @@
   * @date    22-July-2011
   * @brief   Peripheral Device Interface Layer
   ******************************************************************************
-  * @attention 
+  * @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
@@ -31,32 +31,32 @@
 /** @addtogroup USB_OTG_DRIVER
   * @{
   */
-  
+
 /** @defgroup USB_HCD_INT
-  * @brief This file is the 
+  * @brief This file is the
   * @{
-  */ 
+  */
 
 
 /** @defgroup USB_HCD_INT_Exported_Defines
   * @{
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 
 /** @defgroup USB_HCD_INT_Exported_Types
   * @{
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 
 /** @defgroup USB_HCD_INT_Exported_Macros
   * @{
-  */ 
+  */
 
 #define CLEAR_HC_INT(HC_REGS, intr) \
   {\
@@ -88,18 +88,18 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup USB_HCD_INT_Exported_Variables
   * @{
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup USB_HCD_INT_Exported_FunctionsPrototype
   * @{
-  */ 
+  */
 /* Callbacks handler */
 void ConnectCallback_Handler(USB_OTG_CORE_HANDLE *pdev);
 void Disconnect_Callback_Handler(USB_OTG_CORE_HANDLE *pdev);
@@ -108,7 +108,7 @@ uint32_t USBH_OTG_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
 
 /**
   * @}
-  */ 
+  */
 
 
 
@@ -117,9 +117,9 @@ uint32_t USBH_OTG_ISR_Handler (USB_OTG_CORE_HANDLE *pdev);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

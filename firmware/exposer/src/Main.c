@@ -139,10 +139,14 @@ int main()
 {
   RCC_ClocksTypeDef RCC_Clocks;
   RCC_GetClocksFreq(&RCC_Clocks);
-
-  SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
-		
+  SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);		
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
+
+  MyUSART_Init();
+  EnableDebugOutput(DEBUG_USART);
+
+  printf("Init\r\n");
+
 
   GPIO_InitTypeDef GPIO_InitStructure;
 	
@@ -152,7 +156,9 @@ int main()
   /* DAC Periph clock enable */
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
 	
-	/* DAC channel 1 & 2 (DAC_OUT1 = PA.4)(DAC_OUT2 = PA.5) configuration */
+  DAC_DeInit();
+	
+  /* DAC channel 1 & 2 (DAC_OUT1 = PA.4)(DAC_OUT2 = PA.5) configuration */
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -173,7 +179,11 @@ int main()
   DAC_SetChannel1Data(DAC_Align_12b_R, 3700);
   DAC_SetChannel2Data(DAC_Align_12b_R, 0);
 
-  //while(1);
+  // while(1) {
+  //   Delay(100);
+  //   printf("Channel1 %d\r\n", DAC_GetDataOutputValue(DAC_Channel_1));
+  //   printf("Channel2 %d\r\n", DAC_GetDataOutputValue(DAC_Channel_2));
+  // };
 
   TIM_ICInitTypeDef  TIM_ICInitStructure;
   /* TIM1 Configuration */
@@ -237,6 +247,7 @@ int main()
 
 
   while(1) {
+    printf("%d\r\n", DAC_GetDataOutputValue(DAC_Channel_1));
     while(!IndexReached) {
       while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
       SPI_I2S_SendData(SPIx, 0xFF);

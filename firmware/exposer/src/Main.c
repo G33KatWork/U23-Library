@@ -1,9 +1,5 @@
-#include <stdint.h>
-
-#include <RCC.h>
 #include <System.h>
-#include <LED.h>
-#include <GPIO.h>
+
 #include <stm32f4xx/stm32f4xx_gpio.h>
 #include <stm32f4xx/misc.h>
 #include <stm32f4xx/stm32f4xx_rcc.h>
@@ -13,7 +9,8 @@
 
 SPI_InitTypeDef  SPI_InitStructure;
 
-void Delay(uint32_t time);
+static int IndexReached;
+static int Initial;
 
 /* SPIx Communication boards Interface */
 #define SPIx                           SPI2
@@ -82,7 +79,7 @@ static void SPI_Config(void)
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
   SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
-  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_64;
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_2;
   SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
   SPI_InitStructure.SPI_CRCPolynomial = 7;
   
@@ -137,41 +134,47 @@ volatile int EnableClosedLoop = 0;
 
 int main()
 {
-	InitializeSystem();
-	SysTick_Config(HCLKFrequency()/100);
-	
-	GPIO_InitTypeDef GPIO_InitStructure;
+  RCC_ClocksTypeDef RCC_Clocks;
+  RCC_GetClocksFreq(&RCC_Clocks);
+
+  SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
+		
+  // NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+
+  GPIO_InitTypeDef GPIO_InitStructure;
 	
 	/* DMA1 clock and GPIOA clock enable (to be used with DAC) */
-    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 
-    /* DAC Periph clock enable */
-    RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
+  /* DAC Periph clock enable */
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
 	
 	/* DAC channel 1 & 2 (DAC_OUT1 = PA.4)(DAC_OUT2 = PA.5) configuration */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    
-    DAC_InitTypeDef  DAC_InitStructure;
-    
-    /* DAC channel1 Configuration */
-    DAC_InitStructure.DAC_Trigger = DAC_Trigger_None;
-    DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
-    DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
-    DAC_Init(DAC_Channel_1, &DAC_InitStructure);
-    DAC_Init(DAC_Channel_2, &DAC_InitStructure);
-    
-    /* Enable DAC Channel1 */
-    DAC_Cmd(DAC_Channel_1, ENABLE);
-    DAC_Cmd(DAC_Channel_2, ENABLE);
-    DAC_SetChannel1Data(DAC_Align_12b_R, 3700);
-    DAC_SetChannel2Data(DAC_Align_12b_R, 0);
-    
-    TIM_ICInitTypeDef  TIM_ICInitStructure;
-    /* TIM1 Configuration */
-    TIM_Config();
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  DAC_InitTypeDef  DAC_InitStructure;
+  
+  /* DAC channel1 Configuration */
+  DAC_InitStructure.DAC_Trigger = DAC_Trigger_None;
+  DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
+  DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
+  DAC_Init(DAC_Channel_1, &DAC_InitStructure);
+  DAC_Init(DAC_Channel_2, &DAC_InitStructure);
+  
+  /* Enable DAC Channel1 */
+  DAC_Cmd(DAC_Channel_1, ENABLE);
+  DAC_Cmd(DAC_Channel_2, ENABLE);
+  DAC_SetChannel1Data(DAC_Align_12b_R, 3700);
+  DAC_SetChannel2Data(DAC_Align_12b_R, 0);
+
+  while(1);
+
+  TIM_ICInitTypeDef  TIM_ICInitStructure;
+  /* TIM1 Configuration */
+  TIM_Config();
 
   /* TIM1 configuration: Input Capture mode ---------------------
      The external signal is connected to TIM1 CH2 pin (PE.11)  
@@ -205,9 +208,6 @@ int main()
 	
 	/* EnableAHB1PeripheralClock(RCC_AHB1ENR_GPIOBEN);
 
-	SetGPIOOutputMode(GPIOB,(1<<15));
-	SetGPIOPushPullOutput(GPIOB,(1<<15));
-	SetGPIOSpeed50MHz(GPIOB,(1<<15));
 	
 	while(1) {
 	    GPIOB->ODR |= 0x8000;
@@ -216,40 +216,57 @@ int main()
         Delay(1);
 	} */
 	
-	EnableAHB1PeripheralClock(RCC_AHB1ENR_GPIOBEN);
+ //  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
+	// //SetGPIOInputMode(GPIOB,(1<<0));
+	// //SetGPIONoPullResistor(GPIOB,(1<<0));
 
-	//SetGPIOInputMode(GPIOB,(1<<0));
-	//SetGPIONoPullResistor(GPIOB,(1<<0));
+ //  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
+ //  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+ //  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+ //  GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-    SetGPIOOutputMode(GPIOB,(1<<0));
-	SetGPIOPushPullOutput(GPIOB,(1<<0));
-	SetGPIOSpeed100MHz(GPIOB,(1<<0));
-
-	SetGPIOOutputMode(GPIOB,(1<<1));
-	SetGPIOPushPullOutput(GPIOB,(1<<1));
-	SetGPIOSpeed100MHz(GPIOB,(1<<1));
-	
 	SPI_Config();
-	
+
 	Delay(700);
 	
 	EnableClosedLoop = 1;
-	
-    while(1) {
+  IndexReached = 0;
+
+
+  while(1) {
+    while(!IndexReached) {
+      while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
+      SPI_I2S_SendData(SPIx, 0xFF);
+    }
+
+    for (int i = 0; i < 500; ++i)
+    {
+      while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
+      SPI_I2S_SendData(SPIx, 0xFF);
+    }
+
+    for (int i = 0; i < 100; ++i)
+    {
+      while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
+      SPI_I2S_SendData(SPIx, 0x00);
+    }
+
+    for (int i = 0; i < 600; ++i)
+    {
+      for (int i = 0; i < 2; ++i)
+      {
         while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
         SPI_I2S_SendData(SPIx, 0xFF);
-        while(GPIOE->IDR&(1<<11));
-        
-        for(unsigned int i=0; i<20; i++) {
-            while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
-            SPI_I2S_SendData(SPIx, 0x00);
-        }
-        
-        for(unsigned int i=0; i<60; i++) {
-            while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
-            SPI_I2S_SendData(SPIx, i);
-        }
+      }
+      for (int i = 0; i < 2; ++i)
+      {
+        while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
+        SPI_I2S_SendData(SPIx, 0x00);
+      }
     }
+    IndexReached = 0;
+
+  }
 }
 
 volatile int CaptureNumber = 0;
@@ -261,6 +278,7 @@ void TIM1_CC_IRQHandler(void)
 {
   int Capture, TIM1Freq;
   
+
 
   if(TIM_GetITStatus(TIM1, TIM_IT_CC2) == SET) 
   {
@@ -296,37 +314,25 @@ void TIM1_CC_IRQHandler(void)
       
       int speed = (uint32_t) 1000000 / Capture;
       
-      int32_t control = 3550 - (speed - 304)*4 - integral/128;
+      int32_t control = 3550 - (speed - 1000)*4 - integral/128;
       if(control > 4000) control = 4000;
       if(control < 3400) control = 3400;
       
-      integral += (speed - 304);
+      integral += (speed - 1000);
       
       if(integral > 100000) integral = 100000;
       if(integral < -100000) integral = -100000;
       
       if(EnableClosedLoop)
         DAC_SetChannel1Data(DAC_Align_12b_R, control);
-      
+
       DAC_SetChannel2Data(DAC_Align_12b_R, speed);
     }
   }
-  
+
+  IndexReached = 1;
   /* for(int i=15; i>=0; i--) {
     GPIOB->ODR |= (Capture & (1<<i) ? 3 : 1);
     GPIOB->ODR &= ~(3);
   } */
-}
-
-volatile uint32_t SysTickCounter=0;
-
-void Delay(uint32_t time)
-{
-	uint32_t end=SysTickCounter+time;
-	while(SysTickCounter!=end);
-}
-
-void SysTick_Handler()
-{  
-	SysTickCounter++;
 }

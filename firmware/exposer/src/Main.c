@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stdio.h>
+
 #include <System.h>
 
 #include <stm32f4xx/stm32f4xx_gpio.h>
@@ -139,7 +142,7 @@ int main()
 
   SysTick_Config(RCC_Clocks.HCLK_Frequency / 100);
 		
-  // NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
   GPIO_InitTypeDef GPIO_InitStructure;
 	
@@ -170,7 +173,7 @@ int main()
   DAC_SetChannel1Data(DAC_Align_12b_R, 3700);
   DAC_SetChannel2Data(DAC_Align_12b_R, 0);
 
-  while(1);
+  //while(1);
 
   TIM_ICInitTypeDef  TIM_ICInitStructure;
   /* TIM1 Configuration */

@@ -2,7 +2,7 @@
 TARGET = exposer
 
 # List C source files here.
-CCSOURCES = Main.c
+CCSOURCES = Main.c serencode.c
 
 # Additional local static libs to link against
 LIBS = system stm32f4xx

@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include <System.h>
+#include <serencode.h>
 
 #include <stm32f4xx/stm32f4xx_gpio.h>
 #include <stm32f4xx/misc.h>
@@ -143,13 +144,11 @@ int main()
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 
   MyUSART_Init();
-  EnableDebugOutput(DEBUG_USART);
-
-  printf("Init\r\n");
-
 
   GPIO_InitTypeDef GPIO_InitStructure;
 	
+
+
 	/* DMA1 clock and GPIOA clock enable (to be used with DAC) */
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 
@@ -160,13 +159,19 @@ int main()
 	
   /* DAC channel 1 & 2 (DAC_OUT1 = PA.4)(DAC_OUT2 = PA.5) configuration */
   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   DAC_InitTypeDef  DAC_InitStructure;
   
   /* DAC channel1 Configuration */
+  // GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
+  //  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  //  
+
   DAC_InitStructure.DAC_Trigger = DAC_Trigger_None;
   DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
   DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
@@ -247,7 +252,11 @@ int main()
 
 
   while(1) {
-    printf("%d\r\n", DAC_GetDataOutputValue(DAC_Channel_1));
+    while(1) {
+      while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
+      SPI_I2S_SendData(SPIx, 0xFF);
+    }
+
     while(!IndexReached) {
       while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);
       SPI_I2S_SendData(SPIx, 0xFF);
@@ -328,19 +337,24 @@ void TIM1_CC_IRQHandler(void)
       
       int speed = (uint32_t) 1000000 / Capture;
       
-      int32_t control = 3550 - (speed - 1000)*4 - integral/128;
+      int32_t control = 3550 - (speed - 608)*4 - integral/16;
       if(control > 4000) control = 4000;
-      if(control < 3400) control = 3400;
+      if(control < 3400) control = 3350;
       
-      integral += (speed - 1000);
+      integral += (speed - 608);
       
-      if(integral > 100000) integral = 100000;
-      if(integral < -100000) integral = -100000;
+      if(integral > 10000) integral = 10000;
+      if(integral < -10000) integral = -10000;
       
       if(EnableClosedLoop)
         DAC_SetChannel1Data(DAC_Align_12b_R, control);
 
-      DAC_SetChannel2Data(DAC_Align_12b_R, speed);
+      se_start_frame(10);
+      se_puti16(speed);
+      se_puti16(control);
+      se_puti16(DAC_GetDataOutputValue(DAC_Channel_1));
+      se_puti32(integral);
+
     }
   }
 

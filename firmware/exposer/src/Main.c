@@ -41,6 +41,14 @@ static int Initial;
 #define SPIx_MOSI_SOURCE               GPIO_PinSource15
 #define SPIx_MOSI_AF                   GPIO_AF_SPI2
 
+/* Controller parameters */
+const int32_t K_CONTROL_MIN = 3400;
+const int32_t K_CONTROL_MAX = 4000;
+const int32_t K_CONTROL_CENTER = 3700; //(K_CONTROL_MAX + K_CONTROL_MIN) / 2;
+
+const int32_t K_INTEGRAL_CLAMP = 3000;
+const int32_t K_SET_SPEED = 608;
+
 /**
   * @brief  Configures the SPI Peripheral.
   * @param  None
@@ -157,9 +165,9 @@ int main()
 	
   DAC_DeInit();
 	
-  /* DAC channel 1 & 2 (DAC_OUT1 = PA.4)(DAC_OUT2 = PA.5) configuration */
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  /* DAC channel 1 (DAC_OUT1 = PA.4) configuration */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -176,14 +184,11 @@ int main()
   DAC_InitStructure.DAC_WaveGeneration = DAC_WaveGeneration_None;
   DAC_InitStructure.DAC_OutputBuffer = DAC_OutputBuffer_Enable;
   DAC_Init(DAC_Channel_1, &DAC_InitStructure);
-  DAC_Init(DAC_Channel_2, &DAC_InitStructure);
   
   /* Enable DAC Channel1 */
   DAC_Cmd(DAC_Channel_1, ENABLE);
-  DAC_Cmd(DAC_Channel_2, ENABLE);
-  DAC_SetChannel1Data(DAC_Align_12b_R, 3700);
-  DAC_SetChannel2Data(DAC_Align_12b_R, 0);
-
+  DAC_SetChannel1Data(DAC_Align_12b_R, K_CONTROL_CENTER);
+  
   // while(1) {
   //   Delay(100);
   //   printf("Channel1 %d\r\n", DAC_GetDataOutputValue(DAC_Channel_1));
@@ -337,14 +342,14 @@ void TIM1_CC_IRQHandler(void)
       
       int speed = (uint32_t) 1000000 / Capture;
       
-      int32_t control = 3550 - (speed - 608)*4 - integral/16;
-      if(control > 4000) control = 4000;
-      if(control < 3400) control = 3350;
+      int32_t control = K_CONTROL_CENTER - (speed - K_SET_SPEED)*4 - integral/8;
+      if(control > K_CONTROL_MAX) control = K_CONTROL_MAX;
+      if(control < K_CONTROL_MIN) control = K_CONTROL_MIN;
       
-      integral += (speed - 608);
+      integral += (speed - K_SET_SPEED);
       
-      if(integral > 10000) integral = 10000;
-      if(integral < -10000) integral = -10000;
+      if(integral > K_INTEGRAL_CLAMP) integral = K_INTEGRAL_CLAMP;
+      if(integral < -K_INTEGRAL_CLAMP) integral = -K_INTEGRAL_CLAMP;
       
       if(EnableClosedLoop)
         DAC_SetChannel1Data(DAC_Align_12b_R, control);

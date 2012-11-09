@@ -8,7 +8,7 @@ LDFLAGS-$(TARGET) := -mthumb -mcpu=cortex-m4 \
 		  -nostartfiles -Wl,-T,$(ROOT)/build/firmware.ld,--gc-sections,-Map,$(ROOT)/firmware/$(TARGET)/linker.map,-\(,-lc,--whole-archive,$(call spaceListToCommaList,$(LIBS:%=-l%)),--no-whole-archive,-\)
 
 # C compiler flags
-CFLAGS-$(TARGET) := -std=gnu99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS-$(TARGET) := -std=gnu99 -ggdb -O0 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS-$(TARGET) += -fdata-sections -ffunction-sections
 CFLAGS-$(TARGET) += $(DEFINES)
 

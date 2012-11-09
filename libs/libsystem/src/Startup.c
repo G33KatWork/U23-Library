@@ -25,7 +25,8 @@ void Reset_Handler()
 	for(uint32_t *dest=_bss;dest<_ebss;dest++) *dest=0;
 
 	//Configure system clocks and stuff
-	SystemInit();
+	//SystemInit();
+	InitializeSystem();
 
 	// Call the application's entry point.
 	main();

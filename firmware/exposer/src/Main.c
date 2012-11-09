@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <System.h>
 #include <serencode.h>
@@ -49,6 +50,11 @@ const int32_t K_CONTROL_CENTER = 3700; //(K_CONTROL_MAX + K_CONTROL_MIN) / 2;
 const int32_t K_INTEGRAL_CLAMP = 3000;
 const int32_t K_SET_SPEED = 608;
 
+
+#define ADDR_FRAMEBUFFER ((uint8_t*)0x20000000)
+
+const size_t K_DMABUFFER_SIZE = 1024;
+
 /**
   * @brief  Configures the SPI Peripheral.
   * @param  None
@@ -86,7 +92,7 @@ static void SPI_Config(void)
  
   /* SPI configuration -------------------------------------------------------*/
   SPI_I2S_DeInit(SPIx);
-  SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+  SPI_InitStructure.SPI_Direction = SPI_Direction_1Line_Tx;
   SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
   SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
   SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
@@ -109,6 +115,7 @@ static void SPI_Config(void)
   SPI_Init(SPIx, &SPI_InitStructure);
   
   SPI_Cmd(SPIx, ENABLE);
+  DMA_Cmd(DMA1_Stream4, ENABLE);
 }
 
 void TIM_Config(void)
@@ -142,6 +149,37 @@ void TIM_Config(void)
   
 }
 
+void DMA_Config() {
+  RCC_AHB1PeriphResetCmd(RCC_AHB1Periph_DMA1, ENABLE);
+
+  DMA_Stream_TypeDef DMA_Stream_InitStruct;
+
+  DMA_InitTypeDef DMA_InitStruct;
+
+
+  DMA_Stream_TypeDef *SPI_TX_DMA_STREAM = DMA1_Stream4;
+
+  DMA_StructInit(&DMA_InitStruct);
+  DMA_DeInit(SPI_TX_DMA_STREAM);
+  DMA_InitStruct.DMA_PeripheralBaseAddr = SPI2_BASE + 0x0C;
+  DMA_InitStruct.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  DMA_InitStruct.DMA_MemoryInc = DMA_MemoryInc_Enable;
+  DMA_InitStruct.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+  DMA_InitStruct.DMA_MemoryDataSize = DMA_MemoryDataSize_Word;
+  DMA_InitStruct.DMA_Mode = DMA_Mode_Normal;
+  DMA_InitStruct.DMA_FIFOMode = DMA_FIFOMode_Enable;
+  DMA_InitStruct.DMA_FIFOThreshold = DMA_FIFOThreshold_Full;
+  DMA_InitStruct.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+  DMA_InitStruct.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+  DMA_InitStruct.DMA_Priority = DMA_Priority_VeryHigh;
+  DMA_InitStruct.DMA_Channel = DMA_Channel_0;
+  DMA_InitStruct.DMA_DIR = DMA_DIR_MemoryToPeripheral;  
+  DMA_InitStruct.DMA_Memory0BaseAddr = (uint32_t)ADDR_FRAMEBUFFER;
+  DMA_InitStruct.DMA_BufferSize = 2;
+  DMA_Init(SPI_TX_DMA_STREAM, &DMA_InitStruct);      
+  DMA_Cmd(SPI_TX_DMA_STREAM, ENABLE); 
+}
+
 volatile int EnableClosedLoop = 0;
 
 int main()
@@ -155,7 +193,7 @@ int main()
 
   GPIO_InitTypeDef GPIO_InitStructure;
 	
-
+  //memset(ADDR_FRAMEBUFFER, 0xAA, K_DMABUFFER_SIZE);
 
 	/* DMA1 clock and GPIOA clock enable (to be used with DAC) */
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
@@ -187,17 +225,21 @@ int main()
   
   /* Enable DAC Channel1 */
   DAC_Cmd(DAC_Channel_1, ENABLE);
-  DAC_SetChannel1Data(DAC_Align_12b_R, K_CONTROL_CENTER);
-  
+  DAC_Cmd(DAC_Channel_2, ENABLE);
+  DAC_SetChannel1Data(DAC_Align_12b_R, 3700);
+  DAC_SetChannel2Data(DAC_Align_12b_R, 0);
+
+  while(1);
+
   // while(1) {
   //   Delay(100);
   //   printf("Channel1 %d\r\n", DAC_GetDataOutputValue(DAC_Channel_1));
   //   printf("Channel2 %d\r\n", DAC_GetDataOutputValue(DAC_Channel_2));
   // };
 
-  TIM_ICInitTypeDef  TIM_ICInitStructure;
+  //TIM_ICInitTypeDef  TIM_ICInitStructure;
   /* TIM1 Configuration */
-  TIM_Config();
+  //TIM_Config();
 
   /* TIM1 configuration: Input Capture mode ---------------------
      The external signal is connected to TIM1 CH2 pin (PE.11)  
@@ -205,7 +247,7 @@ int main()
      The TIM1 CCR2 is used to compute the frequency value 
   ------------------------------------------------------------ */
 
-  TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
+  /*TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
   TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
   TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
   TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
@@ -215,11 +257,11 @@ int main()
   
   TIM_PrescalerConfig(TIM1, 512, TIM_PSCReloadMode_Immediate);
   
-  /* TIM enable counter */
+  // TIM enable counter
   TIM_Cmd(TIM1, ENABLE);
 
-  /* Enable the CC2 Interrupt Request */
-  TIM_ITConfig(TIM1, TIM_IT_CC2, ENABLE);
+  //Enable the CC2 Interrupt Request 
+  TIM_ITConfig(TIM1, TIM_IT_CC2, ENABLE);*/
 
     
     /* while(1) {
@@ -249,13 +291,15 @@ int main()
  //  GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 	SPI_Config();
+  DMA_Config();
 
 	Delay(700);
 	
 	EnableClosedLoop = 1;
   IndexReached = 0;
 
-
+  while(1);
+  
   while(1) {
     while(1) {
       while(SPI_I2S_GetFlagStatus(SPIx, SPI_I2S_FLAG_TXE) == RESET);

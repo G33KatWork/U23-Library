@@ -9,7 +9,7 @@
 static inline int max(int a, int b) { return a >= b ? a : b; }
 static inline int min(int a, int b) { return a <= b ? a : b; }
 
-float vectorLength(int x, int y)
+float vectorLength(float x, float y)
 {
   return sqrt((x * x) + (y * y));
   //return abs(x)+abs(y);
@@ -258,7 +258,7 @@ static inline void MObj_update_movement(TiledMap *map, MapObject *obj, uint32_t 
     }
 
   // Check for target reached
-  if (targetReached)
+  if (obj->moving && targetReached)
   {
     if (obj->moving->onTargetReached)
       obj->moving->onTargetReached(obj);
@@ -275,9 +275,9 @@ static inline bool MObj_update_movement_targeted(MapObject *obj, int delta)
   float mult = delta * obj->moving->speed / length;
   int deltaX = (int) (dirX * mult);
   int deltaY = (int) (dirY * mult);
-  obj->x = obj->x + deltaX;
-  obj->y = obj->y + deltaY;
-  return abs(deltaX) >= abs(dirX);
+  obj->x += deltaX;
+  obj->y += deltaY;
+  return abs(deltaX) >= abs(dirX) && abs(deltaY) >= abs(dirY);
 }
 
 static inline bool MObj_update_movement_forced(MapObject *obj, int delta)

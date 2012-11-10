@@ -1,10 +1,5 @@
 #include <Collision.h>
 
-static inline bool IsSpanCompletelyOutside2(int x1,int s1,int x2, int s2)
-{
-  return IsSpanCompletelyOutside(x1 - x2, s1, s2);
-}
-
 bool Collision_BB_Sprite(int bX, int bY, int bsizeX, int bsizeY, int spriteX, int spriteY, const RLEBitmap *sprite)
 {
   if(!Collision_BB_BB(
@@ -26,7 +21,7 @@ bool Collision_BB_Sprite(int bX, int bY, int bsizeX, int bsizeY, int spriteX, in
   {
     int x=RLEBitmapSpanStart(&iterator);
     int length=RLEBitmapSpanLength(&iterator);
-    if (!IsSpanCompletelyOutside2(x + spriteX, length, bX, bsizeX))
+    if (length != 0 && !IsSpanCompletelyOutsideAbs(x + spriteX, length, bX, bsizeX))
       return true;
   }
 
@@ -59,7 +54,8 @@ bool Collision_Sprite_Sprite(int s1X, int s1Y, const RLEBitmap *s1, int s2X, int
     if (!NextRLEBitmapSpan(&it2)) return false;
     while (RLEBitmapRow(&it1) + s1Y < RLEBitmapRow(&it2) + s2Y) if (!NextRLEBitmapSpan(&it1)) return false;
     while (RLEBitmapRow(&it1) + s1Y > RLEBitmapRow(&it2) + s2Y) if (!NextRLEBitmapSpan(&it2)) return false;
-    if (!IsSpanCompletelyOutside2(
+    if (RLEBitmapSpanLength(&it2) != 0 && RLEBitmapSpanLength(&it2) != 0 &&
+        !IsSpanCompletelyOutsideAbs(
           RLEBitmapSpanStart(&it1) + s1X,
           RLEBitmapSpanLength(&it1),
           RLEBitmapSpanStart(&it2) + s2X,

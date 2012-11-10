@@ -11,7 +11,7 @@
 
 static inline bool Collision_BB_BB(int b1X, int b1Y, int b1sizeX, int b1sizeY, int b2X, int b2Y, int b2sizeX, int b2sizeY)
 {
-  return !IsCompletelyOutside(b1X - b2X, b1Y - b2Y, b1sizeX, b1sizeY, b2sizeX, b2sizeY);
+  return !IsCompletelyOutsideAbs(b1X, b1Y, b1sizeX, b1sizeY, b2X, b2Y, b2sizeX, b2sizeY);
 }
 
 // Coordinates in whole pixels

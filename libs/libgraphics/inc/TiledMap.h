@@ -6,11 +6,13 @@
 
 
 #ifndef GRAVITATION
-#define GRAVITATION 10
+  #define GRAVITATION 10
 #endif
 
+#ifndef PIXEL_RESOLUTION
+  #define PIXEL_RESOLUTION 256
+#endif
 
-#define PIXEL_RESOLUTION (256)
 // Simply an index into an array
 //  TODO: turn into an info-struct array
 typedef int8_t Tile;

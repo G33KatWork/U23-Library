@@ -1,3 +1,4 @@
+#include <TiledMap.h>
 #include <game/Game.h>
 #include <game/Debug.h>
 #include <game/Filesystem.h>
@@ -14,7 +15,20 @@
 
 //#define ACCELEROMETER
 
-static uint32_t sqrti(uint32_t n);
+TiledMap *map;
+MapObject *ship;
+MapObject *stars;
+
+static int32_t highscore = 0;
+static int32_t lastMenuUpdate;
+static int32_t gameOverEntryTime;
+static bool pause_mode = false;
+static bool gameover = false;
+static bool doneOnce = false;
+
+//#define WRITE_HIGHSCORE
+#define NumberOfStars 9
+
 
 void Init(struct Gamestate*);
 void OnEnter(struct Gamestate*);
@@ -23,223 +37,220 @@ void Draw(Bitmap* surface);
 
 Gamestate game = { Init, OnEnter, NULL, Update, Draw, };
 
-#ifdef ACCELEROMETER
-static uint32_t sqrti(uint32_t n);
-static int32_t acc_x=0,acc_y=0;
+
+void gameOver(Bitmap *currframe)
+{
+  if (!gameover)
+    return;
+
+  if (!doneOnce)
+  {
+    if (currframe)
+      DrawFilledRectangle(currframe,0,0,320,200,RGB(255,0,0));
+
+#ifdef WRITE_HIGHSCORE
+    if (highscore)
+      WriteHighscore(highscore);
 #endif
 
-static int32_t highscore = 0;
-static int32_t lastMenuUpdate;
-static int32_t gameOverEntryTime;
-static int pause_mode = 0;
-static int gameover = 0;
+    doneOnce = true;
+  }
 
-int pos_x = (320-42)/2;
-int pos_y = (200-42)/2;
-int dir = 0;
-
-#define NumberOfStars 3
-static struct Star
-{
-	int x,y,dy,f;
-} stars[NumberOfStars];
-
-inline bool RectRectIntersection(int16_t x1, int16_t y1, int16_t w1, int16_t h1, int16_t x2, int16_t y2, int16_t w2, int16_t h2)
-{
-	return (x1 <= x2+w2 && x2 <= x1+w1 && y1 <= y2+h2 && y2 <= y1+h1);
+  DrawText(currframe, "GAME OVER", 50, 50);
 }
 
-void gameOver(Bitmap *currframe){
-	if (gameover) {
-		if (currframe)
-		{
-			DrawFilledRectangle(currframe,0,0,320,200,RGB(255,0,0));
-		}
-
-		if (highscore)
-		{
-			WriteHighscore(highscore);
-		}
-
-		DrawText(currframe, "GAME OVER", 50, 50);
-		highscore = 0;
-
-		for (int i = 0; i < NumberOfStars; ++i)
-		{
-			stars[i].y = 400;
-		}
-
-		pos_x = (320-42)/2;
-		pos_y = (200-42)/2;
-		dir = 0;
-	} 
+void OnEnter(struct Gamestate* state)
+{
+  highscore = 0;
+  pause_mode = false;
+  gameOver(NULL);
+  gameover = false;
 }
 
-void OnEnter(struct Gamestate* state) {
-	highscore = 0;
-	pause_mode = 0;
-	gameOver(NULL);
-	gameover = 0;
+// Set gameover at a star-ship collision
+bool starCollision(MapObject *obj, MapObject *target)
+{
+  if (target != ship)
+    return true;
+
+  doneOnce = false;
+  gameover = true;
+  gameOverEntryTime = SysTickCounter;
+  // Do not ignore collision
+  return false;
+}
+
+// Reset a star and let it fall down again
+void resetStar(MapObject *obj)
+{
+  // New sprite
+  obj->bitmap = sprites[GetRandomInteger()%42];
+  // Random position
+  obj->x = GetRandomInteger() % (360 * PIXEL_RESOLUTION) - (32/2);
+  obj->y = -32 * PIXEL_RESOLUTION;
+  // Initiate movement
+  MObj_moveTo(obj, obj->x, 200 * PIXEL_RESOLUTION, PIXEL_RESOLUTION, true);
+  // Set callbacks
+  obj->moving->onTargetReached = resetStar;
+  obj->moving->onCollision = starCollision;
+}
+
+// Reset all objects for new game
+void resetObjects()
+{
+  for (int i=0; i<NumberOfStars; i++)
+  {
+    resetStar(&stars[i]);
+    stars[i].y = GetRandomInteger() % (200 * PIXEL_RESOLUTION) - (200 * PIXEL_RESOLUTION);
+  }
+
+  ship->x = (320-42)*PIXEL_RESOLUTION/2;
+  ship->y = (200-42)*PIXEL_RESOLUTION/2;
 }
 
 void Init(struct Gamestate* state)
 {
-	EnableDebugOutput(DEBUG_USART);
-	printf("Init\r\n");
+  EnableDebugOutput(DEBUG_USART);
+  printf("Init\r\n");
 
-	InitializeLEDs();
+  InitializeLEDs();
 
-	SetLEDs(0x01);
-	SetLEDs(0x07);
+  SetLEDs(0x01);
+  SetLEDs(0x07);
 
 #ifdef ACCELEROMETER
-	InitializeAccelerometer();
-	printf("Init Accelerometer: %s\r\n", PingAccelerometer() > 0 ? "OKAY" : "FAILED");
-	CalibrateAccelerometer();
+  InitializeAccelerometer();
+  printf("Init Accelerometer: %s\r\n", PingAccelerometer() > 0 ? "OKAY" : "FAILED");
+  CalibrateAccelerometer();
 #endif
 
-	for(int i=0;i<NumberOfStars;i++)
-	{
-		stars[i].x=GetRandomInteger()%360;
-		stars[i].y=(GetRandomInteger()%200);
 
-		int z=sqrti((NumberOfStars-1-i)*NumberOfStars)*1000/NumberOfStars;
-		stars[i].dy=1;//6000*1200/(z+200);
+  // Create the map
+  map = TiledMap_init(0, 0, 0, NULL);
 
-		stars[i].f=(6-(z*7)/1000)+(GetRandomInteger()%6)*7;
-	}
+  // Create the stars
+  stars = malloc(sizeof(MapObject) * NumberOfStars);
+  for(int i=0;i<NumberOfStars;i++)
+  {
+    // Initialize
+    stars[i] = (MapObject) { .collision = COLLISION_SPRITE };
+    // Add to map
+    listInsert(&map->objects, &stars[i]);
+  }
+
+  ship = malloc(sizeof(MapObject));
+  *ship = (MapObject) {
+    .bitmap = spacecraft[0],
+    .collision = COLLISION_SPRITE
+  };
+  listInsert(&map->objects, ship);
+
+  resetObjects();
 }
 
 void Draw(Bitmap *surface) {
-	ClearBitmap(surface);
+  ClearBitmap(surface);
 
-	if (pause_mode)
-	{
-		setFont(fontwhite16);
-		DrawText(surface, "PAUSE", 50, 180);
-	} else if (gameover) {
-		gameOver(surface);
-		if (SysTickCounter - gameOverEntryTime > 200)
-		{
-			gameover = 0;
-		}
-	} else {
-		for(int i=0;i<NumberOfStars;i++)
-		{
-			DrawRLEBitmap(surface,sprites[stars[i].f],(stars[i].x),stars[i].y);
+  if (pause_mode)
+  {
+    setFont(fontwhite16);
+    DrawText(surface, "PAUSE", 50, 180);
+  }
+  else if (gameover)
+  {
+    // Draw the objects
+    TiledMap_draw(surface, map, 0, 0);
+    gameOver(surface);
 
-			stars[i].y+=stars[i].dy;
-			if(stars[i].y>=(200))
-			{
-				stars[i].y=(0);
-				stars[i].x=GetRandomInteger()%320;
-				stars[i].f=(stars[i].f%7)+(GetRandomInteger()%6)*7;
+    if (SysTickCounter - gameOverEntryTime > 200)
+    {
+      // Start new game
+      gameover = false;
+      highscore = 0;
+      resetObjects();
+    }
+  }
+  else
+  {
+    // Draw the objects
+    TiledMap_draw(surface, map, 0, 0);
+  }
 
-			}
-			const RLEBitmap sprite = *sprites[stars[i].f];
-			const RLEBitmap spaceBitmap = *spacecraft[0];
-			if (RectRectIntersection(stars[i].x, stars[i].y, sprite.width, sprite.height, pos_x, pos_y, spaceBitmap.width, spaceBitmap.height))
-			{
-				gameover = 1;
-				gameOverEntryTime = SysTickCounter;
-			}
-		}
-	}
-
-	setFont(fontwhite16);
-	char *highscoreString;
-	asprintf(&highscoreString, "%d", highscore);
-	DrawText(surface, highscoreString, 0, 8);
-	free(highscoreString);
-
-	DrawRLEBitmap(surface, spacecraft[dir+1], pos_x, pos_y);
+  setFont(fontwhite16);
+  char *highscoreString;
+  asprintf(&highscoreString, "%d", highscore);
+  DrawText(surface, highscoreString, 0, 8);
+  free(highscoreString);
 }
 
 void Update(uint32_t delta) {
-	int32_t old_pos_x = pos_x;
-	int32_t old_pos_y = pos_y;
+  int32_t old_pos_x = ship->x;
+  int32_t old_pos_y = ship->y;
 
-	if ((SysTickCounter - lastMenuUpdate) > 40 )
-	{
-		if (GetControllerState1().buttons.Start) {
-			lastMenuUpdate = SysTickCounter;
-			pause_mode = pause_mode ? 0 : 1;
-		} else if (GetControllerState1().buttons.Select) {
-			ExitState();
-		}
-	}
+  // Update movement
+  if (!gameover && !pause_mode)
+    TiledMap_update(map, delta);
 
-	if (pause_mode)
-	{
-		return;
-	} else {
-		highscore += delta;
-	}
+  if ((SysTickCounter - lastMenuUpdate) > 40 )
+  {
+    if (GetControllerState1().buttons.Start) {
+      lastMenuUpdate = SysTickCounter;
+      pause_mode = pause_mode ? 0 : 1;
+    } else if (GetControllerState1().buttons.Select) {
+      ExitState();
+    }
+  }
 
-	#ifdef ACCELEROMETER
-		/*if (UserButtonState()) {
-			ReadRawAccelerometerData(zero);
-		}*/
+  if (pause_mode || gameover)
+    return;
+  else
+    highscore += delta;
 
+  #ifdef ACCELEROMETER
+    /*if (UserButtonState()) {
+      ReadRawAccelerometerData(zero);
+    }*/
 
-		int8_t components[3];
-		ReadCalibratedAccelerometerData(components);
-		int32_t dx = components[1];
-		int32_t dy = components[0];
+    int8_t components[3];
+    ReadCalibratedAccelerometerData(components);
+    int32_t dx = components[1];
+    int32_t dy = components[0];
 
-		dx = (dx / 10) * 10;
-		dy = (dy / 10) * 10;
+    dx = (dx / 10) * 10;
+    dy = (dy / 10) * 10;
 
-		pos_x -= (dx / 10) * delta;
-		pos_y -= (dy / 10) * delta;
-	#else
-		pos_x += GetControllerState1().buttons.Right * delta;
-		pos_x -= GetControllerState1().buttons.Left * delta;
-		pos_y -= GetControllerState1().buttons.Up *delta;
-		pos_y += GetControllerState1().buttons.Down *delta;
-	#endif
+    ship->x -= (dx / 10) * delta * PIXEL_RESOLUTION;
+    ship->y -= (dy / 10) * delta * PIXEL_RESOLUTION;
+  #else
+    ship->x += GetControllerState1().buttons.Right * delta * PIXEL_RESOLUTION;
+    ship->x -= GetControllerState1().buttons.Left * delta * PIXEL_RESOLUTION;
+    ship->y -= GetControllerState1().buttons.Up * delta * PIXEL_RESOLUTION;
+    ship->y += GetControllerState1().buttons.Down * delta * PIXEL_RESOLUTION;
+  #endif
 
-	dir = 0;
+  int dir = 0;
 
-	if (old_pos_x < pos_x) {
-		dir = 1;
-	} else if (old_pos_x > pos_x) {
-		dir = -1;
-	}
+  if (old_pos_x < ship->x) {
+    dir = 1;
+  } else if (old_pos_x > ship->x) {
+    dir = -1;
+  }
 
-	if (pos_x < 0) {
-		pos_x = 0;
-	}
+  if (ship->x < 0 * PIXEL_RESOLUTION) {
+    ship->x = 0 * PIXEL_RESOLUTION;
+  }
 
-	if (pos_x >= 320) {
-		pos_x = 320;
-	}
+  if (ship->x >= (320 - 42) * PIXEL_RESOLUTION) {
+    ship->x = (320 - 42) * PIXEL_RESOLUTION;
+  }
 
-	if (pos_y >= 200) {
-		pos_y = 200;
-	}
+  if (ship->y >= (200 - 42) * PIXEL_RESOLUTION) {
+    ship->y = (200 - 42) * PIXEL_RESOLUTION;
+  }
 
-	if (pos_y < 0) {
-		pos_y = 0;
-	}
+  if (ship->y < 0 * PIXEL_RESOLUTION) {
+    ship->y = 0 * PIXEL_RESOLUTION;
+  }
 
-}
-
-static uint32_t sqrti(uint32_t n)
-{
-	uint32_t s,t;
-
-	#define sqrtBit(k) \
-	t = s+(1UL<<(k-1)); t <<= k+1; if (n >= t) { n -= t; s |= 1UL<<k; }
-
-	s=0;
-	if(n>=1<<30) { n-=1<<30; s=1<<15; }
-	sqrtBit(14); sqrtBit(13); sqrtBit(12); sqrtBit(11); sqrtBit(10);
-	sqrtBit(9); sqrtBit(8); sqrtBit(7); sqrtBit(6); sqrtBit(5);
-	sqrtBit(4); sqrtBit(3); sqrtBit(2); sqrtBit(1);
-	if(n>s<<1) s|=1;
-
-	#undef sqrtBit
-
-	return s;
+  ship->bitmap = spacecraft[dir + 1];
 }

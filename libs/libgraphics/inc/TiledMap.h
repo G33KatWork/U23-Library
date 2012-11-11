@@ -13,23 +13,30 @@
   #define PIXEL_RESOLUTION 256
 #endif
 
-// Simply an index into an array
-//  TODO: turn into an info-struct array
-typedef int8_t Tile;
+// Simply an index into an array...
+typedef uint8_t Tile;
+typedef struct TileInfo TileInfo; // ... of these
 
 
 // Size may be (0,0) to only use MapObjects
-typedef struct TiledMap {
+typedef struct TiledMap
+{
   int sizeX, sizeY;    // Size in tiles
   uint8_t tileSize;    // Size of one tile in pixels
-  const RLEBitmap **tileBitmaps;
   list objects;        // List of MapObjects
+  TileInfo *tileInfo;  // Properties of the tile types
   Tile tiles[];
 } TiledMap;
 
+struct TileInfo
+{
+  const RLEBitmap *bitmap;
+  bool collision;
+};
+
 
 // Allocate a new TiledMap, return pointer
-TiledMap* TiledMap_init(int sizeX, int sizeY, uint8_t tileSize, const RLEBitmap **tileBitmaps);
+TiledMap* TiledMap_init(int sizeX, int sizeY, uint8_t tileSize, TileInfo *tileInfo);
 // Update and draw loop calls
 void TiledMap_update(TiledMap *map, uint32_t delta);
 void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo);

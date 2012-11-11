@@ -16,13 +16,13 @@ float vectorLength(float x, float y)
 }
 
 
-TiledMap* TiledMap_init(int sizeX, int sizeY, uint8_t tileSize, const RLEBitmap **tileBitmaps)
+TiledMap* TiledMap_init(int sizeX, int sizeY, uint8_t tileSize, TileInfo *tileInfo)
 {
   TiledMap *map = (TiledMap*) malloc(sizeof(TiledMap) + (sizeX * sizeY * sizeof(Tile)));
   map->sizeX = sizeX;
   map->sizeY = sizeY;
   map->tileSize = tileSize;
-  map->tileBitmaps = tileBitmaps;
+  map->tileInfo = tileInfo;
   map->objects = (list) { };
   for (int i = 0; i < sizeX * sizeY * sizeof(Tile); i++)
     map->tiles[i] = 0;
@@ -43,18 +43,22 @@ void TiledMap_update(TiledMap *map, uint32_t delta)
 void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo)
 {
   // Indices of top-left most tile to draw
-  int tx = floor(xo / SCREEN_X);
-  int ty = floor(yo / SCREEN_Y);
+  int tx = xo / SCREEN_X;
+  int ty = yo / SCREEN_Y;
   // Number of tiles per screen
-  int txs = ceil(SCREEN_X / map->tileSize);
-  int tys = ceil(SCREEN_Y / map->tileSize);
+  int txs = SCREEN_X / map->tileSize + 1;
+  int tys = SCREEN_Y / map->tileSize + 1;
 
-  for (int y = max(0, ty); y < min(map->sizeY, ty + tys); y++)
-    for (int x = max(0, tx); x < min(map->sizeX, tx + txs); x++)
+  ClipRectangle(&tx, &ty, &txs, &tys, map->sizeX, map->sizeY);
+  txs++;
+  tys++;
+
+  for (int y = ty; y < tys + ty; y++)
+    for (int x = tx; x < txs + tx; x++)
       DrawRLEBitmap(surface,
-          map->tileBitmaps[
+          map->tileInfo[
               map->tiles[y * map->sizeX + x]
-            ],
+            ].bitmap,
           xo + (x * map->tileSize),
           yo + (y * map->tileSize));
 
@@ -137,6 +141,50 @@ bool MObj_collisionMObj(MapObject *obj, MapObject *target)
         target->bitmap);
   else
     return false;
+}
+
+bool MObj_collisionMap(TiledMap *map, MapObject *obj)
+{
+  if (obj->collision == COLLISION_NONE)
+    return false;
+
+  int tileSize = map->tileSize * PIXEL_RESOLUTION;
+  int tx = obj->x / tileSize;
+  int ty = obj->y / tileSize;
+  int w, h;
+
+  if (obj->collision == COLLISION_BB)
+  {
+    w = obj->sizeX / tileSize + 1;
+    h = obj->sizeY / tileSize + 1;
+  }
+  else if (obj->collision == COLLISION_SPRITE)
+  {
+    w = obj->bitmap->width / map->tileSize + 1;
+    h = obj->bitmap->height / map->tileSize + 1;
+  }
+
+  ClipRectangle(&tx, &ty, &w, &h, map->sizeX, map->sizeY);
+
+  for (int x = tx; x < w + tx; x++)
+    for (int y = ty; y < h + ty; y++)
+      if (map->tileInfo[ map->tiles[y * map->sizeX + x] ].collision &&
+          (
+            obj->collision == COLLISION_BB ||
+            (obj->collision == COLLISION_SPRITE &&
+                Collision_BB_Sprite(
+                  x * map->tileSize,
+                  y * map->tileSize,
+                  map->tileSize / PIXEL_RESOLUTION,
+                  map->tileSize / PIXEL_RESOLUTION,
+                  obj->x / PIXEL_RESOLUTION,
+                  obj->y / PIXEL_RESOLUTION,
+                  obj->bitmap)
+              )
+          )
+         )
+        return true;
+  return false;
 }
 
 

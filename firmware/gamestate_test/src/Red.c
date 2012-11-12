@@ -4,10 +4,12 @@
 #include <string.h>
 
 void Red_Init(struct Gamestate*);
+extern void OnEnter(struct Gamestate*);
+extern void OnLeave(struct Gamestate*);
 void Red_Update(uint32_t);
 void Red_Draw(Bitmap* surface);
 
-Gamestate RedState = { Red_Init, NULL, NULL, Red_Update, Red_Draw };
+Gamestate RedState = { Red_Init, OnEnter, OnLeave, Red_Update, Red_Draw };
 
 void Red_Init(struct Gamestate* state)
 {

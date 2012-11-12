@@ -8,10 +8,11 @@
 
 void Init(struct Gamestate*);
 void OnEnter(struct Gamestate*);
+void OnLeave(struct Gamestate*);
 void Update(uint32_t);
 void Draw(Bitmap* surface);
 
-Gamestate InitState = { Init, OnEnter, NULL, Update, Draw };
+Gamestate InitState = { Init, OnEnter, OnLeave, Update, Draw };
 extern Gamestate RedState;
 Game* TheGame = &(Game) {&InitState};
 
@@ -24,6 +25,11 @@ void Init(struct Gamestate* state)
 void OnEnter(struct Gamestate* state)
 {
 	setFont(fontblack8);
+}
+
+void OnLeave(struct Gamestate* state)
+{
+	setFont(fontwhite8);
 }
 
 int myframe = 0;

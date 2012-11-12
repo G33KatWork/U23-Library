@@ -46,8 +46,8 @@ void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo)
   int tx = xo / SCREEN_X;
   int ty = yo / SCREEN_Y;
   // Number of tiles per screen
-  int txs = SCREEN_X / map->tileSize + 1;
-  int tys = SCREEN_Y / map->tileSize + 1;
+  int txs = SCREEN_X / map->tileSize;
+  int tys = SCREEN_Y / map->tileSize;
 
   ClipRectangle(&tx, &ty, &txs, &tys, map->sizeX, map->sizeY);
   txs++;

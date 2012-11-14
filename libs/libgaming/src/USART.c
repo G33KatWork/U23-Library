@@ -65,7 +65,7 @@ void USART_SendChar(char c)
 	while(USART_GetFlagStatus(USART2, USART_FLAG_TC) == RESET);
 }
 
-uint8_t USART_ReceiveChar(char* c)
+uint8_t USART_ReceiveCharNonBlocking(char* c)
 {
 	if(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == SET)
 	{
@@ -74,4 +74,11 @@ uint8_t USART_ReceiveChar(char* c)
 	}
 	else
 		return 0;
+}
+
+uint8_t USART_ReceiveChar(char* c)
+{
+	while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
+	*c = (char)USART_ReceiveData(USART2);
+	return 1;
 }

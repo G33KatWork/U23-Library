@@ -43,10 +43,17 @@ void USART_SendString(char* s);
 void USART_SendChar(char c);
 
 /*!
- * @brief Receives a single char (e.g. a array of chars) via USART to the computer
+ * @brief Receives a single char via USART to the computer, blocks until a char is received
  * @param c pointer to the receiving buffer
  */
 uint8_t USART_ReceiveChar(char* c);
+
+/*!
+ * @brief Receives a single char via USART to the computer, returns 0 if no char is read
+ * @param c pointer to the receiving buffer
+ */
+uint8_t USART_ReceiveCharNonBlocking(char* c);
+
 
 /*! @} */
 /*! @} */

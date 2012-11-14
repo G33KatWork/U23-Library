@@ -3,7 +3,7 @@
 
 #include "stdint.h"
 
-void WriteHighscore(int32_t newScore);
+void WriteHighscore(int newScore);
 void GetHighscoreList(char **formattedString);
 
 #endif

@@ -28,6 +28,11 @@ void Update(uint32_t delta)
 {
 	state1 = GetControllerState1();
   state2 = GetControllerState2();
+
+  if(state1.buttons.Up)
+    EnableRumble();
+  else
+    DisableRumble();
 }
 
 void OffsDrawFilledRectangle(Bitmap *bitmap,int x,int y,int w,int h, Pixel c) {

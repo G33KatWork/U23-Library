@@ -4,6 +4,9 @@
 #include <Bitmap.h>
 #include <Pixels.h>
 
+#define SCREEN_X 320
+#define SCREEN_Y 200
+
 typedef Pixel (*CompositionMode)(Pixel below,Pixel above);
 
 void DrawPixel(Bitmap *bitmap,int x,int y,Pixel c);

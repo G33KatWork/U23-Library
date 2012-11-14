@@ -7,6 +7,7 @@
 #include <platform/UserInterface.h>
 #include <platform/SysTick.h>
 #include <platform/VGA.h>
+#include <platform/Rumble.h>
 
 #include <game/Filesystem.h>
 #include <game/Game.h>
@@ -35,6 +36,7 @@ int main()
 	InitializeLEDs();
 	InitializeUserInterface();
 	InitializeRandom();
+	InitializeRumble();
 
 	//Clear framebuffers
 	memset(ADDR_FRAMEBUFFER1, 0x00, 320*200);

@@ -3,6 +3,7 @@
 #include <platform/SysTick.h>
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 static void WriteRegister(uint8_t RegisterAddr, uint8_t RegisterValue);
 static uint32_t ReadRegister(uint8_t RegisterAddr);
@@ -16,7 +17,7 @@ static volatile int NextBufferLength;
 static volatile int BufferNumber;
 static volatile _Bool DMARunning;
 
-void InitializeAudio(void)
+void InitializeAudio(uint16_t freq)
 {
 	// Intitialize state.
 	CallbackFunction = NULL;
@@ -24,8 +25,7 @@ void InitializeAudio(void)
 	NextBufferSamples = NULL;
 	NextBufferLength = 0;
 	BufferNumber = 0;
-	DMARunning = 0;
-
+	DMARunning = false;
 
 	// Turn on peripherals.
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB |
@@ -78,8 +78,7 @@ void InitializeAudio(void)
 
 	// Reset the codec.
 	GPIO_ResetBits(GPIOD, GPIO_Pin_4);
-	// for(volatile int i = 0; i < 0x4fff; i++) __asm__ volatile("nop");
-	Delay(0xff);
+	Delay(0x10);
 	GPIO_SetBits(GPIOD, GPIO_Pin_4);
 
 	// Reset I2C.
@@ -138,7 +137,7 @@ void InitializeAudio(void)
 		.I2S_Standard = I2S_Standard_Phillips,
 		.I2S_DataFormat = I2S_DataFormat_16b,
 		.I2S_MCLKOutput = I2S_MCLKOutput_Enable,
-		.I2S_AudioFreq = I2S_AudioFreq_22k,
+		.I2S_AudioFreq = freq,
 		.I2S_CPOL = I2S_CPOL_Low
 	});
 	I2S_Cmd(SPI3, ENABLE);

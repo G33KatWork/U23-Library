@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
+static const int SPEED = 4000;
+
 void Init(struct Gamestate*);
 void Update(uint32_t);
 void Draw(Bitmap *);
@@ -14,15 +16,24 @@ Game* TheGame = &(Game) {&InitState};
 
 void Init(struct Gamestate* state)
 {
-	InitializeAudio();
+	InitializeAudio(Gaming_AudioFreq_11k);
+
+	InitializeLEDs();
+	SetLEDs(0x01);
 }
 
 void Update(uint32_t a) {
-	uint16_t noise = 0;
+	uint16_t led = 0;
 
-	while (1) {
-		noise = noise * 1103515245u + 12345u;
-		OutputAudioSample(noise - INT16_MIN);
+	for (uint16_t t = 0;; t++) {
+		uint16_t sample = t*5&(t>>7)|t*3&(t*4>>10);
+		OutputAudioSample(sample);
+
+		if ((led % SPEED) == 0) {
+			if (led >= SPEED * 4) led = 0;
+			SetLEDs(1<<(led / SPEED));
+		}
+		led++;
 	}
 }
 

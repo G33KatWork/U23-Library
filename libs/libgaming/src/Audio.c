@@ -62,9 +62,9 @@ void InitializeAudio(void)
 		.GPIO_PuPd = GPIO_PuPd_NOPULL,
 		.GPIO_Speed = GPIO_Speed_50MHz
 	});
-	GPIO_PinAFConfig(GPIOC, GPIO_Pin_7, GPIO_AF_SPI3);
-	GPIO_PinAFConfig(GPIOC, GPIO_Pin_10, GPIO_AF_SPI3);
-	GPIO_PinAFConfig(GPIOC, GPIO_Pin_12, GPIO_AF_SPI3);
+	GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_SPI3);
+	GPIO_PinAFConfig(GPIOC, GPIO_PinSource10, GPIO_AF_SPI3);
+	GPIO_PinAFConfig(GPIOC, GPIO_PinSource12, GPIO_AF_SPI3);
 
 	// Configure I2S WS pin.
 	GPIO_Init(GPIOA, &(GPIO_InitTypeDef){
@@ -74,7 +74,7 @@ void InitializeAudio(void)
 		.GPIO_PuPd = GPIO_PuPd_NOPULL,
 		.GPIO_Speed = GPIO_Speed_50MHz
 	});
-	GPIO_PinAFConfig(GPIOA, GPIO_Pin_4, GPIO_AF_SPI3);
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource4, GPIO_AF_SPI3);
 
 	// Reset the codec.
 	GPIO_ResetBits(GPIOD, GPIO_Pin_4);
@@ -128,7 +128,7 @@ void InitializeAudio(void)
 	WriteRegister(0x1b, 0x0a);
 
 	// Frequency generator
-	WriteRegister(0x1e, 0xc0);
+	//WriteRegister(0x1e, 0xc0);
 
 	// Reset I2S.
 	SPI_I2S_DeInit(SPI3);

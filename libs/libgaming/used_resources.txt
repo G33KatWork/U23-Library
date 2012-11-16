@@ -1,6 +1,7 @@
 DMA Engines used:
+	Audio: DMA1, Stream 7, Channel 0
 	SDCard (if not in polling mode): DMA 2, Stream 3, Channel 4
-	VGA: DMA2 stream 1 channel 7
+	VGA: DMA2, Stream 1, Channel 7
 
 Timers used:
 	SNES Controller: Timer 2, interrupt every 0,5ms

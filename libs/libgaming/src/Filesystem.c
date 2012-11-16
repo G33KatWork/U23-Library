@@ -1,3 +1,4 @@
+#include <game/Audio.h>
 #include <game/Filesystem.h>
 #include <fatfs/ff.h>
 #include <stdio.h>
@@ -10,11 +11,11 @@
 static FIL* __get_file(int *fd);
 
 static FATFS fatfs;
-uint32_t filesystem_initialized = 0;
+static uint32_t filesystem_initialized = 0;
 
 void InitializeFilesystem()
 {
-	if(filesystem_initialized)
+	if(IsAudioInitialized() ||  filesystem_initialized)
 		return;
 
 	if(SD_Detect() != SD_PRESENT)

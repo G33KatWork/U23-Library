@@ -1,6 +1,9 @@
 #ifndef __AUDIO_H__
 #define __AUDIO_H__
 
+#include <stdint.h>
+#include <stdbool.h>
+
 /*! @addtogroup libgaming
  * @{ */
 
@@ -23,7 +26,7 @@
 
 /*! @} */
 
-typedef void AudioCallbackFunction(void *context,int buffer);
+typedef void AudioCallbackFunction(void *context, int buffer);
 
 /*!
  *	@brief Used to initialize audio
@@ -33,8 +36,12 @@ typedef void AudioCallbackFunction(void *context,int buffer);
  */
 void InitializeAudio(uint16_t freq);
 void DeinitializeAudio(void);
-_Bool IsAudioInitialized(void);
+bool IsAudioInitialized(void);
 void SetAudioVolume(int volume);
+
+// Power up and down the audio hardware.
+void AudioOn();
+void AudioOff();
 
 /*!
  *	@brief Output a sample to the sound codec
@@ -43,6 +50,13 @@ void SetAudioVolume(int volume);
  *	@todo Document sample format, structure, etc.
  */
 void OutputAudioSample(int16_t sample);
+void OutputAudioSampleWithoutBlocking(int16_t sample);
+
+void PlayAudioWithCallback(AudioCallbackFunction *callback,void *context);
+void StopAudio();
+
+void ProvideAudioBuffer(void *samples,int numsamples);
+bool ProvideAudioBufferWithoutBlocking(void *samples,int numsamples);
 
 /*! @} */
 /*! @} */

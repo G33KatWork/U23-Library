@@ -1,5 +1,6 @@
 #include <stm32f4xx/stm32f4xx.h>
 #include <game/Audio.h>
+#include <game/Filesystem.h>
 #include <platform/SysTick.h>
 
 #include <stdlib.h>
@@ -7,25 +8,32 @@
 
 static void WriteRegister(uint8_t RegisterAddr, uint8_t RegisterValue);
 static uint32_t ReadRegister(uint8_t RegisterAddr);
+static void StartAudioDMAAndRequestBuffers();
+static void StopAudioDMA();
 
 static _Bool audio_initialized = 0;
-
 static AudioCallbackFunction *CallbackFunction;
 static void *CallbackContext;
+static uint16_t Frequency;
 static int16_t * volatile NextBufferSamples;
 static volatile int NextBufferLength;
 static volatile int BufferNumber;
-static volatile _Bool DMARunning;
+static volatile bool DMARunning;
 
 void InitializeAudio(uint16_t freq)
 {
+	if (IsFilesystemInitialized() || audio_initialized)
+		return;
+
 	// Intitialize state.
+	audio_initialized = 1;
 	CallbackFunction = NULL;
 	CallbackContext = NULL;
 	NextBufferSamples = NULL;
 	NextBufferLength = 0;
 	BufferNumber = 0;
 	DMARunning = false;
+	Frequency = freq;
 
 	// Turn on peripherals.
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA | RCC_AHB1Periph_GPIOB |
@@ -137,18 +145,48 @@ void InitializeAudio(uint16_t freq)
 		.I2S_Standard = I2S_Standard_Phillips,
 		.I2S_DataFormat = I2S_DataFormat_16b,
 		.I2S_MCLKOutput = I2S_MCLKOutput_Enable,
-		.I2S_AudioFreq = freq,
+		.I2S_AudioFreq = Frequency,
 		.I2S_CPOL = I2S_CPOL_Low
 	});
 	I2S_Cmd(SPI3, ENABLE);
-
-	audio_initialized = 1;
 }
 
 void DeinitializeAudio(void)
 {
-	audio_initialized = 0;
+	I2S_Cmd(SPI3, DISABLE);
+	SPI_I2S_DeInit(SPI3);
+	I2C_Cmd(I2C1, DISABLE);
+	I2C_DeInit(I2C1);
 
+	audio_initialized = 0;
+}
+
+void AudioOn(void)
+{
+	if (!audio_initialized) return;
+	WriteRegister(0x02,0x9e);
+	I2S_Init(SPI3, &(I2S_InitTypeDef){
+		.I2S_Mode = I2S_Mode_MasterTx,
+		.I2S_Standard = I2S_Standard_Phillips,
+		.I2S_DataFormat = I2S_DataFormat_16b,
+		.I2S_MCLKOutput = I2S_MCLKOutput_Enable,
+		.I2S_AudioFreq = Frequency,
+		.I2S_CPOL = I2S_CPOL_Low
+	});
+}
+
+void AudioOff(void)
+{
+	if (!audio_initialized) return;
+	WriteRegister(0x02,0x01);
+	SPI3->I2SCFGR=0;
+}
+
+void SetAudioVolume(int volume)
+{
+	if (!audio_initialized) return;
+	WriteRegister(0x20, (volume + 0x19) & 0xff);
+	WriteRegister(0x21, (volume + 0x19) & 0xff);
 }
 
 _Bool IsAudioInitialized(void)
@@ -161,6 +199,128 @@ void OutputAudioSample(int16_t sample)
 	if (!audio_initialized) return;
 	while(!SPI_I2S_GetFlagStatus(SPI3, SPI_I2S_FLAG_TXE));
 	SPI_I2S_SendData(SPI3, sample);
+}
+
+void OutputAudioSampleWithoutBlocking(int16_t sample)
+{
+	if (!audio_initialized) return;
+	SPI_I2S_SendData(SPI3, sample);
+}
+
+void PlayAudioWithCallback(AudioCallbackFunction *callback, void *context)
+{
+	StopAudioDMA();
+
+	NVIC_Init(&(NVIC_InitTypeDef) {
+		.NVIC_IRQChannel = DMA1_Stream7_IRQn,
+		.NVIC_IRQChannelPreemptionPriority = 1,
+		.NVIC_IRQChannelSubPriority = 0,
+		.NVIC_IRQChannelCmd = ENABLE
+	});
+	DMA_ITConfig(DMA1_Stream7, DMA_IT_TC, ENABLE);
+	SPI_I2S_DMACmd(SPI3, SPI_I2S_DMAReq_Tx, ENABLE);
+
+	CallbackFunction = callback;
+	CallbackContext = context;
+	BufferNumber = 0;
+
+	if (CallbackFunction)
+		CallbackFunction(CallbackContext, BufferNumber);
+}
+
+void StopAudio(void)
+{
+	StopAudioDMA();
+
+	SPI_I2S_DMACmd(SPI3, SPI_I2S_DMAReq_Tx, DISABLE);
+	NVIC_Init(&(NVIC_InitTypeDef) {
+		.NVIC_IRQChannel = DMA1_Stream7_IRQn,
+		.NVIC_IRQChannelCmd = DISABLE
+	});
+
+	CallbackFunction = NULL;
+}
+
+void ProvideAudioBuffer(void *samples, int numsamples)
+{
+	while (!ProvideAudioBufferWithoutBlocking(samples, numsamples))
+		__asm__ volatile ("wfi");
+}
+
+bool ProvideAudioBufferWithoutBlocking(void *samples, int numsamples)
+{
+	if (NextBufferSamples) return false;
+
+	NVIC_Init(&(NVIC_InitTypeDef) {
+		.NVIC_IRQChannel = DMA1_Stream7_IRQn,
+		.NVIC_IRQChannelCmd = DISABLE
+	});
+
+	NextBufferSamples = samples;
+	NextBufferLength = numsamples;
+
+	if (!DMARunning)
+		StartAudioDMAAndRequestBuffers();
+
+	NVIC_Init(&(NVIC_InitTypeDef) {
+		.NVIC_IRQChannel = DMA1_Stream7_IRQn,
+		.NVIC_IRQChannelPreemptionPriority = 1,
+		.NVIC_IRQChannelSubPriority = 0,
+		.NVIC_IRQChannelCmd = ENABLE
+	});
+
+	return true;
+}
+
+static void StartAudioDMAAndRequestBuffers()
+{
+	// Configure DMA stream.
+	DMA_Init(DMA1_Stream7, &(DMA_InitTypeDef) {
+		.DMA_Channel = 0,
+		.DMA_PeripheralBaseAddr = (uint32_t)&SPI3->DR,
+		.DMA_Memory0BaseAddr = (uint32_t)NextBufferSamples,
+		.DMA_DIR = DMA_DIR_MemoryToPeripheral,
+		.DMA_BufferSize = NextBufferLength,
+		.DMA_PeripheralInc = DMA_PeripheralInc_Disable,
+		.DMA_MemoryInc = DMA_MemoryInc_Enable,
+		.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord,
+		.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord,
+		.DMA_Mode = DMA_Mode_Normal,
+		.DMA_Priority = DMA_Priority_Medium,
+		.DMA_FIFOMode = DMA_FIFOMode_Disable,
+		.DMA_MemoryBurst = DMA_MemoryBurst_Single,
+		.DMA_PeripheralBurst = DMA_PeripheralBurst_Single
+	});
+
+	DMA_Cmd(DMA1_Stream7, ENABLE);
+
+	// Update state
+	NextBufferSamples = NULL;
+	BufferNumber ^= 1;
+	DMARunning = true;
+
+	// Invoke callback if it exists to queue up another buffer
+	if (CallbackFunction)
+		CallbackFunction(CallbackContext, BufferNumber);
+}
+
+static void StopAudioDMA()
+{
+	DMA_Cmd(DMA1_Stream7, DISABLE);
+	while (DMA_GetCmdStatus(DMA1_Stream7)); // Wait for DMA stream to stop
+
+	DMARunning = false;
+}
+
+
+void DMA1_Stream7_IRQHandler(void)
+{
+	DMA_ClearFlag(DMA1_Stream7, DMA_FLAG_TCIF7);
+
+	if (NextBufferSamples)
+		StartAudioDMAAndRequestBuffers();
+	else
+		DMARunning=false;
 }
 
 static void WriteRegister(uint8_t RegisterAddr, uint8_t RegisterValue)
@@ -259,12 +419,4 @@ static uint32_t ReadRegister(uint8_t RegisterAddr)
 
 	/* Return the byte read from Codec */
 	return result;
-}
-
-
-
-void SetAudioVolume(int volume)
-{
-	WriteRegister(0x20, (volume + 0x19) & 0xff);
-	WriteRegister(0x21, (volume + 0x19) & 0xff);
 }

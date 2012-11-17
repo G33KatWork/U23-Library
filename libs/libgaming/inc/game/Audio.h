@@ -26,7 +26,7 @@
 
 /*! @} */
 
-typedef void AudioCallbackFunction(void *context, int buffer);
+typedef void AudioCallbackFunction(void *context, uint16_t buffer[256]);
 
 /*!
  *	@brief Used to initialize audio
@@ -52,11 +52,8 @@ void AudioOff();
 void OutputAudioSample(int16_t sample);
 void OutputAudioSampleWithoutBlocking(int16_t sample);
 
-void PlayAudioWithCallback(AudioCallbackFunction *callback,void *context);
+void PlayAudioWithCallback(AudioCallbackFunction *callback, void *context);
 void StopAudio();
-
-void ProvideAudioBuffer(void *samples,int numsamples);
-bool ProvideAudioBufferWithoutBlocking(void *samples,int numsamples);
 
 /*! @} */
 /*! @} */

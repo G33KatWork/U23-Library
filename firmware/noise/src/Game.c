@@ -14,19 +14,14 @@ void Draw(Bitmap *);
 Gamestate InitState = { Init, NULL, NULL, Update, Draw };
 Game* TheGame = &(Game) {&InitState};
 
-#define GET_AUDIO_BUFFER(i) ((int16_t*)(0x2001fa00 + 0x200 * (!!i)))
-
-static void AudioCallback(void *context, int buffer)
+static void AudioCallback(void *context, uint16_t buffer[256])
 {
-	int16_t *samples = GET_AUDIO_BUFFER(buffer);
 	static uint16_t t = 0;
 
 	for(int i = 0; i < 128; i++) {
-		samples[2*i+0] = samples[2*i+1] = t*5&(t>>7)|t*3&(t*4>>10);
+		buffer[2*i+0] = buffer[2*i+1] = t*5&(t>>7)|t*3&(t*4>>10);
 		t++;
 	}
-
-	ProvideAudioBuffer(samples, 256);
 }
 
 void Init(struct Gamestate* state)

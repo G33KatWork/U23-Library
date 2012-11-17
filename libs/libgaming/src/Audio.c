@@ -10,6 +10,9 @@ static void WriteRegister(uint8_t RegisterAddr, uint8_t RegisterValue);
 static uint32_t ReadRegister(uint8_t RegisterAddr);
 static void StartAudioDMAAndRequestBuffers();
 static void StopAudioDMA();
+static void ProvideAudioBuffer(void *samples, int numsamples);
+static bool ProvideAudioBufferWithoutBlocking(void *samples, int numsamples);
+
 
 static _Bool audio_initialized = 0;
 static AudioCallbackFunction *CallbackFunction;
@@ -17,8 +20,10 @@ static void *CallbackContext;
 static uint16_t Frequency;
 static int16_t * volatile NextBufferSamples;
 static volatile int NextBufferLength;
-static volatile int BufferNumber;
 static volatile bool DMARunning;
+
+static volatile int BufferNumber;
+static int16_t (*SampleBuffer)[256] = (void*)0x2001fa00;
 
 void InitializeAudio(uint16_t freq)
 {
@@ -134,9 +139,6 @@ void InitializeAudio(uint16_t freq)
 	WriteRegister(0x1a, 0x0a); // Adjust PCM volume level.
 	WriteRegister(0x1b, 0x0a);
 
-	// Frequency generator
-	//WriteRegister(0x1e, 0xc0);
-
 	// Reset I2S.
 	SPI_I2S_DeInit(SPI3);
 
@@ -153,6 +155,7 @@ void InitializeAudio(uint16_t freq)
 
 void DeinitializeAudio(void)
 {
+	if (!audio_initialized) return;
 	I2S_Cmd(SPI3, DISABLE);
 	SPI_I2S_DeInit(SPI3);
 	I2C_Cmd(I2C1, DISABLE);
@@ -209,6 +212,7 @@ void OutputAudioSampleWithoutBlocking(int16_t sample)
 
 void PlayAudioWithCallback(AudioCallbackFunction *callback, void *context)
 {
+	if (!audio_initialized) return;
 	StopAudioDMA();
 
 	NVIC_Init(&(NVIC_InitTypeDef) {
@@ -224,12 +228,15 @@ void PlayAudioWithCallback(AudioCallbackFunction *callback, void *context)
 	CallbackContext = context;
 	BufferNumber = 0;
 
-	if (CallbackFunction)
-		CallbackFunction(CallbackContext, BufferNumber);
+	if (CallbackFunction) {
+		CallbackFunction(CallbackContext, SampleBuffer[BufferNumber]);
+		ProvideAudioBuffer(SampleBuffer[BufferNumber], 256);
+	}
 }
 
 void StopAudio(void)
 {
+	if (!audio_initialized) return;
 	StopAudioDMA();
 
 	SPI_I2S_DMACmd(SPI3, SPI_I2S_DMAReq_Tx, DISABLE);
@@ -241,13 +248,13 @@ void StopAudio(void)
 	CallbackFunction = NULL;
 }
 
-void ProvideAudioBuffer(void *samples, int numsamples)
+static void ProvideAudioBuffer(void *samples, int numsamples)
 {
 	while (!ProvideAudioBufferWithoutBlocking(samples, numsamples))
 		__asm__ volatile ("wfi");
 }
 
-bool ProvideAudioBufferWithoutBlocking(void *samples, int numsamples)
+static bool ProvideAudioBufferWithoutBlocking(void *samples, int numsamples)
 {
 	if (NextBufferSamples) return false;
 
@@ -300,8 +307,10 @@ static void StartAudioDMAAndRequestBuffers()
 	DMARunning = true;
 
 	// Invoke callback if it exists to queue up another buffer
-	if (CallbackFunction)
-		CallbackFunction(CallbackContext, BufferNumber);
+	if (CallbackFunction) {
+		CallbackFunction(CallbackContext, SampleBuffer[BufferNumber]);
+		ProvideAudioBuffer(SampleBuffer[BufferNumber], 256);
+	}
 }
 
 static void StopAudioDMA()

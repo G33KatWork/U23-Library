@@ -34,7 +34,7 @@ typedef void AudioCallbackFunction(void *context, uint16_t buffer[256]);
  *
  *	This configures and starts the audio codec. It should be possible to output samples to the audio jack with @ref OutputAudioSample after that. In its current implementation, all audio samples must be 16 bit.
  */
-void InitializeAudio(uint16_t freq);
+void InitializeAudio(uint32_t freq);
 void DeinitializeAudio(void);
 bool IsAudioInitialized(void);
 void SetAudioVolume(int volume);

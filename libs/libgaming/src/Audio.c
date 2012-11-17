@@ -17,7 +17,7 @@ static bool ProvideAudioBufferWithoutBlocking(void *samples, int numsamples);
 static _Bool audio_initialized = 0;
 static AudioCallbackFunction *CallbackFunction;
 static void *CallbackContext;
-static uint16_t Frequency;
+static uint32_t Frequency;
 static int16_t * volatile NextBufferSamples;
 static volatile int NextBufferLength;
 static volatile bool DMARunning;
@@ -25,7 +25,7 @@ static volatile bool DMARunning;
 static volatile int BufferNumber;
 static int16_t (*SampleBuffer)[256] = (void*)0x2001fa00;
 
-void InitializeAudio(uint16_t freq)
+void InitializeAudio(uint32_t freq)
 {
 	if (IsFilesystemInitialized() || audio_initialized)
 		return;

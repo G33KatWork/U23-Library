@@ -53,8 +53,8 @@ static void InitializeAnglephone()
 
 	SetAccelerometerFilterConfig(
 		LIS302DL_FILTEREDDATASELECTION_BYPASSED|
-    	LIS302DL_HIGHPASSFILTER_LEVEL_1|
-    	LIS302DL_HIGHPASSFILTERINTERRUPT_1_2);
+	LIS302DL_HIGHPASSFILTER_LEVEL_1|
+	LIS302DL_HIGHPASSFILTERINTERRUPT_1_2);
 
 	SetLEDs(0);
 
@@ -101,7 +101,7 @@ void Delay(uint32_t time)
 }
 
 void SysTick_Handler()
-{  
+{
 	SysTickCounter++;
 }
 

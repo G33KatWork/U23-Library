@@ -119,7 +119,7 @@ void InitializeAudio(uint32_t freq)
 	WriteRegister(0x00, 0x00);
 	// End
 
-	//WriteRegister(0x04, 0xaf); // SPK always off and HP always on.
+	WriteRegister(0x04, 0xaf); // SPK always off and HP always on.
 
 	WriteRegister(0x05, 0x81); // Clock configuration: Auto detection.
 	WriteRegister(0x06, 0x04); // Set slave mode and Philips audio standard.

@@ -34,7 +34,9 @@ int16_t SynthGetSample(SynthSong *song)
 	SynthChannel *chan = &song->channels[0];
 	SynthNote *note = &chan->notes[chan->note];
 
-	int16_t sample = 0;
+	if (!note->volume) return 0;
+
+	int32_t sample = 0;
 	switch (chan->instrument) {
 	case SynthRect:
 		sample = Rect(note->freq, song->pos, song->samplingFrequency);
@@ -46,6 +48,8 @@ int16_t SynthGetSample(SynthSong *song)
 		sample = Rect(note->freq, song->pos, song->samplingFrequency);
 		break;
 	}
+
+	sample = sample * note->volume / 0xff;
 
 	if (song->pos++ % (song->samplingFrequency*note->duration/1000) == 0)
 		chan->note = (chan->note + 1) % chan->length;

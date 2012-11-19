@@ -66,7 +66,7 @@ SynthSong song = {
 	}
 };
 
-static void AudioCallback(void *context, uint16_t buffer[256])
+static void AudioCallback(void *context, int16_t buffer[256])
 {
 	for(int i = 0; i < 128; i++) {
 		buffer[2*i+0] = buffer[2*i+1] = SynthGetSample(&song);

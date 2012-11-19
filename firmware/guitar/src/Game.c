@@ -18,7 +18,7 @@ void Draw(Bitmap *);
 Gamestate InitState = { Init, NULL, NULL, Update, Draw };
 Game* TheGame = &(Game) {&InitState};
 
-static void AudioCallback(void *context, uint16_t buffer[256])
+static void AudioCallback(void *context, int16_t buffer[256])
 {
 	static uint32_t pos = 0;
 

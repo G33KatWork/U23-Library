@@ -26,7 +26,7 @@
 
 /*! @} */
 
-typedef void AudioCallbackFunction(void *context, uint16_t buffer[256]);
+typedef void AudioCallbackFunction(void *context, int16_t buffer[256]);
 
 /*!
  *	@brief Used to initialize audio

@@ -23,7 +23,7 @@ static inline int16_t Tri(uint16_t freq, uint32_t pos, uint32_t f_s)
 	uint32_t period = f_s / freq;
 	pos %= period;
 
-	if (pos < period/2)
+	if (pos <= period/2)
 		return 4 * INT16_MAX * pos / period + INT16_MIN;
 	else
 		return INT16_MAX - 4 * INT16_MAX * pos / period;

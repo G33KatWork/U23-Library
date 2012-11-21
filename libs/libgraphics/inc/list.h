@@ -28,5 +28,10 @@ void listInsertAfter(list *l, list_el *item, void *s);
 void listRemove(list *l, list_el *item);
 void listRemoveByValue(list *l, void *s);
 void listRemoveAllByValue(list *l, void *s);
+list_el *listSearch(list *l, void *s);
+list_el *listSearchFrom(list_el *l, void *s);
+list_el *listSearchBackward(list *l, void *s);
+list_el *listSearchBackwardFrom(list_el *l, void *s);
+int listCount(list *l, void *s);
 
 #endif

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h> //memset
 
 #include <Drawing.h>
 #include <Bitmap.h>
@@ -24,8 +25,7 @@ TiledMap* TiledMap_init(int sizeX, int sizeY, uint8_t tileSize, TileInfo *tileIn
   map->tileSize = tileSize;
   map->tileInfo = tileInfo;
   map->objects = (list) { };
-  for (int i = 0; i < sizeX * sizeY * sizeof(Tile); i++)
-    map->tiles[i] = 0;
+  memset(&map->tiles[0], '\0', sizeX * sizeY * sizeof(Tile));
   return map;
 }
 
@@ -42,25 +42,26 @@ void TiledMap_update(TiledMap *map, uint32_t delta)
 
 void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo)
 {
-  // Indices of top-left most tile to draw
-  int tx = xo / SCREEN_X;
-  int ty = yo / SCREEN_Y;
-  // Number of tiles per screen
-  int txs = SCREEN_X / map->tileSize;
-  int tys = SCREEN_Y / map->tileSize;
+  if (map->tileSize != 0)
+  {
+    // Indices of top-left most tile to draw
+    int tx = xo / SCREEN_X;
+    int ty = yo / SCREEN_Y;
+    // Number of tiles per screen
+    int txs = SCREEN_X / map->tileSize;
+    int tys = SCREEN_Y / map->tileSize;
 
-  ClipRectangle(&tx, &ty, &txs, &tys, map->sizeX, map->sizeY);
-  txs++;
-  tys++;
+    ClipRectangle(&tx, &ty, &txs, &tys, map->sizeX, map->sizeY);
+    txs++;
+    tys++;
 
-  for (int y = ty; y < tys + ty; y++)
-    for (int x = tx; x < txs + tx; x++)
-      DrawRLEBitmap(surface,
-          map->tileInfo[
-              map->tiles[y * map->sizeX + x]
-            ].bitmap,
-          xo + (x * map->tileSize),
-          yo + (y * map->tileSize));
+    for (int y = ty; y < tys + ty; y++)
+      for (int x = tx; x < txs + tx; x++)
+        DrawRLEBitmap(surface,
+            map->tileInfo[ TiledMap_getTile(map, x, y) ].bitmap,
+            xo + (x * map->tileSize),
+            yo + (y * map->tileSize));
+  }
 
   // Draw objects
   list_el *i = map->objects.head;
@@ -168,7 +169,7 @@ bool MObj_collisionMap(TiledMap *map, MapObject *obj)
 
   for (int x = tx; x < w + tx; x++)
     for (int y = ty; y < h + ty; y++)
-      if (map->tileInfo[ map->tiles[y * map->sizeX + x] ].collision &&
+      if (map->tileInfo[ TiledMap_getTile(map, x, y) ].collision &&
           (
             obj->collision == COLLISION_BB ||
             (obj->collision == COLLISION_SPRITE &&

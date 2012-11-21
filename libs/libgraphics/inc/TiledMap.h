@@ -41,6 +41,12 @@ TiledMap* TiledMap_init(int sizeX, int sizeY, uint8_t tileSize, TileInfo *tileIn
 void TiledMap_update(TiledMap *map, uint32_t delta);
 void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo);
 
+static inline Tile TiledMap_getTile(TiledMap *map, int x, int y)
+{
+  return map->tiles[y * map->sizeX + x];
+}
+
+
 
 
 

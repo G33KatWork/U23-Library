@@ -76,32 +76,32 @@ void listRemoveAllByValue(list *l, void *s)
 }
 list_el *listSearch(list *l, void *s)
 {
-  for (list_el *i = l->head; i != null; i = i->next)
+  for (list_el *i = l->head; i != NULL; i = i->next)
     if (i->val == s)
       return i;
 }
 list_el *listSearchFrom(list_el *l, void *s)
 {
-  for (list_el *i = l; i != null; i = i->next)
+  for (list_el *i = l; i != NULL; i = i->next)
     if (i->val == s)
       return i;
 }
 list_el *listSearchBackward(list *l, void *s)
 {
-  for (list_el *i = l->tail; i != null; i = i->prev)
+  for (list_el *i = l->tail; i != NULL; i = i->prev)
     if (i->val == s)
       return i;
 }
 list_el *listSearchBackwardFrom(list_el *l, void *s)
 {
-  for (list_el *i = l; i != null; i = i->prev)
+  for (list_el *i = l; i != NULL; i = i->prev)
     if (i->val == s)
       return i;
 }
 int listCount(list *l, void *s)
 {
   int c = 0;
-  for (list_el *i = l->head; i != null; i = i->next)
+  for (list_el *i = l->head; i != NULL; i = i->next)
     if (i->val == s)
       c++;
   return c;

@@ -34,8 +34,6 @@ int16_t SynthGetSample(SynthSong *song)
 	SynthChannel *chan = &song->channels[0];
 	SynthNote *note = &chan->notes[chan->note];
 
-	if (!note->volume) return 0;
-
 	int32_t sample = 0;
 	switch (chan->instrument) {
 	case SynthRect:

@@ -7,14 +7,16 @@
 #include <Clipping.h>
 #include <Collision.h>
 
+
 static inline int max(int a, int b) { return a >= b ? a : b; }
 static inline int min(int a, int b) { return a <= b ? a : b; }
 
-float vectorLength(float x, float y)
+static inline float vectorLength(float x, float y)
 {
   return sqrt((x * x) + (y * y));
   //return abs(x)+abs(y);
 }
+
 
 
 TiledMap* TiledMap_init(int sizeX, int sizeY, uint8_t tileSize, TileInfo *tileInfo)
@@ -65,7 +67,7 @@ void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo)
   list_el *i = map->objects.head;
   while (i)
   {
-    MObj_draw(surface, map, (MapObject*) i->val, xo, yo);
+    MObj_draw(surface, (MapObject*) i->val, xo, yo);
     i = i->next;
   }
 }
@@ -211,7 +213,7 @@ void MObj_update(TiledMap *map, MapObject *obj, uint32_t delta)
     MObj_update_movement(map, obj, delta);
 }
 
-void MObj_draw(Bitmap *surface, TiledMap *map, MapObject *obj, int xo, int yo)
+void MObj_draw(Bitmap *surface, MapObject *obj, int xo, int yo)
 {
   DrawRLEBitmap(surface, obj->bitmap,
       obj->x / PIXEL_RESOLUTION + xo,

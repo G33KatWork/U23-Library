@@ -137,7 +137,7 @@ bool MObj_collisionMap(TiledMap *map, MapObject *obj);
 
 // Update and draw loop calls for individual MapObjects
 void MObj_update(TiledMap *map, MapObject *obj, uint32_t delta);
-void MObj_draw(Bitmap *surface, TiledMap *map, MapObject *obj, int xo, int yo);
+void MObj_draw(Bitmap *surface, MapObject *obj, int xo, int yo);
 
 
 static inline void MObj_moveDirection(MapObject *obj, int velX, int velY, bool collision)

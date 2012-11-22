@@ -48,12 +48,10 @@ void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo)
     int tx = xo / SCREEN_X;
     int ty = yo / SCREEN_Y;
     // Number of tiles per screen
-    int txs = SCREEN_X / map->tileSize;
-    int tys = SCREEN_Y / map->tileSize;
+    int txs = SCREEN_X / map->tileSize + 1;
+    int tys = SCREEN_Y / map->tileSize + 1;
 
     ClipRectangle(&tx, &ty, &txs, &tys, map->sizeX, map->sizeY);
-    txs++;
-    tys++;
 
     for (int y = ty; y < tys + ty; y++)
       for (int x = tx; x < txs + tx; x++)
@@ -149,6 +147,9 @@ bool MObj_collisionMap(TiledMap *map, MapObject *obj)
   if (obj->collision == COLLISION_NONE)
     return false;
 
+  if (map->tileSize == 0)
+    return false;
+
   int tileSize = map->tileSize * PIXEL_RESOLUTION;
   int tx = obj->x / tileSize;
   int ty = obj->y / tileSize;
@@ -156,13 +157,17 @@ bool MObj_collisionMap(TiledMap *map, MapObject *obj)
 
   if (obj->collision == COLLISION_BB)
   {
-    w = obj->sizeX / tileSize + 1;
-    h = obj->sizeY / tileSize + 1;
+    w = ((obj->x + obj->sizeX - 1) / tileSize) - tx + 1;
+    h = ((obj->y + obj->sizeY - 1) / tileSize) - ty + 1;
+    //w = obj->sizeX / tileSize + 1;
+    //h = obj->sizeY / tileSize + 1;
   }
   else if (obj->collision == COLLISION_SPRITE)
   {
-    w = obj->bitmap->width / map->tileSize + 1;
-    h = obj->bitmap->height / map->tileSize + 1;
+    w = ((obj->x + (obj->bitmap->width  * PIXEL_RESOLUTION)) / tileSize) - tx + 1;
+    h = ((obj->y + (obj->bitmap->height * PIXEL_RESOLUTION)) / tileSize) - ty + 1;
+    //w = obj->bitmap->width  / map->tileSize + 1;
+    //h = obj->bitmap->height / map->tileSize + 1;
   }
 
   ClipRectangle(&tx, &ty, &w, &h, map->sizeX, map->sizeY);
@@ -268,9 +273,9 @@ static inline bool MObj_update_collision(TiledMap *map, MapObject *obj)
     if (MObj_collisionMObj(obj, (MapObject*) i->val))
     {
       // If the callback is defined
-      if (obj->moving->onCollision)
+      if (obj->moving->onObjCollision)
       {
-        if (!obj->moving->onCollision(obj, (MapObject*) i->val))
+        if (!obj->moving->onObjCollision(obj, (MapObject*) i->val))
           // Do not ignore the collision
           return true;
       }
@@ -282,6 +287,22 @@ static inline bool MObj_update_collision(TiledMap *map, MapObject *obj)
     }
 
     i = t;
+  }
+
+  if (MObj_collisionMap(map, obj))
+  {
+    // If the callback is defined
+    if (obj->moving->onMapCollision)
+    {
+      if (!obj->moving->onMapCollision(obj))
+        // Do not ignore the collision
+        return true;
+    }
+    else
+    {
+      MObj_cancelMovement(obj);
+      return true;
+    }
   }
 
   return false;
@@ -326,7 +347,16 @@ static inline bool MObj_update_movement_targeted(MapObject *obj, int delta)
   int deltaY = (int) (dirY * mult);
   obj->x += deltaX;
   obj->y += deltaY;
-  return abs(deltaX) >= abs(dirX) && abs(deltaY) >= abs(dirY);
+
+  bool targetReached = abs(deltaX) >= abs(dirX) && abs(deltaY) >= abs(dirY);
+  if (targetReached)
+  {
+    // Move exactly to desired position
+    obj->x = obj->moving->tx;
+    obj->y = obj->moving->ty;
+  }
+
+  return targetReached;
 }
 
 static inline bool MObj_update_movement_forced(MapObject *obj, int delta)

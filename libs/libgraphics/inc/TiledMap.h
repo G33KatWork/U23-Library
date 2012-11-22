@@ -96,7 +96,8 @@ struct MovementInfo
   // Callbacks
   //  You may remove 'obj' from the list within the callbacks
   //  Removing target may lead to null pointer dereferencing
-  bool (*onCollision) (MapObject *obj, MapObject *target); // Return true to ignore collision
+  bool (*onObjCollision) (MapObject *obj, MapObject *target); // Return true to ignore collision
+  bool (*onMapCollision) (MapObject *obj); // Return true to ignore collision
   void (*onTargetReached) (MapObject *obj);
 };
 
@@ -131,6 +132,8 @@ void MObj_cancelMovement(MapObject *obj);
 
 // Check whether two objects collide
 bool MObj_collisionMObj(MapObject *obj, MapObject *target);
+// Check whether an object collides with the map's tiles
+bool MObj_collisionMap(TiledMap *map, MapObject *obj);
 
 // Update and draw loop calls for individual MapObjects
 void MObj_update(TiledMap *map, MapObject *obj, uint32_t delta);

@@ -92,7 +92,7 @@ void resetStar(MapObject *obj)
   MObj_moveTo(obj, obj->x, 200 * PIXEL_RESOLUTION, PIXEL_RESOLUTION, true);
   // Set callbacks
   obj->moving->onTargetReached = resetStar;
-  obj->moving->onCollision = starCollision;
+  obj->moving->onObjCollision = starCollision;
 }
 
 // Reset all objects for new game

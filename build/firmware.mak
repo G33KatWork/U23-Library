@@ -5,7 +5,7 @@ SRCDIR-$(TARGET) := $(addprefix $(ROOT)/firmware/$(TARGET)/,$(SRCDIR))
 # Linker flags
 LDFLAGS-$(TARGET) := -mthumb -mcpu=cortex-m4 \
 		  -mfloat-abi=hard -mfpu=fpv4-sp-d16 \
-		  -nostartfiles -Wl,-T,$(ROOT)/build/firmware.ld,--gc-sections,-Map,$(ROOT)/firmware/$(TARGET)/linker.map,-\(,-lc,--whole-archive,$(call spaceListToCommaList,$(LIBS:%=-l%)),--no-whole-archive,-\)
+		  -nostartfiles -Wl,-T,$(ROOT)/build/firmware.ld,--gc-sections,-Map,$(ROOT)/firmware/$(TARGET)/linker.map,-\(,-lc,--whole-archive,-lm,$(call spaceListToCommaList,$(LIBS:%=-l%)),--no-whole-archive,-\)
 
 # C compiler flags
 CFLAGS-$(TARGET) := -std=gnu99 -ggdb -O0 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16

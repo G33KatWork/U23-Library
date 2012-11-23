@@ -44,7 +44,7 @@ static struct Star
 	int x,y,dy,f;
 } stars[NumberOfStars];
 
-inline bool RectRectIntersection(int16_t x1, int16_t y1, int16_t w1, int16_t h1, int16_t x2, int16_t y2, int16_t w2, int16_t h2)
+static inline bool RectRectIntersection(int16_t x1, int16_t y1, int16_t w1, int16_t h1, int16_t x2, int16_t y2, int16_t w2, int16_t h2)
 {
 	return (x1 <= x2+w2 && x2 <= x1+w1 && y1 <= y2+h2 && y2 <= y1+h1);
 }

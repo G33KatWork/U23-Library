@@ -1,8 +1,8 @@
 # Target file name.
-TARGET = spacecraft
+TARGET = controller_test
 
 # List C source files here.
-CCSOURCES = Spacecraft.c Sprites.c Menu.c Highscore.c
+CCSOURCES = Game.c ControllerBitmap.c
 
 # Additional local static libs to link against
 LIBS = gaming stm32f4xx fatfs sdcard graphics
@@ -15,5 +15,8 @@ SRCDIR = src
 
 # Additional defines
 DEFINES := -DRGB8Pixels
+
+# Root dir (enables use for different target/folder names)
+TARGET_ROOT_DIR := $(SELF_DIR)
 
 -include $(ROOT)/build/firmware.mak

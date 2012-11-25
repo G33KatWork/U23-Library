@@ -16,4 +16,6 @@ SRCDIR = src
 # Additional defines
 DEFINES := -DRGB8Pixels
 
+TARGET_ROOT_DIR := $(SELF_DIR)
+
 -include $(ROOT)/build/firmware.mak

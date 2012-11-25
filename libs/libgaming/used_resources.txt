@@ -1,6 +1,7 @@
 DMA Engines used:
+	Audio: DMA1, Stream 7, Channel 0
 	SDCard (if not in polling mode): DMA 2, Stream 3, Channel 4
-	VGA: DMA2 stream 1 channel 7
+	VGA: DMA2, Stream 1, Channel 7
 
 Timers used:
 	SNES Controller: Timer 2, interrupt every 0,5ms
@@ -11,6 +12,11 @@ Interrupts used:
 	SDCard (if not in polling mode): DMA2_Stream3_IRQn, DMA2_Stream3_IRQHandler
 	Timer SNES Controller: TIM2_IRQHandler
 	VGA Sync Timer: TIM1_BRK_TIM9_IRQHandler
+
+Memory used:
+	VGA: 62,5 KiB starting at 0x20000000 (320 * 200 Pixel, one Byte each)
+	     62,5 KiB starting at 0x20010000 (320 * 200 Pixel, one Byte each)
+	Audio:  1 KiB starting at 0x2001fa00 (2 Buffers of 256 16bit samples)
 
 NVIC is configured with NVIC_PriorityGroup_1.
 Means: 1 bit preemption priority, 3 bits subpriority

@@ -17,6 +17,16 @@ static inline bool IsSpanCompletelyOutside(int start,int len,int max)
 	return false;
 }
 
+static inline bool IsSpanCompletelyInsideAbs(int p1,int l1,int p2,int l2)
+{
+        return IsSpanCompletelyOutside(p1 - p2, l1, l2);
+}
+
+static inline bool IsSpanCompletelyOutsideAbs(int p1,int l1,int p2,int l2)
+{
+        return IsSpanCompletelyOutside(p1 - p2, l1, l2);
+}
+
 static inline bool IsCompletelyInside(int x,int y,int w,int h,int clipw,int cliph)
 {
 	return IsSpanCompletelyInside(x,w,clipw)&&IsSpanCompletelyInside(y,h,cliph);
@@ -25,6 +35,16 @@ static inline bool IsCompletelyInside(int x,int y,int w,int h,int clipw,int clip
 static inline bool IsCompletelyOutside(int x,int y,int w,int h,int clipw,int cliph)
 {
 	return IsSpanCompletelyOutside(x,w,clipw)||IsSpanCompletelyOutside(y,h,cliph);
+}
+
+static inline bool IsCompletelyInsideAbs(int x1,int y1,int w1,int h1,int x2,int y2,int w2,int h2)
+{
+        return IsCompletelyOutside(x1 - x2, y1 - y2, w1, h1, w2, h2);
+}
+
+static inline bool IsCompletelyOutsideAbs(int x1,int y1,int w1,int h1,int x2,int y2,int w2,int h2)
+{
+        return IsCompletelyInside(x1 - x2, y1 - y2, w1, h1, w2, h2);
 }
 
 static inline void AdjustSpan(int *start,int *len,int max)

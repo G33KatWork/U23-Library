@@ -5,6 +5,7 @@
 #include <platform/SNES.h>
 #include <platform/LED.h>
 #include <platform/VGA.h>
+#include <platform/Rumble.h>
 #include <platform/UserInterface.h>
 
 #include <Random.h>

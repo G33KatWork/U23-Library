@@ -10,7 +10,11 @@ CCSOURCES = Bitmap.c \
 			DrawingRLEBitmaps.c \
 			DrawingRectangles.c \
 			DrawingStraightLines.c \
-			RLEBitmap.c
+			RLEBitmap.c \
+			SpriteEngine.c \
+			TiledMap.c \
+			Collision.c \
+			list.c 
 
 # List Assembler to be assembled with NASM here
 ASOURCES = 

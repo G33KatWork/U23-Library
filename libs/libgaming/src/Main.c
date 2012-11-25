@@ -5,6 +5,7 @@
 #include <platform/LED.h>
 #include <platform/UserInterface.h>
 #include <platform/VGA.h>
+#include <platform/Rumble.h>
 
 #include <System.h>
 
@@ -34,6 +35,7 @@ int main()
 	InitializeLEDs();
 	InitializeUserInterface();
 	InitializeRandom();
+	InitializeRumble();
 
 	//Clear framebuffers
 	memset(ADDR_FRAMEBUFFER1, 0x00, 320*200);

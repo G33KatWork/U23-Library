@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
     return -1;
   }
 
-	devh = libusb_open_device_with_vid_pid(NULL, 0x1337, 0x7331);
+	devh = libusb_open_device_with_vid_pid(NULL, 0x1337, 0x7332);
 	if(devh == 0) {
     fprintf(stderr, "Unable to find USB device\n");
     return -2;
@@ -35,6 +35,8 @@ int main(int argc, char* argv[])
   }
   printf("Value is %u\r\n", value);
 
+
+
   res = libusb_control_transfer(devh, CTRL_OUT, REQUEST_SETVALUE, value+1, 0, NULL, 0, 0);
   if(res < 0) {
     fprintf(stderr, "libusb_control_transfer error %d\n", res);
@@ -48,6 +50,19 @@ int main(int argc, char* argv[])
     return -6;
   }
   printf("Value is %u\r\n", value);
+
+
+  unsigned char BULK_OUT = 0x01;
+  char data[] = "test";
+  int len = 0;
+  res = libusb_bulk_transfer(devh, BULK_OUT, (unsigned char *)&data, sizeof(data), &len, 0);
+  if(res < 0) {
+    fprintf(stderr, "libusb_bulk_transfer error %d\n", res);
+    return -7;
+  }
+  printf("Value is %u\r\n", value);
+
+  
 
   libusb_release_interface(devh, 0);
   libusb_close(devh);

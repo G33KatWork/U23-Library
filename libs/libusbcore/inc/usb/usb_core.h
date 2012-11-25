@@ -205,7 +205,7 @@ typedef struct _Device_cb
 {
   uint8_t  (*Init)         (void *pdev , uint8_t cfgidx);
   uint8_t  (*DeInit)       (void *pdev , uint8_t cfgidx);
- /* Control Endpoints*/
+  /* Control Endpoints*/
   uint8_t  (*Setup)        (void *pdev , USB_SETUP_REQ  *req);
   uint8_t  (*EP0_TxSent)   (void *pdev );
   uint8_t  (*EP0_RxReady)  (void *pdev );

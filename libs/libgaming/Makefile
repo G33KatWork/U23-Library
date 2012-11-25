@@ -3,19 +3,12 @@ TARGET = libgaming
 
 # List C source files here.
 CCSOURCES = LED.c \
-			NewlibSyscalls.c \
 			SNES.c \
-			Startup.c \
-			SystemInit.c \
-			USART.c \
 			Main.c \
-			Debug.c \
-			SysTick.c \
 			Filesystem.c \
 			DiskIO.c \
 			VGA.c \
 			Font.c \
-			Random.c \
 			Accelerometer.c \
 			Gamestate.c \
 			UserInterface.c \
@@ -30,7 +23,8 @@ INCLUDES =	$(ROOT)/libs/$(TARGET)/inc \
 			$(ROOT)/libs/cmsis/inc \
 			$(ROOT)/libs/libfatfs/inc \
 			$(ROOT)/libs/libsdcard/inc \
-			$(ROOT)/libs/libgraphics/inc
+			$(ROOT)/libs/libgraphics/inc \
+			$(ROOT)/libs/libsystem/inc
 
 # Folder for object files
 OBJDIR = obj

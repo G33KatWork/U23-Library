@@ -4,7 +4,7 @@
 #include <stm32f4xx/stm32f4xx_gpio.h>
 #include <stm32f4xx/stm32f4xx_rcc.h>
 
-#include <platform/SysTick.h>
+#include <SysTick.h>
 
 static uint8_t ReadByte(uint8_t address);
 static void ReadBytes(uint8_t *buffer,uint8_t address,int numbytes);

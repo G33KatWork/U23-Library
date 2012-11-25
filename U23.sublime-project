@@ -13,7 +13,7 @@
 	        [
 	        	"-Werror",
 		        "-DRGB8Pixels -DDEBUG",
-	     		//"-I${folder:${project_path:U23.sublime-project}}//libs/libsystem/inc",
+	     		"-I${folder:${project_path:U23.sublime-project}}//libs/libsystem/inc",
 	     		"-I${folder:${project_path:U23.sublime-project}}/libs/cmsis/inc",
 	     		"-I${folder:${project_path:U23.sublime-project}}/libs/fatfs/inc",
 	     		"-I${folder:${project_path:U23.sublime-project}}/libs/libgaming/inc",

@@ -2,16 +2,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <platform/SystemInit.h>
 #include <platform/LED.h>
 #include <platform/UserInterface.h>
-#include <platform/SysTick.h>
 #include <platform/VGA.h>
 #include <platform/Rumble.h>
 
+#include <System.h>
+
 #include <game/Filesystem.h>
 #include <game/Game.h>
-#include <game/Debug.h>
 
 #include <Drawing.h>
 

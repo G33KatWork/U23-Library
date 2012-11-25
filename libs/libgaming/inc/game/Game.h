@@ -4,11 +4,12 @@
 #include <stdint.h>
 #include <platform/SNES.h>
 #include <platform/LED.h>
-#include <platform/UserInterface.h>
-#include <platform/SysTick.h>
 #include <platform/VGA.h>
-#include <platform/Random.h>
 #include <platform/Rumble.h>
+#include <platform/UserInterface.h>
+
+#include <Random.h>
+#include <SysTick.h>
 
 #include <Drawing.h>
 

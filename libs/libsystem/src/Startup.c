@@ -1,7 +1,9 @@
 #include <stdint.h>
+#include <stdio.h>
+#include <SystemInit.h>
+#include <SysTick.h>
 
-static uint8_t stack[8192];
-
+extern uint32_t _estack[];
 extern uint32_t _data[];
 extern uint32_t _idata[];
 extern uint32_t _edata[];
@@ -22,8 +24,11 @@ void Reset_Handler()
 	// Zero fill the bss segment.
 	for(uint32_t *dest=_bss;dest<_ebss;dest++) *dest=0;
 
+	//Configure system clocks and stuff
+	SystemInit();
+
 	// Call the application's entry point.
-    main();
+	main();
 
 	// If main ever exits, lock up.
 	for(;;);
@@ -31,11 +36,18 @@ void Reset_Handler()
 
 void Default_Handler()
 {
+	fprintf(stderr, "!!Default IRQ Handler!!\r\n");
+	for(;;);
+}
+
+void HardFault_Handler()
+{
+	fprintf(stderr, "!!HardFault occured!!\r\n");
 	for(;;);
 }
 
 void NMI_Handler() __attribute__((weak,alias("Default_Handler")));
-void HardFault_Handler() __attribute__((weak,alias("Default_Handler")));
+//void HardFault_Handler() __attribute__((weak,alias("Default_Handler")));
 void MemManage_Handler() __attribute__((weak,alias("Default_Handler")));
 void BusFault_Handler() __attribute__((weak,alias("Default_Handler")));
 void UsageFault_Handler() __attribute__((weak,alias("Default_Handler")));
@@ -128,7 +140,7 @@ void FPU_IRQHandler() __attribute__((weak,alias("Default_Handler")));
 
 __attribute__ ((section(".isr_vector"))) const void *InterruptVectors[]=
 {
-	(stack+sizeof(stack)),
+	_estack,
 	Reset_Handler,
 	NMI_Handler,
 	HardFault_Handler,
@@ -227,4 +239,3 @@ __attribute__ ((section(".isr_vector"))) const void *InterruptVectors[]=
 	HASH_RNG_IRQHandler,			// Hash and Rng
 	FPU_IRQHandler,					// FPU
 };
-

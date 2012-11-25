@@ -1,7 +1,7 @@
 #include <stm32f4xx/stm32f4xx.h>
 #include <game/Audio.h>
 #include <game/Filesystem.h>
-#include <platform/SysTick.h>
+#include <SysTick.h>
 
 #include <stdlib.h>
 #include <stdbool.h>

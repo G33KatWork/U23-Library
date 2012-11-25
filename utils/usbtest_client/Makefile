@@ -1,4 +1,4 @@
-TARGET = usbtest_client.elf
+TARGET = usbtest_client
 OBJ = main.o
 
 CFLAGS = -std=gnu99 -Wall $(shell pkg-config libusb-1.0 --cflags)

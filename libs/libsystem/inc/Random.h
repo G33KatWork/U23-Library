@@ -1,14 +1,37 @@
-#ifndef __RANDOM_H__
-#define __RANDOM_H__
+#ifndef _RANDOM_H_
+#define _RANDOM_H_
+
+/*! @addtogroup libgaming
+ * @{ */
+
+/*! @addtogroup Random
+ * @brief This header is used implement the hardware RNG (Random Number Generator)
+ * @{ */
 
 #include <stdint.h>
 
-void SeedRandom(uint32_t seed);
-void SeedRandom64(uint64_t seed);
-uint32_t RandomInteger();
-uint32_t RandomIntegerInRange(uint32_t low,uint32_t high);
-float RandomFloat();
-double RandomDouble();
-double PreciseRandomDouble();
+/*!
+ * @brief Initializes the RNG
+ *
+ * This function is automatically called in main().
+ */
+void InitializeRandom(void);
+
+/*!
+ * @brief Get a random integer
+ *
+ * This function returns 0 when the RNG has not been initialized.
+ * Blocks while RNG_GetFlagStatus(RNG_FLAG_DRDY) == RESET
+ * @return A random integer
+ */
+uint32_t GetRandomInteger(void);
+
+/*!
+ * @brief DeInitializes the hardware RNG
+ */
+void DeInitializeRandom(void);
+
+/*! @} */
+/*! @} */
 
 #endif

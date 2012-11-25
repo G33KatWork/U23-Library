@@ -1,32 +1,11 @@
-#ifndef __SYSTEM_H__
-#define __SYSTEM_H__
+#ifndef _SYSTEM_H_
+#define _SYSTEM_H_
 
-#include <stm32f4xx.h>
-
-typedef void InterruptHandler();
-
-void InitializeSystem();
-
-void InstallInterruptHandler(IRQn_Type interrupt,InterruptHandler handler);
-void RemoveInterruptHandler(IRQn_Type interrupt,InterruptHandler handler);
-
-static inline void EnableInterrupt(IRQn_Type interrupt)
-{
-	int regindex=interrupt>>5;
-	int shift=interrupt&0x1f;
-	NVIC->ISER[regindex]|=1<<shift;
-}
-
-static inline void DisableInterrupt(IRQn_Type interrupt)
-{
-	int regindex=interrupt>>5;
-	int shift=interrupt&0x1f;
-	NVIC->ISER[regindex]&=~(1<<shift);
-}
-
-static inline void SetInterruptPriority(IRQn_Type interrupt,int priority)
-{
-	NVIC->IP[interrupt]=priority<<4;
-}
+#include <stdint.h>
+#include <Debug.h>
+#include <NewlibSyscalls.h>
+#include <SysTick.h>
+#include <Random.h>
+#include <USART.h>
 
 #endif

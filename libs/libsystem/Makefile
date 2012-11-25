@@ -7,11 +7,8 @@ CCSOURCES = Startup.c \
 			NewlibSyscalls.c \
 			SysTick.c \
 			Debug.c \
-			USART.c 
-			#DiskIO.c \
-			#Filesystem.c \
-			#Random.c
-
+			USART.c \
+			Random.c
 
 # List Assembler to be assembled with NASM here
 ASOURCES = 
@@ -20,9 +17,7 @@ ASOURCES =
 INCLUDES =	$(ROOT)/libs/$(TARGET)/inc \
 			$(ROOT)/libs/libstm32f4xx/inc \
 			$(ROOT)/libs/cmsis/inc \
-			$(ROOT)/libs/libfatfs/inc \
-			$(ROOT)/libs/libsdcard/inc \
-
+			
 # Folder for object files
 OBJDIR = obj
 

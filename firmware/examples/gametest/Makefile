@@ -5,7 +5,7 @@ TARGET = gametest
 CCSOURCES = Game.c
 
 # Additional local static libs to link against
-LIBS = gaming stm32f4xx fatfs sdcard graphics
+LIBS = gaming system stm32f4xx fatfs sdcard graphics
 
 # Folder for object files
 OBJDIR = obj

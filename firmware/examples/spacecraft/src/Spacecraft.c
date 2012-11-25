@@ -1,5 +1,5 @@
 #include <game/Game.h>
-#include <game/Debug.h>
+#include <Debug.h>
 #include <game/Filesystem.h>
 #include <game/Accelerometer.h>
 #include <game/Font.h>

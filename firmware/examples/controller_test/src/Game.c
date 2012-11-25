@@ -1,5 +1,5 @@
 #include <game/Game.h>
-#include <game/Debug.h>
+#include <Debug.h>
 #include <game/Font.h>
 
 #include <stdio.h>

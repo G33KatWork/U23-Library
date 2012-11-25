@@ -1,23 +1,37 @@
-ROOT                 := ../../..
+ROOT                 := ../../../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = spritetest
+TARGET = usbtest
 
 # List C source files here.
-CCSOURCES = Main.c Sprites.c
+CCSOURCES = Startup.c \
+			Main.c \
+			SystemInit.c \
+			USB_DeviceDescriptor.c \
+			USB_DeviceEvents.c \
+			USB_Device.c \
+			USART.c \
+			NewlibSyscalls.c \
+			LED.c
 
 # List C++ source files here
 CXXSOURCES = 
 
 # Linker flags
-LDFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map
+LDFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map 
 
 # Additional include paths to consider
-INCLUDES =	inc $(ROOT)/libs/libsystem/inc $(ROOT)/libs/libgraphics/inc
+INCLUDES =	inc \
+			$(ROOT)/libs/libstm32f4xx/inc \
+			$(ROOT)/libs/cmsis/inc \
+			$(ROOT)/libs/libusbcore/inc \
+			$(ROOT)/libs/libusbdevice/inc
 
 # Additional static libs to link agains
-STATICLIBS = $(ROOT)/libs/libsystem/libsystem.a $(ROOT)/libs/libgraphics/libgraphics.a
+STATICLIBS = $(ROOT)/libs/libusbcore/libusbcore.a \
+			 $(ROOT)/libs/libusbdevice/libusbdevice.a \
+			 $(ROOT)/libs/libstm32f4xx/libstm32f4xx.a
 
 # Folder for object files
 OBJDIR = obj
@@ -26,7 +40,7 @@ OBJDIR = obj
 SRCDIR = src
 
 # Additional defines
-DEFINES := -DRGB8Pixels
+DEFINES := 
 
 # C compiler flags
 CFLAGS := -std=c99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16

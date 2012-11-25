@@ -1,23 +1,30 @@
-ROOT                 := ../..
+ROOT                 := ../../../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = audiotest
+TARGET = usarttest
 
 # List C source files here.
-CCSOURCES = Main.c BitBin.c TestSong.c
+CCSOURCES = Startup.c \
+			Main.c \
+			SystemInit.c \
+			NewlibSyscalls.c \
+			USART.c \
+			LED.c
 
 # List C++ source files here
 CXXSOURCES = 
 
 # Linker flags
-LDFLAGS = -mthumb -mcpu=cortex-m4 -nostartfiles -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map
+LDFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map
 
 # Additional include paths to consider
-INCLUDES =	inc $(ROOT)/libs/libsystem/inc
+INCLUDES =	inc \
+			$(ROOT)/libs/libstm32f4xx/inc \
+			$(ROOT)/libs/cmsis/inc
 
 # Additional static libs to link agains
-STATICLIBS = $(ROOT)/libs/libsystem/libsystem.a
+STATICLIBS = $(ROOT)/libs/libstm32f4xx/libstm32f4xx.a
 
 # Folder for object files
 OBJDIR = obj

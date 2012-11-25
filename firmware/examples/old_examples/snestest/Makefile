@@ -1,8 +1,8 @@
-ROOT                 := ../..
+ROOT                 := ../../../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = sdcardtest
+TARGET = snestest
 
 # List C source files here.
 CCSOURCES = Startup.c \
@@ -10,7 +10,8 @@ CCSOURCES = Startup.c \
 			SystemInit.c \
 			NewlibSyscalls.c \
 			USART.c \
-			LED.c
+			LED.c \
+			SNES.c
 
 # List C++ source files here
 CXXSOURCES = 
@@ -20,13 +21,11 @@ LDFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -nostartfil
 
 # Additional include paths to consider
 INCLUDES =	inc \
-			$(ROOT)/libs/libsdcard/inc \
 			$(ROOT)/libs/libstm32f4xx/inc \
 			$(ROOT)/libs/cmsis/inc
 
 # Additional static libs to link agains
-STATICLIBS = $(ROOT)/libs/libsdcard/libsdcard.a \
-			 $(ROOT)/libs/libstm32f4xx/libstm32f4xx.a
+STATICLIBS = $(ROOT)/libs/libstm32f4xx/libstm32f4xx.a
 
 # Folder for object files
 OBJDIR = obj

@@ -1,17 +1,11 @@
-ROOT                 := ../..
+ROOT                 := ../../../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = snestest
+TARGET = spritetest
 
 # List C source files here.
-CCSOURCES = Startup.c \
-			Main.c \
-			SystemInit.c \
-			NewlibSyscalls.c \
-			USART.c \
-			LED.c \
-			SNES.c
+CCSOURCES = Main.c Sprites.c
 
 # List C++ source files here
 CXXSOURCES = 
@@ -20,12 +14,10 @@ CXXSOURCES =
 LDFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map
 
 # Additional include paths to consider
-INCLUDES =	inc \
-			$(ROOT)/libs/libstm32f4xx/inc \
-			$(ROOT)/libs/cmsis/inc
+INCLUDES =	inc $(ROOT)/libs/libsystem/inc $(ROOT)/libs/libgraphics/inc
 
 # Additional static libs to link agains
-STATICLIBS = $(ROOT)/libs/libstm32f4xx/libstm32f4xx.a
+STATICLIBS = $(ROOT)/libs/libsystem/libsystem.a $(ROOT)/libs/libgraphics/libgraphics.a
 
 # Folder for object files
 OBJDIR = obj
@@ -34,7 +26,7 @@ OBJDIR = obj
 SRCDIR = src
 
 # Additional defines
-DEFINES := 
+DEFINES := -DRGB8Pixels
 
 # C compiler flags
 CFLAGS := -std=c99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16

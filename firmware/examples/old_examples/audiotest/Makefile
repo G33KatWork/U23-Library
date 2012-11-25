@@ -1,37 +1,23 @@
-ROOT                 := ../..
+ROOT                 := ../../../..
 include $(ROOT)/build/base.mak
 
 # Target file name.
-TARGET = usbtest
+TARGET = audiotest
 
 # List C source files here.
-CCSOURCES = Startup.c \
-			Main.c \
-			SystemInit.c \
-			USB_DeviceDescriptor.c \
-			USB_DeviceEvents.c \
-			USB_Device.c \
-			USART.c \
-			NewlibSyscalls.c \
-			LED.c
+CCSOURCES = Main.c BitBin.c TestSong.c
 
 # List C++ source files here
 CXXSOURCES = 
 
 # Linker flags
-LDFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -nostartfiles -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map 
+LDFLAGS = -mthumb -mcpu=cortex-m4 -nostartfiles -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wl,-T,Linker.ld,--gc-sections,-Map,linker.map
 
 # Additional include paths to consider
-INCLUDES =	inc \
-			$(ROOT)/libs/libstm32f4xx/inc \
-			$(ROOT)/libs/cmsis/inc \
-			$(ROOT)/libs/libusbcore/inc \
-			$(ROOT)/libs/libusbdevice/inc
+INCLUDES =	inc $(ROOT)/libs/libsystem/inc
 
 # Additional static libs to link agains
-STATICLIBS = $(ROOT)/libs/libusbcore/libusbcore.a \
-			 $(ROOT)/libs/libusbdevice/libusbdevice.a \
-			 $(ROOT)/libs/libstm32f4xx/libstm32f4xx.a
+STATICLIBS = $(ROOT)/libs/libsystem/libsystem.a
 
 # Folder for object files
 OBJDIR = obj

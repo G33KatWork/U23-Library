@@ -90,7 +90,7 @@ void InitializeVGAHorizontalSync31kHz(VGAHSYNCInterruptHandler *handler)
 	TIM9->CCMR1=0;
 	TIM9->CCER=0;
 	TIM9->PSC=0; // Prescaler = 1
-	TIM9->ARR=5337; // 168 MHz / 31.4686 kHz = 5338.65504
+	TIM9->ARR=5250; // 168 MHz / 32khz = 5250
 	TIM9->CCR1=633; // 168 MHz * 3.77 microseconds = 633.36 - sync pulse end
 	TIM9->CCR2=950; // 168 MHz * (3.77 + 1.89) microseconds = 950.88 - back porch end
 

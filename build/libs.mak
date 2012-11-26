@@ -3,7 +3,7 @@ OBJDIR-$(TARGET) := $(addprefix $(ROOT)/libs/$(TARGET)/,$(OBJDIR))
 SRCDIR-$(TARGET) := $(addprefix $(ROOT)/libs/$(TARGET)/,$(SRCDIR))
 
 # C compiler flags
-CFLAGS-$(TARGET) := -std=gnu99 -ggdb -O0 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS-$(TARGET) := -std=gnu99 -ggdb -O2 -Werror -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
 CFLAGS-$(TARGET) += -fdata-sections -ffunction-sections
 CFLAGS-$(TARGET) += $(addprefix -I,$(INCLUDES))
 CFLAGS-$(TARGET) += $(DEFINES)

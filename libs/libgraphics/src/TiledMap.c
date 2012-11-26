@@ -4,6 +4,7 @@
 #include <Drawing.h>
 #include <Bitmap.h>
 #include <TiledMap.h>
+#include <ChunkedMap.h>
 #include <Clipping.h>
 #include <Collision.h>
 
@@ -368,4 +369,211 @@ static inline bool MObj_update_movement_forced(MapObject *obj, int delta)
   obj->x += obj->moving->speed;
   obj->y += obj->moving->speedY;
   return false;
+}
+
+
+
+
+
+/*********************
+ *                   *
+ *    CHUNKED MAP    *
+ *                   *
+ *********************/
+
+
+ChunkedMap* ChunkedMap_init(uint8_t tileSize, TileInfo *tileInfo, ChunkLoadHandler loadChunk, ChunkSaveHandler saveChunk)
+{
+  // Use TiledMap instead...
+  if (tileSize == 0)
+    return NULL;
+
+  ChunkedMap *map = (ChunkedMap*) malloc(sizeof(ChunkedMap));
+  *map = (ChunkedMap) {
+    .tileSize = tileSize,
+    .tileInfo = tileInfo,
+    .objects = (list) {},
+    .loadChunk = loadChunk,
+    .saveChunk = saveChunk,
+  };
+  return map;
+}
+
+void ChunkedMap_update(ChunkedMap *map, uint32_t delta)
+{
+  list_el *i = map->objects.head, *t;
+  while (i)
+  {
+    t = i->next;
+    MObj_update_chunkedMap(map, (MapObject*) i->val, delta);
+    i = t;
+  }
+}
+
+void ChunkedMap_draw(Bitmap *surface, ChunkedMap *map, int xo, int yo)
+{
+  if (map->tileSize != 0)
+  {
+    // Indices of top-left most tile to draw
+    int tx = xo / SCREEN_X;
+    int ty = yo / SCREEN_Y;
+    // Number of tiles per screen
+    int txs = SCREEN_X / map->tileSize + 1;
+    int tys = SCREEN_Y / map->tileSize + 1;
+
+    for (int y = ty; y < tys + ty; y++)
+      for (int x = tx; x < txs + tx; x++)
+        DrawRLEBitmap(surface,
+            map->tileInfo[ ChunkedMap_getTile(map, x, y) ].bitmap,
+            xo + (x * map->tileSize),
+            yo + (y * map->tileSize));
+  }
+
+  // Draw objects
+  list_el *i = map->objects.head;
+  while (i)
+  {
+    MObj_draw(surface, (MapObject*) i->val, xo, yo);
+    i = i->next;
+  }
+}
+
+
+
+
+
+bool MObj_collisionChunkedMap(ChunkedMap *map, MapObject *obj)
+{
+  if (obj->collision == COLLISION_NONE)
+    return false;
+
+  int tileSize = map->tileSize * PIXEL_RESOLUTION;
+  int tx = obj->x / tileSize;
+  int ty = obj->y / tileSize;
+  int w, h;
+
+  if (obj->collision == COLLISION_BB)
+  {
+    w = ((obj->x + obj->sizeX - 1) / tileSize) - tx + 1;
+    h = ((obj->y + obj->sizeY - 1) / tileSize) - ty + 1;
+  }
+  else if (obj->collision == COLLISION_SPRITE)
+  {
+    w = ((obj->x + (obj->bitmap->width  * PIXEL_RESOLUTION)) / tileSize) - tx + 1;
+    h = ((obj->y + (obj->bitmap->height * PIXEL_RESOLUTION)) / tileSize) - ty + 1;
+  }
+
+  for (int x = tx; x < w + tx; x++)
+    for (int y = ty; y < h + ty; y++)
+      if (map->tileInfo[ ChunkedMap_getTile(map, x, y) ].collision &&
+          (
+            obj->collision == COLLISION_BB ||
+            (obj->collision == COLLISION_SPRITE &&
+                Collision_BB_Sprite(
+                  x * map->tileSize,
+                  y * map->tileSize,
+                  map->tileSize / PIXEL_RESOLUTION,
+                  map->tileSize / PIXEL_RESOLUTION,
+                  obj->x / PIXEL_RESOLUTION,
+                  obj->y / PIXEL_RESOLUTION,
+                  obj->bitmap)
+              )
+          )
+         )
+        return true;
+  return false;
+}
+
+
+
+static inline bool MObj_update_collision_chunkedMap(ChunkedMap *map, MapObject *obj);
+static inline void MObj_update_movement_chunkedMap(ChunkedMap *map, MapObject *obj, uint32_t delta);
+
+
+void MObj_update_chunkedMap(ChunkedMap *map, MapObject *obj, uint32_t delta)
+{
+  // Update animation
+  if (obj->animation)
+    MObj_update_animation(obj, delta);
+
+  if (obj->moving)
+    MObj_update_movement_chunkedMap(map, obj, delta);
+}
+
+
+
+static inline bool MObj_update_collision_chunkedMap(ChunkedMap *map, MapObject *obj)
+{
+  list_el *i = map->objects.head, *t;
+  while (i)
+  {
+    t = i->next;
+    // For each known object:
+
+    if (MObj_collisionMObj(obj, (MapObject*) i->val))
+    {
+      // If the callback is defined
+      if (obj->moving->onObjCollision)
+      {
+        if (!obj->moving->onObjCollision(obj, (MapObject*) i->val))
+          // Do not ignore the collision
+          return true;
+      }
+      else
+      {
+        MObj_cancelMovement(obj);
+        return true;
+      }
+    }
+
+    i = t;
+  }
+
+  if (MObj_collisionChunkedMap(map, obj))
+  {
+    // If the callback is defined
+    if (obj->moving->onMapCollision)
+    {
+      if (!obj->moving->onMapCollision(obj))
+        // Do not ignore the collision
+        return true;
+    }
+    else
+    {
+      MObj_cancelMovement(obj);
+      return true;
+    }
+  }
+
+  return false;
+}
+
+
+static inline void MObj_update_movement_chunkedMap(ChunkedMap *map, MapObject *obj, uint32_t delta)
+{
+  int oldPos[] = { obj->x, obj->y };
+  bool targetReached = false;
+
+  if (obj->moving->type == MOVEMENT_TARGETED)
+    targetReached = MObj_update_movement_targeted(obj, delta);
+  else
+    MObj_update_movement_forced(obj, delta);
+
+  // Do collision detection
+  if (obj->moving->collision && obj->collision)
+    if (MObj_update_collision_chunkedMap(map, obj))
+    {
+      // Reset position on collision
+      obj->x = oldPos[0];
+      obj->y = oldPos[1];
+    }
+
+  // Check for target reached
+  if (obj->moving && targetReached)
+  {
+    if (obj->moving->onTargetReached)
+      obj->moving->onTargetReached(obj);
+    else
+      MObj_cancelMovement(obj);
+  }
 }

@@ -13,6 +13,21 @@
   #define PIXEL_RESOLUTION 256
 #endif
 
+
+// Needed for coordinate transformation stuff
+static inline int divRD(int v, int resolution)
+{
+  if (v >= 0)
+    return v / resolution;
+  return -((-1-v) / resolution) - 1;
+}
+static inline int normMod(int a, int b)
+{
+  return a >= 0 ? a % b : (a % b + b) % b;
+}
+
+
+
 // Simply an index into an array...
 typedef uint8_t Tile;
 typedef struct TileInfo TileInfo; // ... of these

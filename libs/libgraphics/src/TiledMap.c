@@ -48,11 +48,11 @@ void TiledMap_draw(Bitmap *surface, TiledMap *map, int xo, int yo)
   if (map->tileSize != 0)
   {
     // Indices of top-left most tile to draw
-    int tx = xo / SCREEN_X;
-    int ty = yo / SCREEN_Y;
+    int tx = divRD(xo, SCREEN_X);
+    int ty = divRD(yo, SCREEN_Y);
     // Number of tiles per screen
-    int txs = SCREEN_X / map->tileSize + 1;
-    int tys = SCREEN_Y / map->tileSize + 1;
+    int txs = divRD(SCREEN_X, map->tileSize + 1);
+    int tys = divRD(SCREEN_Y, map->tileSize + 1);
 
     ClipRectangle(&tx, &ty, &txs, &tys, map->sizeX, map->sizeY);
 
@@ -117,29 +117,29 @@ bool MObj_collisionMObj(MapObject *obj, MapObject *target)
         target->sizeY);
   else if (obj->collision == COLLISION_SPRITE && target->collision == COLLISION_SPRITE)
     return Collision_Sprite_Sprite(
-        obj->x / PIXEL_RESOLUTION,
-        obj->y / PIXEL_RESOLUTION,
+        divRD(obj->x, PIXEL_RESOLUTION),
+        divRD(obj->y, PIXEL_RESOLUTION),
         obj->bitmap,
-        target->x / PIXEL_RESOLUTION,
-        target->y / PIXEL_RESOLUTION,
+        divRD(target->x, PIXEL_RESOLUTION),
+        divRD(target->y, PIXEL_RESOLUTION),
         target->bitmap);
   else if (obj->collision == COLLISION_SPRITE && target->collision == COLLISION_BB)
     return Collision_BB_Sprite(
-        target->x / PIXEL_RESOLUTION,
-        target->y / PIXEL_RESOLUTION,
-        target->sizeX / PIXEL_RESOLUTION,
-        target->sizeY / PIXEL_RESOLUTION,
-        obj->x / PIXEL_RESOLUTION,
-        obj->y / PIXEL_RESOLUTION,
+        divRD(target->x, PIXEL_RESOLUTION),
+        divRD(target->y, PIXEL_RESOLUTION),
+        divRD(target->sizeX, PIXEL_RESOLUTION),
+        divRD(target->sizeY, PIXEL_RESOLUTION),
+        divRD(obj->x, PIXEL_RESOLUTION),
+        divRD(obj->y, PIXEL_RESOLUTION),
         obj->bitmap);
   else if (obj->collision == COLLISION_BB && target->collision == COLLISION_SPRITE)
     return Collision_BB_Sprite(
-        obj->x / PIXEL_RESOLUTION,
-        obj->y / PIXEL_RESOLUTION,
-        obj->sizeX / PIXEL_RESOLUTION,
-        obj->sizeY / PIXEL_RESOLUTION,
-        target->x / PIXEL_RESOLUTION,
-        target->y / PIXEL_RESOLUTION,
+        divRD(obj->x, PIXEL_RESOLUTION),
+        divRD(obj->y, PIXEL_RESOLUTION),
+        divRD(obj->sizeX, PIXEL_RESOLUTION),
+        divRD(obj->sizeY, PIXEL_RESOLUTION),
+        divRD(target->x, PIXEL_RESOLUTION),
+        divRD(target->y, PIXEL_RESOLUTION),
         target->bitmap);
   else
     return false;
@@ -154,21 +154,21 @@ bool MObj_collisionMap(TiledMap *map, MapObject *obj)
     return false;
 
   int tileSize = map->tileSize * PIXEL_RESOLUTION;
-  int tx = obj->x / tileSize;
-  int ty = obj->y / tileSize;
+  int tx = divRD(obj->x, tileSize);
+  int ty = divRD(obj->y, tileSize);
   int w, h;
 
   if (obj->collision == COLLISION_BB)
   {
-    w = ((obj->x + obj->sizeX - 1) / tileSize) - tx + 1;
-    h = ((obj->y + obj->sizeY - 1) / tileSize) - ty + 1;
+    w = divRD(obj->x + obj->sizeX - 1, tileSize) - tx + 1;
+    h = divRD(obj->y + obj->sizeY - 1, tileSize) - ty + 1;
     //w = obj->sizeX / tileSize + 1;
     //h = obj->sizeY / tileSize + 1;
   }
   else if (obj->collision == COLLISION_SPRITE)
   {
-    w = ((obj->x + (obj->bitmap->width  * PIXEL_RESOLUTION)) / tileSize) - tx + 1;
-    h = ((obj->y + (obj->bitmap->height * PIXEL_RESOLUTION)) / tileSize) - ty + 1;
+    w = divRD(obj->x + (obj->bitmap->width  * PIXEL_RESOLUTION) - 1, tileSize) - tx + 1;
+    h = divRD(obj->y + (obj->bitmap->height * PIXEL_RESOLUTION) - 1, tileSize) - ty + 1;
     //w = obj->bitmap->width  / map->tileSize + 1;
     //h = obj->bitmap->height / map->tileSize + 1;
   }
@@ -186,8 +186,8 @@ bool MObj_collisionMap(TiledMap *map, MapObject *obj)
                   y * map->tileSize,
                   map->tileSize / PIXEL_RESOLUTION,
                   map->tileSize / PIXEL_RESOLUTION,
-                  obj->x / PIXEL_RESOLUTION,
-                  obj->y / PIXEL_RESOLUTION,
+                  divRD(obj->x, PIXEL_RESOLUTION),
+                  divRD(obj->y, PIXEL_RESOLUTION),
                   obj->bitmap)
               )
           )
@@ -217,8 +217,8 @@ void MObj_update(TiledMap *map, MapObject *obj, uint32_t delta)
 void MObj_draw(Bitmap *surface, MapObject *obj, int xo, int yo)
 {
   DrawRLEBitmap(surface, obj->bitmap,
-      obj->x / PIXEL_RESOLUTION + xo,
-      obj->y / PIXEL_RESOLUTION + yo);
+      divRD(obj->x, PIXEL_RESOLUTION) + xo,
+      divRD(obj->y, PIXEL_RESOLUTION) + yo);
 }
 
 
@@ -415,11 +415,11 @@ void ChunkedMap_draw(Bitmap *surface, ChunkedMap *map, int xo, int yo)
   if (map->tileSize != 0)
   {
     // Indices of top-left most tile to draw
-    int tx = xo / SCREEN_X;
-    int ty = yo / SCREEN_Y;
+    int tx = divRD(-xo, map->tileSize);
+    int ty = divRD(-yo, map->tileSize);
     // Number of tiles per screen
-    int txs = SCREEN_X / map->tileSize + 1;
-    int tys = SCREEN_Y / map->tileSize + 1;
+    int txs = divRD(SCREEN_X, map->tileSize) + 1;
+    int tys = divRD(SCREEN_Y, map->tileSize) + 1;
 
     for (int y = ty; y < tys + ty; y++)
       for (int x = tx; x < txs + tx; x++)
@@ -448,19 +448,19 @@ bool MObj_collisionChunkedMap(ChunkedMap *map, MapObject *obj)
     return false;
 
   int tileSize = map->tileSize * PIXEL_RESOLUTION;
-  int tx = obj->x / tileSize;
-  int ty = obj->y / tileSize;
+  int tx = divRD(obj->x, tileSize);
+  int ty = divRD(obj->y, tileSize);
   int w, h;
 
   if (obj->collision == COLLISION_BB)
   {
-    w = ((obj->x + obj->sizeX - 1) / tileSize) - tx + 1;
-    h = ((obj->y + obj->sizeY - 1) / tileSize) - ty + 1;
+    w = divRD(obj->x + obj->sizeX - 1, tileSize) - tx + 1;
+    h = divRD(obj->y + obj->sizeY - 1, tileSize) - ty + 1;
   }
   else if (obj->collision == COLLISION_SPRITE)
   {
-    w = ((obj->x + (obj->bitmap->width  * PIXEL_RESOLUTION)) / tileSize) - tx + 1;
-    h = ((obj->y + (obj->bitmap->height * PIXEL_RESOLUTION)) / tileSize) - ty + 1;
+    w = divRD(obj->x + (obj->bitmap->width  * PIXEL_RESOLUTION), tileSize) - tx + 1;
+    h = divRD(obj->y + (obj->bitmap->height * PIXEL_RESOLUTION), tileSize) - ty + 1;
   }
 
   for (int x = tx; x < w + tx; x++)
@@ -474,8 +474,8 @@ bool MObj_collisionChunkedMap(ChunkedMap *map, MapObject *obj)
                   y * map->tileSize,
                   map->tileSize / PIXEL_RESOLUTION,
                   map->tileSize / PIXEL_RESOLUTION,
-                  obj->x / PIXEL_RESOLUTION,
-                  obj->y / PIXEL_RESOLUTION,
+                  divRD(obj->x, PIXEL_RESOLUTION),
+                  divRD(obj->y, PIXEL_RESOLUTION),
                   obj->bitmap)
               )
           )

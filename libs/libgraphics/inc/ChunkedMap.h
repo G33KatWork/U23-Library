@@ -56,6 +56,7 @@ void MObj_update_chunkedMap(ChunkedMap *map, MapObject *obj, uint32_t delta);
 static inline int ChunkHash(int x, int y)
 {
   return ((x & 0xf) << 4) | (y & 0xf);
+  //return (x^y) & 0xff;
 }
 
 static inline Chunk *chunk_load(ChunkedMap *map, int x, int y)
@@ -84,7 +85,7 @@ static inline Chunk *ChunkedMap_getChunk(ChunkedMap *map, int x, int y)
 static inline Tile ChunkedMap_getTile(ChunkedMap *map, int x, int y)
 {
   Chunk *c = ChunkedMap_getChunk(map, x / CHUNKSIZE, y / CHUNKSIZE);
-  return c->tiles[ ((y % CHUNKSIZE) * CHUNKSIZE) + (x % CHUNKSIZE) ];
+  return c->tiles[ (normMod(y, CHUNKSIZE) * CHUNKSIZE) + normMod(x, CHUNKSIZE) ];
 }
 
 

@@ -85,12 +85,12 @@ static inline Chunk *ChunkedMap_getChunk(ChunkedMap *map, int x, int y)
 
 static inline Tile ChunkedMap_getTile(ChunkedMap *map, int x, int y)
 {
-  Chunk *c = ChunkedMap_getChunk(map, x / CHUNKSIZE, y / CHUNKSIZE);
+  Chunk *c = ChunkedMap_getChunk(map, divRD(x, CHUNKSIZE), divRD(y, CHUNKSIZE));
   return c->tiles[ (normMod(y, CHUNKSIZE) * CHUNKSIZE) + normMod(x, CHUNKSIZE) ];
 }
 static inline void ChunkedMap_setTile(ChunkedMap *map, int x, int y, Tile t)
 {
-  Chunk *c = ChunkedMap_getChunk(map, x / CHUNKSIZE, y / CHUNKSIZE);
+  Chunk *c = ChunkedMap_getChunk(map, divRD(x, CHUNKSIZE), divRD(y, CHUNKSIZE));
   c->tiles[ (normMod(y, CHUNKSIZE) * CHUNKSIZE) + normMod(x, CHUNKSIZE) ] = t;
 }
 

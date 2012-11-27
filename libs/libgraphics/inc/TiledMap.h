@@ -60,6 +60,10 @@ static inline Tile TiledMap_getTile(TiledMap *map, int x, int y)
 {
   return map->tiles[y * map->sizeX + x];
 }
+static inline void TiledMap_setTile(TiledMap *map, int x, int y, Tile t)
+{
+  map->tiles[y * map->sizeX + x] = t;
+}
 
 
 

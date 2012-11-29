@@ -3,4 +3,4 @@
 	url = https://github.com/cccc/U23-Library-Sample-Submodule.git
 [submodule "firmware/submodules/janus"]
 	path = firmware/submodules/janus
-	url = git@github.com:tu500/minGame
+	url = https://github.com/tu500/minGame.git

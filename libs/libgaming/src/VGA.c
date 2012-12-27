@@ -90,9 +90,10 @@ void InitializeVGAHorizontalSync31kHz(VGAHSYNCInterruptHandler *handler)
 	TIM9->CCMR1=0;
 	TIM9->CCER=0;
 	TIM9->PSC=0; // Prescaler = 1
-	TIM9->ARR=5250; // 168 MHz / 32khz = 5250
-	TIM9->CCR1=633; // 168 MHz * 3.77 microseconds = 633.36 - sync pulse end
-	TIM9->CCR2=950; // 168 MHz * (3.77 + 1.89) microseconds = 950.88 - back porch end
+	//See here for timing: http://tinyvga.com/vga-timing/640x400@70Hz
+	TIM9->ARR=5338; // 168 MHz / 31.46875khz = 5338,75683
+	TIM9->CCR1=640; // 168 MHz * 3.81 microseconds = 640.08 - sync pulse end
+	TIM9->CCR2=959; // 168 MHz * (3.81 + 1.90) microseconds = 959.28 - back porch end
 
 	// Enable HSYNC timer interrupt and set highest priority.
 	NVIC_InitTypeDef NVIC_InitStructure;

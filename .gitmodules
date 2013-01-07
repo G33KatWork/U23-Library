@@ -10,3 +10,6 @@
 [submodule "firmware/submodules/spiditorius"]
 	path = firmware/submodules/spiditorius
 	url = https://github.com/lukas2511/Spiditorius.git
+[submodule "firmware/submodules/fauli"]
+	path = firmware/submodules/fauli
+	url = https://github.com/TobiX/fauli.git

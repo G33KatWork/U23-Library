@@ -12,4 +12,4 @@
 	url = https://github.com/lukas2511/Spiditorius.git
 [submodule "firmware/submodules/fauli"]
 	path = firmware/submodules/fauli
-	url = https://github.com/TobiX/fauli.git
+	url = https://github.com/chrixko/U23-Library.git
